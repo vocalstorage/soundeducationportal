@@ -1,0 +1,104 @@
+.time{
+    padding: 10%;
+    color: black;
+    -webkit-transition: color 1s; /* Safari */
+    transition: color 1s;
+    -webkit-transition: background-color 1s; /* Safari */
+    transition: background-color 1s;
+}
+
+.time:hover{
+    color: white;
+    background-color: #5cb85c;
+    cursor: pointer;
+}
+
+.scroll{
+    overflow:hidden;
+    overflow-y: scroll;
+    height: 500px;
+    display:block;
+}
+
+/* SCROLLBAR */
+/* Let's get this party started */
+::-webkit-scrollbar {
+    width: 9px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: rgb(0,0,0);
+    border: 4px solid transparent;
+    background-clip: content-box;   // this is important
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgb(0,25,0);
+    border: 1px solid rgb(0,0,0);
+}
+
+
+
+.dates {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.dates td, .dates th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.dates td:nth-child(1) {
+    width:  40%;
+}
+.dates td:nth-child(2) {
+    width:  40%;
+}
+
+
+.datesTitles tr{
+    height: 30px;
+    background-color: #333;
+    color: white;
+}
+.datesTitles th{padding: 10px;
+}
+
+.panel-default>.panel-heading{
+    background-color: #333;
+    color: white;
+    font-weight: bold;
+    text-align: left;
+}
+
+.panel{
+    border:none;
+}
+
+#btnMakeLesson{
+    margin: 15px;
+}
+
+#datePlaceholder{
+    color: darkgrey;
+    margin-left: 40%;
+    margin-top: 1%;
+}
+
+#createLessonContainer{
+    margin-bottom: 3%;
+}
+
+td.highlight {border: none !important;padding: 1px 0 1px 1px !important;background: none !important;overflow:hidden;}
+td.highlight a {background: #99dd73 50% 50% repeat-x !important;  border: 1px #88a276 solid !important;}
+
+.shadow {
+    -webkit-box-shadow: 0 10px 6px -6px #777;
+    -moz-box-shadow: 0 10px 6px -6px #777;
+    box-shadow: 0 10px 6px -6px #777;
+}
+

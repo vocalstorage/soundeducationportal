@@ -1,0 +1,22 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Teacher extends Model
+{
+    protected $fillable = ['name',
+        'prefix',
+        'lastname',
+        'studio_id',];
+
+    public function studio()
+    {
+        return $this->hasOne(studio::class);
+    }
+
+    public function lessons(){
+        return $this->hasMany(LessonDate::class);
+    }
+}
