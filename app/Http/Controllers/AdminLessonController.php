@@ -62,6 +62,13 @@ class AdminLessonController extends Controller
     public function store(Request $request){
         //$request->request('deadline')->get()
 
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'max_registration' => 'required',
+            'dates' => 'required'
+        ]);
+
         $lesson = Lesson::create([
                 'title' => $request->request->get('title'),
                 'description' => $request->request->get('description'),

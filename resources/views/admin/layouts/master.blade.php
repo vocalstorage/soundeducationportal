@@ -8,22 +8,27 @@
 
     <!-- Bootstrap core CSS -->
     <link href="https://use.fontawesome.com/releases/v5.0.7/css/all.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,300,600' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/jquery-ui.min.css">
     <link rel="stylesheet" href="/css/trumbowyg.min.css">
     <link rel="stylesheet" href="/css/trumbowyg.colors.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="/css/materialize.min.css">
     <link rel="stylesheet" href="/css/lesson.css">
 
 <body>
 
 @include('admin.layouts.header')
+
 <div class="container-fluid" style="height: 95%">
     <div class="row">
-        @include('admin.layouts.sidenav')
         @yield('content')
     </div>
 </div>
+
+
 
 <!-- Bootstrap core JavaScript
 ================================================== -->
@@ -34,6 +39,8 @@
 <script src="/js/jquery-ui.min.js"></script>
 <script src="/js/trumbowyg.min.js"></script>
 <script src="/js/trumbowyg.colors.min.js"></script>
+<script src="https://unpkg.com/sweetalert2@7.17.0/dist/sweetalert2.all.js"></script>
+<script src="/js/materialize.min.js"></script>
 <script src="/js/javascript.js"></script>
 
 </body>

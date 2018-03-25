@@ -14,11 +14,9 @@ class AdminLessonDateController extends Controller
     public function edit(Request $request)
     {
         $lesson_date = LessonDate::findOrFail($request->request->get('lesson_date_id'));
-
         $timesArray = LessonDate::where('date', $lesson_date->date)
                         ->where('lesson_id', $lesson_date->lesson_id)
                         ->get()->pluck('time');
-
         $teacher = Teacher::findOrFail($lesson_date->teacher_id);
 
         $view = 'edit';
@@ -63,6 +61,9 @@ class AdminLessonDateController extends Controller
            'lesson_date_edit_id' => $request->request->get('lesson_date_id')]),
            200);
     }
+
+
+
 
     public function update(Request $request){
         $times_edit_added = "";

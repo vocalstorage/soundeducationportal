@@ -16,25 +16,30 @@
 <div class="form-group">
     @if($view == 'edit') {{$lesson_date->date}}   @else
         <label>Date</label>
-        <input id="datepicker" class="form-control">
+        <input id="datepicker" class="form-control" readonly>
     @endif
 </div>
 
 @if($view == 'create')
-<div class="form-group" id="deadlineForm">
+<div class="form-group" id="deadlineForm" style="display: none">
     <label>Deadline</label>
-    <input type="number" class="form-control" id="deadlineNr">
+    <input type="number" class="form-control" id="deadlineNr" min="1" max="20">
 </div>
 @endif
 
 <div class="form-group" @if(!$lesson_date)style="display: none" @endif id="times">
     <table class="table">
-        <tbody>
+        <thead>
         <tr>
             {!! $times !!}
         </tr>
-        </tbody>
+        </thead>
     </table>
+</div>
+
+    <div class="form-group" id="form-lesson_date_update" style="display: none">
+    <button type="button" class="btn waves-effect waves-light green lighten-1" id="btnAddDateUpdate">Edit</button>
+    <button type="button" class="btn waves-effect waves-light green lighten-1" id="btnAddDateCancel">Cancel</button>
 </div>
 
 @if(!$lesson_date)
