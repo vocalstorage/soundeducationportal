@@ -9,6 +9,7 @@ class Lesson extends Model
     public  $fillable = [
         'title',
         'description',
+        'deadline',
         'max_registration',
         'teacher_id',
     ];

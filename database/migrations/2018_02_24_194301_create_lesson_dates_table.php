@@ -17,7 +17,6 @@ class CreateLessonDatesTable extends Migration
             $table->increments('id');
             $table->dateTime('date');
             $table->string('time');
-            $table->integer('deadline');
             $table->integer('lesson_id')->unsigned();
             $table->integer('teacher_id')->unsigned();
             $table->integer('registrations');

@@ -1,0 +1,72 @@
+.sidenav{
+    position: absolute;
+    transform: translateX(0%);
+    top: 65px;
+    width: 275px;
+}
+a{
+    color: black;
+}
+.collection a.collection-item{
+    color: #66BB6A;
+}
+
+.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show>.btn-primary.dropdown-toggle{
+    color: #66BB6A;
+}
+
+.w-100{
+    width: 100%;
+}
+
+#eventModal{
+    height: 50%;
+}
+body{
+    background-image: url("/img/blank-business-composition-373076.jpg");
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+.welcome{
+    text-align: center;
+}
+
+.welcome_wrapper{
+    width: 50%;
+    padding: 10px;
+    margin: auto;
+}
+
+.w-50{
+    width: 50%;
+}
+
+teacher_lesson_wrapper{
+    width: 100%;
+}
+
+#dashboard_content{
+    /*background-color: #ffe0b2;*/
+    background-color: white;
+    padding: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+    /*//color: #EF5350 !important;*/
+}
+
+label{
+    color: #000000 !important;
+}
+
+.log_reg{
+    font-size: 30px;
+}
+
+button:focus {
+    background-color: whitesmoke;
+}
+
+.fc-button{
+    background-color: white!important;
+}

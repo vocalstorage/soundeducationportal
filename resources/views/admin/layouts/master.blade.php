@@ -41,7 +41,8 @@
 <script src="/js/trumbowyg.colors.min.js"></script>
 <script src="https://unpkg.com/sweetalert2@7.17.0/dist/sweetalert2.all.js"></script>
 <script src="/js/materialize.min.js"></script>
-<script src="/js/javascript.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.serializeJSON/2.9.0/jquery.serializejson.min.js"></script>
+<script src="/js/admin/javascript.js"></script>
 
 </body>
 </html>

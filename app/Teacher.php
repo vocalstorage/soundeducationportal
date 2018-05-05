@@ -16,7 +16,7 @@ class Teacher extends Model
         return $this->hasOne(studio::class);
     }
 
-    public function lessons(){
+    public function lesson_dates(){
         return $this->hasMany(LessonDate::class);
     }
 }

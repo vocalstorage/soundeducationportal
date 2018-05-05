@@ -24,6 +24,10 @@
                     <label for="sel1">Max studenten:</label>
                     <input type="number" min="1" placeholder="number" name="max_registration" class="validate">
                 </div>
+                <div class="form-group" id="deadlineForm">
+                    <label>Deadline</label>
+                    <input type="number" class="form-control" id="deadlineNr" min="1" max="20" class="validate" name="deadline">
+                </div>
             </div>
             <div class="col-md-6" id="scheduler-form-left">
                 @include('admin.layouts.lessonDateForm')
@@ -37,7 +41,6 @@
                             <tr>
                                 <th>Teacher</th>
                                 <th>Date</th>
-                                <th>Deadline</th>
                                 <th>Time</th>
                                 <th>#</th>
                             </tr>

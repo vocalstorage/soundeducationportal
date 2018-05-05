@@ -2,7 +2,6 @@
 
 namespace App;
 
-use http\Env\Request;
 use Illuminate\Database\Eloquent\Model;
 
 class LessonDate extends Model
@@ -12,17 +11,21 @@ class LessonDate extends Model
         'lesson_id',
         'teacher_id',
         'date',
-        'deadline',
         'time',];
 
     public function lesson()
     {
-        return $this->belongsToMany(Lesson::class);
+        return $this->belongsTo(Lesson::class);
     }
 
     public function teacher()
     {
         return $this->belongsTo(Teacher::class);
+    }
+
+    public function lessonDateRegistrations()
+    {
+        return $this->hasMany(LessonDateRegistration::class);
     }
 }
 

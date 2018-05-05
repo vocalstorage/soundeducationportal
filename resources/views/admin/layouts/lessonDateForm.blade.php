@@ -19,14 +19,6 @@
         <input id="datepicker" class="form-control" readonly>
     @endif
 </div>
-
-@if($view == 'create')
-<div class="form-group" id="deadlineForm" style="display: none">
-    <label>Deadline</label>
-    <input type="number" class="form-control" id="deadlineNr" min="1" max="20">
-</div>
-@endif
-
 <div class="form-group" @if(!$lesson_date)style="display: none" @endif id="times">
     <table class="table">
         <thead>
