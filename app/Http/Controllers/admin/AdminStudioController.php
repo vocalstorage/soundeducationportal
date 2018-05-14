@@ -14,8 +14,11 @@ class AdminStudioController extends Controller
     {
         $studios = studio::all();
 
+        $teacherNoRelation = Teacher::has('studio', '<', 1)->get()->count();
+
         $data = [
             'studios' => $studios,
+            'teacherNoRelation' => $teacherNoRelation,
         ];
 
         return view('admin.studio.index', $data);
@@ -23,7 +26,7 @@ class AdminStudioController extends Controller
 
     public function create()
     {
-        $teachers = Teacher::all();
+        $teachers = Teacher::has('studio', '<', 1)->get();
 
         $data = [
             'teachers' => $teachers

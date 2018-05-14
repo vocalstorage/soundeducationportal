@@ -1,4 +1,5 @@
-@extends('student.layouts.master')
+@extends('admin.layouts.master')
+
 @section('content')
     <div class="row">
         <div class="col s12">
@@ -6,6 +7,7 @@
             <hr>
         </div>
     </div>
+
     <div class="row">
         <div class="col s12">
             <div class="container">
@@ -17,14 +19,14 @@
     </div>
 
     <!-- Modal Structure -->
-    <div id="eventModal" class="modal">
+    <div id="eventModal" class="modal eventModal">
 
     </div>
-    <!-- Modal Structure -->
-    <div id="addEventModal" class="modal">
-
-    </div>
-    <script>
-        var events = {!! json_encode($events) !!};
-    </script>
 @endsection
+
+<script>
+    var events = {!! json_encode($events) !!};
+
+    var current_lesson_id = {!! $lesson_id !!};
+
+</script>

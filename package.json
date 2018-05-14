@@ -20,7 +20,11 @@
         "vue": "^2.5.7"
     },
     "dependencies": {
+        "bootstrap-colorpicker": "^2.5.2",
         "fullcalendar": "^3.9.0",
-        "moment": "^2.22.0"
+        "materialize-css": "^1.0.0-rc.1",
+        "moment": "^2.22.0",
+        "spectrum-colorpicker": "^1.8.0",
+        "trumbowyg": "^2.10.0"
     }
 }

@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Teacher extends Model
 {
     protected $fillable = ['name',
-        'prefix',
-        'lastname',
+        'color',
         'studio_id',];
+
 
     public function studio()
     {

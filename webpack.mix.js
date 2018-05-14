@@ -12,4 +12,18 @@ let mix = require('laravel-mix');
  */
 
 mix.js('resources/assets/js/app.js', 'public/js')
-   .sass('resources/assets/sass/app.scss', 'public/css');
+    .sass('resources/assets/sass/app.scss', 'public/css')
+    .copy('node_modules/spectrum-colorpicker/spectrum.js', 'public/js')
+    .copy('node_modules/spectrum-colorpicker/spectrum.css', 'public/css')
+
+    .copy('node_modules/fullcalendar/dist/fullcalendar.min.css', 'public/css')
+    .copy('node_modules/fullcalendar/dist/fullcalendar.min.js', 'public/js')
+
+    .copy('node_modules/materialize-css/dist/css/materialize.min.css', 'public/css')
+    .copy('node_modules/materialize-css/dist/js/materialize.min.js', 'public/js')
+
+    .copy('node_modules/moment/moment.js', 'public/js')
+
+    .copy('node_modules/trumbowyg/dist/trumbowyg.min.js', 'public/js')
+    .copy('node_modules/trumbowyg/dist/ui/trumbowyg.min.css', 'public/css');
+

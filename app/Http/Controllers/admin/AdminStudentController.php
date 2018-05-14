@@ -19,4 +19,8 @@ class AdminStudentController extends Controller
 
         return view('admin.student.index', $data);
     }
+
+    public function delete($id){
+        Student::find($id)->delete();
+    }
 }

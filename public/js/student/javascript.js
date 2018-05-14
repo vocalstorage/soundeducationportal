@@ -13,6 +13,7 @@ $(document).ready(function () {
         }
     })
     if($('#calendar_lessondate').length > 0){
+        ///student
         $('#calendar_lessondate').fullCalendar({
             defaultView: 'month',
             events: events,

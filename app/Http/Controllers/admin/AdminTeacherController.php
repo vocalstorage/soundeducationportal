@@ -30,20 +30,22 @@ class AdminTeacherController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'lastname' => 'required',
+            'color' => 'required',
         ]);
 
         Teacher::create($request->request->all());
 
-        return redirect(route('admin-teacher-index'));
+        return redirect(route('admin-studio-create'));
     }
 
     public function edit($id)
     {
         $teacher = Teacher::find($id);
+        $teachers = Teacher::all();
 
         $data = [
-            'teacher' => $teacher
+            'teacher' => $teacher,
+            'teachers' => $teachers,
         ];
 
         return view('admin.teacher.edit', $data);
@@ -60,10 +62,6 @@ class AdminTeacherController extends Controller
     }
 
     public function delete($id){
-        $teacher = Teacher::find($id);
-
-        $teacher->delete();
-
-        return redirect(route('admin-teacher-index'));
+        Teacher::find($id)->delete();
     }
 }

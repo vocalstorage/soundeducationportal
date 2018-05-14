@@ -19,9 +19,6 @@ a{
     width: 100%;
 }
 
-#eventModal{
-    height: 50%;
-}
 body{
     background-image: url("/img/blank-business-composition-373076.jpg");
     background-repeat: no-repeat;
@@ -70,3 +67,5 @@ button:focus {
 .fc-button{
     background-color: white!important;
 }
+
+

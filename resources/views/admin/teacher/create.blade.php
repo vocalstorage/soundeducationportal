@@ -1,26 +1,32 @@
 @extends('admin.layouts.master')
 
 @section('content')
-    <div class="col-md-6" id="createLessonContainer" style=" padding: 50px">
-        <form  action="/admin/teacher/store" method="post">
+    <div class="row">
+        <div class="col s12">
+            <div style="float:left;"><h1 class="h2">Create teacher</h1></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12">
+            <form action="/admin/teacher/store" onsubmit="return validateForm()" method="post">
 
-            {{csrf_field()}}
+                {{csrf_field()}}
 
-            @include('admin.layouts.errors')
+                @include('admin.layouts.errors')
 
-            <div class="form-group">
-                <label>Firstname:</label>
-                <input type="text" class="form-control"  placeholder="Enter firstname" name="name">
-            </div>
-            <div class="form-group">
-                <label>Prefix:</label>
-                <input type="text" class="form-control"  placeholder="Enter firstname" name="prefix">
-            </div>
-            <div class="form-group">
-                <label>Lastname:</label>
-                <input type="text" class="form-control"  placeholder="Enter lastname" name="lastname">
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+                <div class="input-field">
+                    <label>Name:</label>
+                    <input type="text" class="form-control" placeholder="Enter firstname" name="name">
+                </div>
+                <div class="input-field">
+                    <label for="color" class="active">Teacher color:</label>
+                    <input type='color' name='color' id="color" class="colorpicker"/>
+                </div>
+
+                <div class="input-field">
+                    <button type="submit" class="btn green lighten-1 waves-effect">Submit</button>
+                </div>
+            </form>
+        </div>
     </div>
 @endsection

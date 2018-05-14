@@ -14,7 +14,7 @@
 }
 
 .selected_time{
-    background-color: #00C853;
+    background-color: #5cb85c;
 }
 
 .scroll{
@@ -146,4 +146,45 @@ td.highlight a {background: #99dd73 50% 50% repeat-x !important;  border: 1px #8
 .datepicker-modal{
     max-height: 400px;
 }
+
+.color-box{
+    width: 30px;
+    height: 30px;
+}
+
+.eventModal{
+    height: 50%;
+}
+
+.studentSearchForm{
+    display: none;
+}
+
+.fc-day:hover, .fc-event-container{
+    cursor: pointer;
+}
+
+/*Turn pointer events back on*/
+.fc-bgevent,
+.fc-event-container{
+    pointer-events:auto; /*events*/
+}
+
+.horizontal-list {
+    list-style: none;
+    margin: 0px;
+}
+.horizontal-list li {
+    display: inline;
+    list-style-type: none;
+    padding-right: 20px;
+    float: left;
+}
+
+.colorpicker{
+    margin-top: 10px;
+}
+
+
+
 

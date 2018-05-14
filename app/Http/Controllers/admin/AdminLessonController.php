@@ -12,7 +12,7 @@ use App\Http\Controllers\Controller;
 class AdminLessonController extends Controller
 {
     public function index(){
-        $lessons = Lesson::has('lessonDates')->with('lessonDates')->paginate(7);
+        $lessons = Lesson::paginate(10);
         $view = 'index';
 
 
@@ -23,23 +23,43 @@ class AdminLessonController extends Controller
             'view' => $view,
         ];
 
-//        $lessondates = Lesson::find('1')->lessondates;
-//
-//        $events = [];
-//
-////        foreach($lessondates as $lessonDate){
-////            $event = [
-////                'start' =>   date('Y-m-d',strtotime($lessonDate->date)).'T'.$lessonDate->time,
-////                'lessonDate_id' => $lessonDate->id,
-////                'teacher_id' => $lessonDate->teacher->id,
-////            ];
-////            array_push($events, $event);
-////        }
-////
-////        dd($events);
-
-
         return view('admin.lesson.index', $data);
+    }
+
+    public function show($id){
+        $lesson = Lesson::find($id);
+
+        $max = $lesson->max;
+        $events = [];
+
+
+        foreach ($lesson->lessonDates as $lessonDate){
+            if($lessonDate->time === '24:00'){
+                $lessonDate->time = '23:59';
+            }
+
+            $event = [
+                'start' =>  date('Y-m-d',strtotime($lessonDate->date)).'T'.$lessonDate->time,
+                'lessonDate_id' => $lessonDate->id,
+                'title' => $lessonDate->teacher->name . '(' . $lessonDate->lessonDateRegistrations->count() . ')',
+                'backgroundColor' => $lessonDate->teacher->color,
+                'borderColor' => $lessonDate->teacher->color,
+                'teacher_id' => $lessonDate->teacher->id,
+            ];
+
+            if($lessonDate->registrations >= $max){
+                array_push($event, $event['status'] = 'full');
+            }else{
+                array_push($event, $event['status'] = 'open');
+            }
+            array_push($events, $event);
+        }
+        $data = [
+            'lesson_id' => $id,
+            'events' => $events,
+        ];
+
+        return view('admin.lesson.show', $data);
     }
 
     public function create(){
@@ -77,14 +97,11 @@ class AdminLessonController extends Controller
     }
 
     public function store(Request $request){
-        //$request->request('deadline')->get()
-
         $request->validate([
             'title' => 'required',
             'description' => 'required',
             'max_registration' => 'required',
             'deadline' => 'required',
-            'dates' => 'required',
         ]);
 
         $lesson = Lesson::create([
@@ -95,33 +112,7 @@ class AdminLessonController extends Controller
             ]
         );
 
-        $lessonDates = $request->request->get('dates');
-
-        foreach ($lessonDates as $lessonDate){
-            //first get the date out of array
-
-
-            //json object
-            $lessonDate = json_decode(urldecode($lessonDate));
-            $teacher = Teacher::find($lessonDate->teacher_id);
-            //then get al the times
-            $times = $lessonDate->times;
-
-            foreach($times as $time){
-                $lessonDateId = $lesson->lessonDates()->create([
-                    'date' =>   date('Y-m-d',strtotime($lessonDate->date)),
-                    'time' => $time,
-                    'teacher_id' => $lessonDate->teacher_id,
-                    'registrations' => '0',
-                ])->id;
-
-                //link teacher
-                $lessonDate = LessonDate::find($lessonDateId);
-                $teacher->lesson_dates()->save($lessonDate);
-            }
-        }
-
-        return redirect(route('admin-lesson-index'));
+        return redirect(route('admin-lesson-show', $lesson->id));
     }
 
     public function edit($id){
@@ -136,24 +127,16 @@ class AdminLessonController extends Controller
         return $html;
     }
 
-    public function update(Request $request){
-        $request = $request->get('request');
+    public function update(Request $request, $id){
+        $lesson = Lesson::find($id);
 
-        $lesson = Lesson::find($request['lesson_id']);
+        $lesson->update($request->request->all());
 
-        $result = $lesson->update($request);
-
-
-        return response()->json(array([
-            'succes'=> $result,
-            200]));
+        return redirect(route('admin-lesson-index'));
     }
 
     public function delete($id){
-        $lesson= Lesson::find($id);
-        $lesson->delete();
-
-        return redirect(route('admin-lesson-index'));
+        Lesson::find($id)->delete();
     }
 
 

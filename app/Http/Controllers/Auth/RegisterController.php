@@ -53,7 +53,7 @@ class RegisterController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:students',
             'password' => 'required|string|min:6|confirmed',
-            'license_key' => ['required',new validkey()],
+            //'license_key' => ['required',new validkey()],
         ]);
     }
 
