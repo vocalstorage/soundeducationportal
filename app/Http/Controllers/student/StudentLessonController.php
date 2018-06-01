@@ -14,7 +14,7 @@ class StudentLessonController extends Controller
         $lessons = collect();
         $lessons = Lesson::all();
         $registeredLessons = [];
-
+        
         foreach(\Auth::user()->lessonDateRegistrations as $lessonDateRegistration){
             $id = $lessonDateRegistration->lessonDate->lesson->id;
             if($lessons->contains($id)){

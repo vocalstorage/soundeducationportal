@@ -3,7 +3,7 @@
 @section('content')
     <div class="row">
         <div class="col s12">
-            <div style="float:left;"><h1 class="h2">Create studio</h1></div>
+            <div style="float:left;"><h1 class="h2">Create Studio</h1></div>
         </div>
     </div>
     <div class="row">
@@ -19,7 +19,6 @@
                 <label class="active" for="description_value">description:</label>
                 <div id="description"></div>
                 <input id="description_value" type="hidden" name="description">
-
 
                 <div class="input-field">
                     <label>Place</label>
@@ -42,8 +41,25 @@
                     </select>
                     <label>Owner:</label>
                 </div>
-                <button type="submit" class="btn green lighten-1 waves-effect">Submit</button>
+                <label>Image:</label>
+                <div class="file-field input-field col s10">
+                    <a id="lfm" data-input="thumbnail" data-preview="holder">
+                        <div class="btn green lighten-1 waves-effect">
+                            <i class="material-icons">file_upload</i>
+                        </div>
+                    </a>
+                    <div class="file-path-wrapper">
+                        <input id="thumbnail" class="form-control" type="text" name="filepath">
+                    </div>
+                </div>
+                <div class="col s2">
+                    <img id="holder" style="margin-top:15px;max-height:100px;">
+                </div>
+                <div class="input-field col s12">
+                    <button type="submit" class="btn green lighten-1 waves-effect">Submit</button>
+                </div>
             </form>
         </div>
+
     </div>
 @endsection

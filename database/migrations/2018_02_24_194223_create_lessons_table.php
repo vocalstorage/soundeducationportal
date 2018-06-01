@@ -17,8 +17,9 @@ class CreateLessonsTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->text('description');
-            $table->integer('deadline');
+            $table->date('deadline');
             $table->integer('max_registration');
+            $table->integer('filepath_id');
             $table->timestamps();
             $table->softDeletes();
 

@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Lesson extends Model
 {
@@ -12,9 +13,20 @@ class Lesson extends Model
         'deadline',
         'max_registration',
         'teacher_id',
+        'filepath_id',
     ];
 
     public function lessonDates(){
        return $this->hasMany(LessonDate::class)->orderBy('date', 'ASC')->orderBy('time', 'ASC');
+    }
+
+    public function filepath()
+    {
+        return $this->belongsTo(Filepath::class);
+    }
+
+    public function diffDeadline(){
+        $diffInDays = Carbon::parse($this->deadline)->diffInDays(Carbon::now());
+        return $diffInDays;
     }
 }

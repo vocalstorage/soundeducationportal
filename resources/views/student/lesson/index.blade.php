@@ -11,12 +11,13 @@
             @if(count($lessons) > 0)
             <ul class="collapsibleSchedule collapsible popout">
                 @foreach($lessons as $lesson)
+                    @if($lesson->diffDeadline() > 5)
                     <li>
                         <div class="collapsible-header">
                             <div class="card w-100">
                                 <div class="card-image">
-                                    <img src="http://via.placeholder.com/1080x500">
-                                    <span class="card-title">{{$lesson->title}}</span>
+                                    <img src="{{$lesson->filepath->path}}">
+                                    <span class="card-title">{{$lesson->title}} (nog {{$lesson->diffDeadline()}} voor de deadline)</span>
                                 </div>
                                 <div class="card-content">
                                     {{$lesson->description}}
@@ -43,7 +44,7 @@
                                         <div class="col-xs-6">
                                             <div class="card">
                                                 <div class="card-image">
-                                                    <img src="http://via.placeholder.com/720x300">
+                                                    <img src="{{$lesson_date->teacher->studio->filepath->path}}">
                                                     <span class="card-title">{{$lesson_date->teacher->studio->name}}
                                                         ({{$lesson_date->teacher->name." ".$lesson_date->teacher->prefix." ".$lesson_date->teacher->lastname}})
                                                     </span>
@@ -79,6 +80,7 @@
                             </div>
                         </div>
                     </li>
+                    @endif
                 @endforeach
             </ul>
             @else

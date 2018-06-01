@@ -57,6 +57,7 @@
 <script src="/js/moment.min.js"></script>
 <script src="/js/fullcalendar.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.serializeJSON/2.9.0/jquery.serializejson.min.js"></script>
+<script src="/vendor/laravel-filemanager/js/lfm.js"></script>
 <script src="/js/admin/javascript.js"></script>
 
 

@@ -14,11 +14,6 @@
             </nav>
             <br>
             <form method="POST" action="{{ route('register') }}" class="col s12">
-                {{--<div class="row">--}}
-                    {{--<div class="col s12">--}}
-                        {{--<h3>Register</h3>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
                 @csrf
                 <div class="row">
                     <div class="input-field col s12">

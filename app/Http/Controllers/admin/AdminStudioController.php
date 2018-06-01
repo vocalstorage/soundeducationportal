@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 
 use App\Studio;
 use App\Teacher;
+use App\Filepath;
 
 class AdminStudioController extends Controller
 {
@@ -37,15 +38,20 @@ class AdminStudioController extends Controller
 
     public function store(Request $request)
     {
+        $filepath_id = Filepath::where('path', $request->request->get('filepath'))->first()->id;
+
         $request->validate([
             'name' => 'required',
             'description' => 'required',
             'place' => 'required',
             'street' => 'required',
             'postal_code' => 'required',
+            'filepath' => 'required',
         ]);
 
-        Studio::create($request->request->all());
+        $request->except('filepath');
+
+        Studio::create(array_merge($request->request->all(), ['filepath_id' => $filepath_id]));
 
         return redirect(route('admin-studio-index'));
     }

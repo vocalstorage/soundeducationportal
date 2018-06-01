@@ -20,6 +20,25 @@ $(document).ready(function () {
     $('.tooltipped').tooltip();
     $('.tap-target').tapTarget();
 
+    if($('#deadline').val()){
+        value = $('#deadline').val();
+        $('#deadline').datepicker(
+            {
+                minDate: 0,
+                format: 'dd/mm/yyyy'
+            }
+        );
+        $('#deadline').datepicker('setDate', value);
+    }else{
+        $('#deadline').datepicker(
+            {
+                minDate: new Date(),
+                format: 'dd/mm/yyyy'
+            }
+        );
+    }
+
+
 
 
     $.trumbowyg.svgPath = '/assets/icons.svg';
@@ -52,10 +71,6 @@ $(document).ready(function () {
         $("#times").fadeIn(300).focus();
     });
 
-
-    $('body').on('change', '#deadlineNr',function(){
-       $('#lesson_form').append('<button type="submit" class="waves-effect waves-light btn">Submit</button>')
-    });
 
     $("body").on("click", ".confirm_delete", function (e) {
         //$(this).closest().attr('id');
@@ -140,20 +155,24 @@ $(document).ready(function () {
     });
 
 
-
-
     $('body').on("click", ".time", function(){
         var span = $(this);
         if ($(this).attr('class') === 'time') {
             $(this).addClass('selected_time');
-            var color = $(this).closest(".active").css('color');
 
-            color = $(".tab .active").css("color");
+            var color = $(".tab .active").css("color");
 
             $(this).css('background-color', color);
-            teachers[current_teacher_key].times.push($(this).text());
+            teachers[current_teacher_key].times.push(span.text());
+
+            teachers[current_teacher_key].removedTimes =  teachers[current_teacher_key].removedTimes.filter(function (e) {
+                return e !== span.text()
+            });
         } else {
             $(this).removeClass('selected_time');
+            $(this).css('background-color', '#ffffff');
+
+            teachers[current_teacher_key].removedTimes.push(span.text());
 
 
             teachers[current_teacher_key].times =  teachers[current_teacher_key].times.filter(function (e) {
@@ -161,8 +180,6 @@ $(document).ready(function () {
             });
 
         }
-        console.log(teachers[current_teacher_key].times);
-
     });
 
     $('body').on('click', '.eventTab', function(e) {
@@ -206,6 +223,43 @@ $(document).ready(function () {
             }
         });
     });
+
+
+
+    var editor_config = {
+        path_absolute : "/",
+        selector: "textarea.my-editor",
+        plugins: [
+            "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+            "searchreplace wordcount visualblocks visualchars code fullscreen",
+            "insertdatetime media nonbreaking save table contextmenu directionality",
+            "emoticons template paste textcolor colorpicker textpattern"
+        ],
+        toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media",
+        relative_urls: false,
+        file_browser_callback : function(field_name, url, type, win) {
+            var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
+            var y = window.innerHeight|| document.documentElement.clientHeight|| document.getElementsByTagName('body')[0].clientHeight;
+
+            var cmsURL = editor_config.path_absolute + 'laravel-filemanager?field_name=' + field_name;
+            if (type == 'image') {
+                cmsURL = cmsURL + "&type=Images";
+            } else {
+                cmsURL = cmsURL + "&type=Files";
+            }
+
+            tinyMCE.activeEditor.windowManager.open({
+                file : cmsURL,
+                title : 'Filemanager',
+                width : x * 0.8,
+                height : y * 0.8,
+                resizable : "yes",
+                close_previous : "no"
+            });
+        }
+    };
+
+    $('#lfm').filemanager('image');
 });
 
 function confirmDelete(title, text, confirmtext, elem){

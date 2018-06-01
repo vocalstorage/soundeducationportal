@@ -3,11 +3,10 @@
 @section('content')
     <div class="row">
         <div class="col s12">
-            <h3 style="margin: 0px">Scheduler</h3>
-            <hr>
+            <div style="float:left;"><h2 class="h2">Scheduler</h2></div>
         </div>
     </div>
-
+    <hr>
     <div class="row">
         <div class="col s12">
             <div class="container">

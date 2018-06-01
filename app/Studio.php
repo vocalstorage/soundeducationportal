@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Faker\Provider\File;
 use Illuminate\Database\Eloquent\Model;
 
 class Studio extends Model
@@ -11,10 +12,17 @@ class Studio extends Model
         'place',
         'street',
         'teacher_id',
-        'postal_code'];
+        'postal_code',
+        'filepath_id',
+        ];
 
     public function teacher()
     {
         return $this->belongsTo(Teacher::class);
+    }
+
+    public function filepath()
+    {
+        return $this->belongsTo(Filepath::class);
     }
 }

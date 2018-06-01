@@ -39,8 +39,6 @@
                                     class="material-icons">edit</i>Edit account</a>
                         <a href="{{route('student-appointments')}}" class="collection-item waves-effect waves-light"><i class="material-icons">event_note</i>Appointments</a>
                     </div>
-                    <ul>
-                    </ul>
                 </div>
             </li>
             <li>

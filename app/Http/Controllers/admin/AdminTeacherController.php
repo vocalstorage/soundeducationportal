@@ -4,7 +4,11 @@ namespace App\Http\Controllers\admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TeacherSendPassword;
+use Illuminate\Support\Str;
+use Webpatser\Uuid;
 use App\teacher;
 use App\studio;
 
@@ -23,17 +27,24 @@ class AdminTeacherController extends Controller
 
     public function create()
     {
+
         return view('admin.teacher.create');
     }
 
     public function store(Request $request)
     {
+
         $request->validate([
             'name' => 'required',
+            'email' => 'required',
             'color' => 'required',
         ]);
+        $password = Uuid\Uuid::generate()->string;
 
-        Teacher::create($request->request->all());
+        $teacher = Teacher::create(array_merge($request->request->all(),['password' => Hash::make($password)]));
+
+        Mail::to($teacher)->send(new TeacherSendPassword($teacher,$password));
+
 
         return redirect(route('admin-studio-create'));
     }

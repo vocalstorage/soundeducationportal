@@ -52,6 +52,7 @@ class AdminLessonDateController extends Controller
                 $i++;
             }
             $teacher->setAttribute('timesHtml', $times);
+            $teacher->setAttribute('removedTimes', []);
         }
 
         $data = [
@@ -67,21 +68,31 @@ class AdminLessonDateController extends Controller
         $lesson = Lesson::find($request->request->get('lesson_id'));
         $teachers = collect($request->request->get('teachers'));
 
-        foreach ($teachers as $teacher) {
-            if (!empty($teacher['times'])) {
-                $times = $teacher['times'];
-                $teacher = Teacher::find($teacher['id']);
+        foreach ($teachers as $teacherJson) {
+            if (!empty($teacherJson['times'])) {
+                $times = $teacherJson['times'];
 
                 foreach ($times as $time) {
                     $lessonDateId = $lesson->lessonDates()->updateOrCreate([
                         'date' => date('Y-m-d', strtotime($request->request->get('date'))),
                         'time' => $time,
-                        'teacher_id' => $teacher['id'],
+                        'teacher_id' => $teacherJson['id'],
                         'registrations' => '0',
                     ])->id;
 
                     $lessonDate = LessonDate::find($lessonDateId);
-                    $teacher->lesson_dates()->save($lessonDate);
+                    Teacher::find($teacherJson['id'])->lesson_dates()->save($lessonDate);
+                }
+            }
+
+            if (!empty($teacherJson['removedTimes'])) {
+                $times = $teacherJson['removedTimes'];
+
+                foreach ($times as $time) {
+                    LessonDate::where('time', '=', $time)
+                        ->where('lesson_id', '=', $lesson->id)
+                        ->where('teacher_id','=', $teacherJson['id'])
+                        ->delete();
                 }
             }
         }

@@ -3,7 +3,7 @@
 @section('content')
     <div class="row">
         <div class="col s12">
-            <div style="float:left;"><h1 class="h2">Create teacher</h1></div>
+            <div style="float:left;"><h1 class="h2">Create Teacher</h1></div>
         </div>
     </div>
     <div class="row">
@@ -15,11 +15,16 @@
                 @include('admin.layouts.errors')
 
                 <div class="input-field">
-                    <label>Name:</label>
-                    <input type="text" class="form-control" placeholder="Enter firstname" name="name">
+                    <input id="name" type="text" class="validate" placeholder="Enter name" name="name">
+                    <label for="name">Name:</label>
+                </div>
+
+                <div class="input-field">
+                    <input id="email" type="email" class="validate" placeholder="Enter email" name="email">
+                    <label for="email">email:</label>
                 </div>
                 <div class="input-field">
-                    <label for="color" class="active">Teacher color:</label>
+                    <label for="color" class="active">Color:</label>
                     <input type='color' name='color' id="color" class="colorpicker"/>
                 </div>
 

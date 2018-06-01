@@ -6,12 +6,14 @@ use App\LessonDate;
 use Illuminate\Http\Request;
 use App\Teacher;
 use App\Lesson;
+use App\Filepath;
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 
 class AdminLessonController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $lessons = Lesson::paginate(10);
         $view = 'index';
 
@@ -26,20 +28,21 @@ class AdminLessonController extends Controller
         return view('admin.lesson.index', $data);
     }
 
-    public function show($id){
+    public function show($id)
+    {
         $lesson = Lesson::find($id);
 
         $max = $lesson->max;
         $events = [];
 
 
-        foreach ($lesson->lessonDates as $lessonDate){
-            if($lessonDate->time === '24:00'){
+        foreach ($lesson->lessonDates as $lessonDate) {
+            if ($lessonDate->time === '24:00') {
                 $lessonDate->time = '23:59';
             }
 
             $event = [
-                'start' =>  date('Y-m-d',strtotime($lessonDate->date)).'T'.$lessonDate->time,
+                'start' => date('Y-m-d', strtotime($lessonDate->date)) . 'T' . $lessonDate->time,
                 'lessonDate_id' => $lessonDate->id,
                 'title' => $lessonDate->teacher->name . '(' . $lessonDate->lessonDateRegistrations->count() . ')',
                 'backgroundColor' => $lessonDate->teacher->color,
@@ -47,9 +50,9 @@ class AdminLessonController extends Controller
                 'teacher_id' => $lessonDate->teacher->id,
             ];
 
-            if($lessonDate->registrations >= $max){
+            if ($lessonDate->registrations >= $max) {
                 array_push($event, $event['status'] = 'full');
-            }else{
+            } else {
                 array_push($event, $event['status'] = 'open');
             }
             array_push($events, $event);
@@ -60,9 +63,12 @@ class AdminLessonController extends Controller
         ];
 
         return view('admin.lesson.show', $data);
+
+
     }
 
-    public function create(){
+    public function create()
+    {
 
         $teachers = Teacher::all();
         $lesson_date = "";
@@ -77,11 +83,11 @@ class AdminLessonController extends Controller
                 $firstNumber = "";
             }
             if (floor($number) == $number) {
-                $times .= '<td><span class="time">'. $firstNumber . $i . ':00</span></td>';
+                $times .= '<td><span class="time">' . $firstNumber . $i . ':00</span></td>';
                 $times .= '</tr>';
-                $times .='<tr>';
+                $times .= '<tr>';
             } else {
-                $times .='<td ><span class="time">' . $firstNumber . $i . ':00</span></td>';
+                $times .= '<td ><span class="time">' . $firstNumber . $i . ':00</span></td>';
             }
             $i++;
         }
@@ -96,26 +102,28 @@ class AdminLessonController extends Controller
         return view('admin.lesson.create', $data);
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $request->validate([
             'title' => 'required',
             'description' => 'required',
-            'max_registration' => 'required',
-            'deadline' => 'required',
+            'max_registration' => 'required|integer',
+            'deadline' => 'required|date_format:d/m/Y|after:today',
+            'filepath' => 'required',
         ]);
+        $filepath_id = Filepath::where('path', $request->request->get('filepath'))->first()->id;
+        $request['deadline'] = Carbon::createFromFormat('d/m/Y', $request->request->get('deadline'));
 
-        $lesson = Lesson::create([
-                'title' => $request->request->get('title'),
-                'description' => $request->request->get('description'),
-                'deadline' => $request->request->get('deadline'),
-                'max_registration' => $request->request->get('max_registration'),
-            ]
-        );
+
+        $request->except('filepath');
+
+        $lesson = Lesson::create(array_merge($request->request->all(), ['filepath_id' => $filepath_id]));
 
         return redirect(route('admin-lesson-show', $lesson->id));
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
         $lesson = Lesson::find($id);
 
 
@@ -127,15 +135,23 @@ class AdminLessonController extends Controller
         return $html;
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
         $lesson = Lesson::find($id);
 
-        $lesson->update($request->request->all());
+        $filepath_id = Filepath::where('path', $request->request->get('filepath'))->first()->id;
+        $request->except('filepath');
+
+        $request['deadline'] = Carbon::createFromFormat('d/m/Y', $request->request->get('deadline'));
+
+
+        $lesson->update(array_merge($request->request->all(), ['filepath_id' => $filepath_id]));
 
         return redirect(route('admin-lesson-index'));
     }
 
-    public function delete($id){
+    public function delete($id)
+    {
         Lesson::find($id)->delete();
     }
 

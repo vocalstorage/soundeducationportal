@@ -3,7 +3,7 @@
 @section('content')
     <div class="row">
         <div class="col s12">
-            <div style="float:left;"><h1 class="h2">Edit studio</h1></div>
+            <div style="float:left;"><h1 class="h2">Edit Studio</h1></div>
         </div>
     </div>
     <div class="row">
@@ -19,9 +19,9 @@
                            name="name">
                 </div>
 
-                    <label class="active" for="description_value">description:</label>
-                    <div id="description"></div>
-                    <input value="{{$studio->description}}" id="description_value" type="hidden" name="description">
+                <label class="active" for="description_value">description:</label>
+                <div id="description"></div>
+                <input value="{{$studio->description}}" id="description_value" type="hidden" name="description">
 
                 <div class="input-field">
                     <label>Place</label>
@@ -46,7 +46,23 @@
                     </select>
                     <label>Belongs to:</label>
                 </div>
-                <button type="submit" class="btn green lighten-1 waves-effect">Submit</button>
+                <label>Image:</label>
+                <div class="file-field input-field col s10">
+                    <a id="lfm" data-input="thumbnail" data-preview="holder">
+                        <div class="btn green lighten-1 waves-effect">
+                            <i class="material-icons">file_upload</i>
+                        </div>
+                    </a>
+                    <div class="file-path-wrapper">
+                        <input id="thumbnail" class="form-control" type="text" name="filepath"  value="{{$studio->filepath->path}}">
+                    </div>
+                </div>
+                <div class="col s2">
+                    <img src="{{$studio->filepath->path}}" id="holder" style="margin-top:15px;max-height:100px;">
+                </div>
+                <div class="input-field col s12">
+                    <button type="submit" class="btn green lighten-1 waves-effect">Save</button>
+                </div>
             </form>
         </div>
     </div>

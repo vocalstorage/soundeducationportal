@@ -1,3 +1,5 @@
+
+
 .time{
     padding: 10%;
     color: black;
@@ -24,24 +26,7 @@
     display:block;
 }
 
-/* SCROLLBAR */
-/* Let's get this party started */
-::-webkit-scrollbar {
-    width: 9px;
-}
 
-/* Track */
-::-webkit-scrollbar-track {
-    background: rgb(0,0,0);
-    border: 4px solid transparent;
-    background-clip: content-box;   // this is important
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-    background: rgb(0,25,0);
-    border: 1px solid rgb(0,0,0);
-}
 
 
 
@@ -170,6 +155,15 @@ td.highlight a {background: #99dd73 50% 50% repeat-x !important;  border: 1px #8
     pointer-events:auto; /*events*/
 }
 
+.fc-button{
+    background: #66BB6A !important;
+}
+
+.fc-prev-button{
+    background: #66BB6A !important;
+}
+
+
 .horizontal-list {
     list-style: none;
     margin: 0px;
@@ -184,6 +178,9 @@ td.highlight a {background: #99dd73 50% 50% repeat-x !important;  border: 1px #8
 .colorpicker{
     margin-top: 10px;
 }
+
+
+
 
 
 

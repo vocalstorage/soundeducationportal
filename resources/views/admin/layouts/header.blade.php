@@ -4,6 +4,19 @@
         <div class="nav-wrapper green lighten-1">
             <a href="#" data-target="slide-out" class="sidenav-trigger button-collapse show-on-large"><i class="material-icons">menu</i></a>
             <a href="admin/index">Soundeducation</a>
+            <ul class="right hide-on-med-and-down">
+                <li>
+                    <a class="dropdown-item" href="{{ route('logout') }}"
+                       onclick="event.preventDefault();
+                        document.getElementById('logout-form').submit();">
+                        Logout
+                    </a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                </li>
+            </ul>
         </div>
     </nav>
 

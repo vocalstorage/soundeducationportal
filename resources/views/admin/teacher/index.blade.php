@@ -21,7 +21,7 @@
             @foreach($teachers as $teacher)
                 <tr>
                     <td>{{$teacher->name . " " .$teacher->prefix . " " . $teacher->lastname}}</td>
-                    <td>@if(count($teacher->studio))
+                    <td>@if($teacher->studio)
                             {{$teacher->studio()->first()->name}}
                         @else
                             Relation is not set
