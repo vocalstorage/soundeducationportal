@@ -7,13 +7,17 @@ $(document).ready(function () {
     $('#eventModal').modal();
     $('.tabs').tabs();
     $('select').formSelect();
+    $('.sidenav').sidenav();
+    $('.tooltipped').tooltip();
+
+
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     })
     if($('#calendar_lessondate').length > 0){
-        ///student
+        console.log(events);
         $('#calendar_lessondate').fullCalendar({
             defaultView: 'month',
             events: events,
@@ -21,7 +25,7 @@ $(document).ready(function () {
             eventClick:  function(event, jsEvent, view) {
                 if(event.status == 'open'){
                     $('#eventModal').modal('open');
-                    $.get( '/lessonDate/showRegistrationForm/'+event.lessonDate_id, function( data ) {
+                    $.get( '/student/lessonDate/showRegistrationForm/'+event.lessonDate_id, function( data ) {
                         console.log(data);
                         $('#eventModal').html('');
                         $('#eventModal').append(data);
@@ -66,27 +70,37 @@ $(document).ready(function () {
     $('body').on('click','.lessonDateRegisterBtn', function () {
 
         if($('#skill-field :selected').val() !== '0'){
+            swal({
+                title: 'Aan het inschrijven'
+            });
+            swal.showLoading();
             $.ajax({
-                url: '/lessonDate/postRegistrationForm',
+                url: '/student/lessonDate/postRegistrationForm',
                 type: 'POST',
                 dataType: 'JSON',
                 data: {'lessonDate_id' : $(this).attr('id'), 'skill' : $('#skill-field :selected').text()},
                 success: function (data) {
                     swal({
-                        title: 'Successfully scheduled lesson',
-                        text: "We send your an email",
+                        title: 'Succesvol ingeschreven',
+                        text: "Email confirmatie is verzonden",
                         type: 'success',
                         showCancelButton: false,
                         confirmButtonColor: '#3085d6',
                         cancelButtonColor: '#d33',
                         confirmButtonText: 'Ok!'
                     }).then((result) => {
-                        window.location.replace("/account/appointments");
+                        if(result){
+                            window.location.replace("/student/account/appointments");
+                        }else{
+                            swal({
+                                type: 'error',
+                                title: 'Oops...',
+                                text: 'Something went wrong!',
+                            })
+                        }
                     })
                 }
             });
-        }else{
-
         }
     });
 });

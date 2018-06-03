@@ -148,6 +148,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
 
 
+
         /*
          * Package Service Providers...
          */
@@ -163,10 +164,7 @@ return [
         Unisharp\Laravelfilemanager\LaravelFilemanagerServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Webpatser\Uuid\UuidServiceProvider::class,
-
-
-
-
+        Maatwebsite\Excel\ExcelServiceProvider::class,
     ],
 
     /*
@@ -216,6 +214,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Image' => Intervention\Image\Facades\Image::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ],
 
 ];

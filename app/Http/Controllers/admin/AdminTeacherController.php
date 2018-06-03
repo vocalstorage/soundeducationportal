@@ -39,6 +39,7 @@ class AdminTeacherController extends Controller
             'email' => 'required',
             'color' => 'required',
         ]);
+
         $password = Uuid\Uuid::generate()->string;
 
         $teacher = Teacher::create(array_merge($request->request->all(),['password' => Hash::make($password)]));

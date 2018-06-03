@@ -1,17 +1,11 @@
 <div class="modal-content">
-    <h4>Synthe les</h4>
+    <h3>{{$lessonDate->lesson->title}} ({{$lessonDate->teacher->studio->name}})</h3>
+    @php  setlocale(LC_ALL, 'nl_NL'); @endphp
+    <h5>{{date_format(new DateTime($lessonDate->date),'l\, jS F \o\m '. $lessonDate->time)}}</h5>
     <hr>
 </div>
 
 <div class="container">
-    {{$lessonDate->lesson->title}}
-    <hr>
-    <ul>
-        <label>Info:</label>
-        <li>Datum:{{$lessonDate->date}}</li>
-        <li>Tijd: {{$lessonDate->time}}/li>
-    </ul>
-    <hr>
     <div class="registrated-studendts left-align">
         <ul>
             <label>Students:</label>
@@ -30,6 +24,7 @@
         </ul>
     </div>
     <hr>
+    <br>
     <div class="input-field">
         <select id="skill-field" name="skill" class="validate" required>
             <option value="0" disabled selected>Choose your option</option>
@@ -41,7 +36,8 @@
     </div>
     <div class="modal-footer">
         <form action="">
-            <a href="#!" class="modal-action btn  waves-effect green lighten-1 lessonDateRegisterBtn" id="{{$lessonDate->id}}">Make appointment</a>
+            <a href="#!" class="modal-action btn  waves-effect green lighten-1 lessonDateRegisterBtn" id="{{$lessonDate->id}}">Afspraak maken</a>
         </form>
     </div>
 </div>
+

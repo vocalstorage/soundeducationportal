@@ -14,15 +14,19 @@ class AdminLessonController extends Controller
 {
     public function index()
     {
-        $lessons = Lesson::paginate(10);
-        $view = 'index';
+        $lessons = Lesson::with('lessonDates')->paginate(10);
 
+        foreach ($lessons as $lesson){
+            $amount = $lesson->removeLessonDates();
+            if($amount> 0){
+                $lesson['removedlessondates'] = $amount;
+            }
+        }
 
         $lastDate = "empty";
         $data = [
             'lessons' => $lessons,
             'lastDate' => $lastDate,
-            'view' => $view,
         ];
 
         return view('admin.lesson.index', $data);
@@ -142,7 +146,7 @@ class AdminLessonController extends Controller
         $filepath_id = Filepath::where('path', $request->request->get('filepath'))->first()->id;
         $request->except('filepath');
 
-        $request['deadline'] = Carbon::createFromFormat('d/m/Y', $request->request->get('deadline'));
+        $request['deadline'] = $request->request->get('deadline');
 
 
         $lesson->update(array_merge($request->request->all(), ['filepath_id' => $filepath_id]));
@@ -152,7 +156,12 @@ class AdminLessonController extends Controller
 
     public function delete($id)
     {
-        Lesson::find($id)->delete();
+
+        $lesson = Lesson::find($id);
+
+        $lesson->lessonDates()->delete();
+        $lesson->lessonDates()->delete();
+
     }
 
 

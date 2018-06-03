@@ -26,10 +26,6 @@
     display:block;
 }
 
-
-
-
-
 .dates {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     border-collapse: collapse;
@@ -138,7 +134,7 @@ td.highlight a {background: #99dd73 50% 50% repeat-x !important;  border: 1px #8
 }
 
 .eventModal{
-    height: 50%;
+    height: 70%;
 }
 
 .studentSearchForm{
@@ -178,6 +174,15 @@ td.highlight a {background: #99dd73 50% 50% repeat-x !important;  border: 1px #8
 .colorpicker{
     margin-top: 10px;
 }
+
+.removed_lessondate{
+    display: none;
+}
+
+.alert-succes{
+    background-color: #ef5350 !important;
+}
+
 
 
 

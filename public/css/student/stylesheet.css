@@ -1,14 +1,20 @@
+
+h1, h2, h3 ,h4,h5{
+    color: #66BB6A;
+    font-family: 'Agency FB';
+}
+
 .sidenav{
     position: absolute;
-    transform: translateX(0%);
-    top: 65px;
     width: 275px;
+    font-family: 'Agency FB';
+    font-size: 18px;
 }
 a{
     color: black;
 }
 .collection a.collection-item{
-    color: #66BB6A;
+    color: black;
 }
 
 .btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show>.btn-primary.dropdown-toggle{
@@ -46,7 +52,7 @@ teacher_lesson_wrapper{
 #dashboard_content{
     /*background-color: #ffe0b2;*/
     background-color: white;
-    padding: 10px;
+    padding: 15px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
     /*//color: #EF5350 !important;*/
@@ -65,4 +71,46 @@ button:focus {
 }
 
 
+.loader{
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+}
+
+#eventModal{
+   max-height: none;
+    height: 50%;
+}
+
+.material-icons{
+    color: #66BB6A;
+    margin-right: 1rem;
+}
+
+.menu-icon{
+    color: white;
+}
+
+.container_wrapper{
+    margin-top: 45px;
+}
+
+/*.white{*/
+    /*color:white !important;*/
+/*}*/
+
+@media only screen and (max-width: 600px) {
+    body {
+        background-color: lightblue;
+    }
+}
+
+.not-active {
+    pointer-events: none;
+    cursor: default;
+    text-decoration: none;
+    color: black;
+}
 

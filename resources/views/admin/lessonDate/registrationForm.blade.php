@@ -51,6 +51,6 @@
     <hr>
     <div class="modal-footer">
 
-            <a href="{{route('admin-lesson-delete', $lessonDate->id)}}" class="modal-action btn  waves-effect green lighten-1 lessondate_delete">Verwijder</a>
+            <a href="{{route('admin-lessonDate-delete', $lessonDate->id)}}" class="modal-action btn  waves-effect green lighten-1 lessondate_delete">Verwijder</a>
     </div>
 </div>

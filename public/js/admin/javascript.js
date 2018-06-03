@@ -6,8 +6,6 @@ $(document).ready(function () {
     var current_date;
     var current_event;
 
-
-
     $('.collapsible').collapsible();
     $('.sidenav').sidenav();
     $('.times').modal();
@@ -204,7 +202,12 @@ $(document).ready(function () {
         });
     });
 
-    $('body').on("keyup","#studentSearchInput", function() {
+    $('body').on('click', '.close', function () {
+        alert($(this).find('.alert-succes').attr('class'));
+        $(this).find('.alert-succes').fadeOut(200);
+    });
+
+        $('body').on("keyup","#studentSearchInput", function() {
         var value = $(this).val();
 
         $("table tbody tr").each(function(index) {
@@ -258,9 +261,25 @@ $(document).ready(function () {
             });
         }
     };
+    $('#excelFilemanager').filemanager('xlsx', 'xls');
 
     $('#lfm').filemanager('image');
+
+    if($('.removed_lessondate').length > 0){
+        $('.removed_lessondate').each(function (index) {
+            var amount = $(this).attr('data-removedamount');
+            setTimeout(toast.bind(null, amount,index * 1000));
+        });
+
+
+    }
+
+
 });
+
+function toast(amount){
+    M.toast({html: 'Er zijn zojuist ' +  amount + ' lessen verwijderd', classes: 'alert-succes'});
+}
 
 function confirmDelete(title, text, confirmtext, elem){
     swal({

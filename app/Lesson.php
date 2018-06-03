@@ -29,4 +29,19 @@ class Lesson extends Model
         $diffInDays = Carbon::parse($this->deadline)->diffInDays(Carbon::now());
         return $diffInDays;
     }
+
+    public function removeLessonDates(){
+        $i = 0;
+        if($this->lessonDates->count() > 0){
+            foreach ($this->lessonDates as $lessonDate){
+                $date = Carbon::parse($lessonDate->date);
+                if($date->isPast()){
+                    $lessonDate->lessonDateRegistrations()->delete();
+                    $lessonDate->delete();
+                    $i++;
+                }
+            }
+        }
+        return $i;
+    }
 }

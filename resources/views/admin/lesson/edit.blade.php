@@ -36,11 +36,11 @@
                             </div>
                         </a>
                         <div class="file-path-wrapper">
-                            <input id="thumbnail" class="form-control" type="text" name="filepath"  value="{{$studio->filepath->path}}">
+                            <input id="thumbnail" class="form-control" type="text" name="filepath"  value="{{$lesson->filepath->path}}">
                         </div>
                     </div>
                     <div class="col s2">
-                        <img src="{{$studio->filepath->path}}" id="holder" style="margin-top:15px;max-height:100px;">
+                        <img src="{{$lesson->filepath->path}}" id="holder" style="margin-top:15px;max-height:100px;">
                     </div>
                     <div class="input-field">
                         <button type="submit" class="btn green lighten-1 waves-effect">Save</button>

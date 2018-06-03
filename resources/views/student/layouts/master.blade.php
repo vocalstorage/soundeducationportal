@@ -20,62 +20,17 @@
 
 {{--@include('student.layouts.header')--}}
 <!-- Navbar goes here -->
-@if(\Auth::check())
-    @include('student.layouts.header')
-@endif
 
-@if(\Auth::check())
-<a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-<ul id="slide-out" class="sidenav">
-    <li>
-        <ul class="collapsibleMenu collapsible menu">
-            <li>
-                <div class="collapsible-header waves-effect waves-light"><i
-                            class="material-icons">account_circle</i>My account
-                </div>
-                <div class="collapsible-body padding-none">
-                    <div class="collection">
-                        <a href="{{route('student-edit')}}" class="collection-item waves-effect waves-light"><i
-                                    class="material-icons">edit</i>Edit account</a>
-                        <a href="{{route('student-appointments')}}" class="collection-item waves-effect waves-light"><i class="material-icons">event_note</i>Appointments</a>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <div class="collapsible-header waves-effect waves-light"><a href="{{route('lesson-index')}}"><i class="material-icons">book</i>Lesson scheduler</a>
-                </div>
-            </li>
-        </ul>
-    </li>
-</ul>
-
-@endif
+@include('student.layouts.header')
 
 <div class="row">
-    @if(\Auth::check())
-    <!-- Page Layout here -->
-    <div class="col s2">
-        <!-- Grey navigation panel -->
-    </div>
-
-    <div class="col s10">
-        <div class="container" id="dashboard_content">
-            @yield('content')
-        </div>
-    </div>
-        @else
-            <div class="col s12">
-
-            </div>
-        <div class="welcome_wrapper" style="margin-top: 5%">
-            <div class="col s12">
-                <div class="container">
-                    @yield('content')
-                </div>
+    <div class="col s12">
+        <div class="container_wrapper">
+            <div class="container" id="dashboard_content">
+                @yield('content')
             </div>
         </div>
-
-        @endif
+    </div>
 </div>
 
 

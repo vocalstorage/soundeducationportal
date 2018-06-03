@@ -24,7 +24,7 @@
                                 </div>
                                 <div class="card-action">
                                    @if(!in_array($lesson->id,$registeredLessons)) <a class="btn waves-effect green lighten-1"><i
-                                                class="material-icons right">create</i>schedule</a>
+                                                class="material-icons right" style="color:white">create</i>schedule</a>
                                     @else
                                         Already scheduled
                                     @endif
@@ -64,7 +64,7 @@
                                                 <div class="card-action">
                                                     @if(!in_array($lesson->id,$registeredLessons))
                                                         <a href="{{route('student-lessonDate-show',array($lesson_date->teacher->id, $lesson->id))}}" class="btn waves-effect green lighten-1 schedule-lessonDate"><i
-                                                                    class="material-icons right">create</i>Schedule</a>
+                                                                    class="material-icons right" style="color:white">create</i>Schedule</a>
 
                                                     @else
                                                         Already scheduled

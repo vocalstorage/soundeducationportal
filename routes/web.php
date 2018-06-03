@@ -11,6 +11,7 @@
 |
 */
 Auth::routes();
+Route::get('/', 'student\StudentLessonController@index')->name('lesson-index');
 
 Route::prefix('student')->group(function () {
     Route::get('/index', 'student\StudentRegistrationController@index');
@@ -126,7 +127,7 @@ Route::prefix('teacher')->group(function () {
             Route::post('/store', 'teacher\TeacherLessonDateController@store');
             Route::get('/edit/{id}', 'teacher\TeacherLessonDateController@edit');
             Route::post('/update', 'teacher\TeacherLessonDateController@update');
-            Route::get('/delete/{id}', 'teacher\TeacherLessonDateController@delete')->name('admin-lessonDate-delete');
+            Route::get('/delete/{id}', 'teacher\TeacherLessonDateController@delete')->name('teacher-lessonDate-delete');
             Route::get('/showRegistrationForm/{lessonDate_id}', 'teacher\TeacherLessonDateController@showRegistrationForm')->name('teacher-lessonDate-showRegistrationForm');
         });
 

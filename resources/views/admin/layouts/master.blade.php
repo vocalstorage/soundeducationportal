@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="/css/fullcalendar.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="/css/materialize.min.css">
+    <link rel="stylesheet" href="/css/animate.min.css">
     <link rel="stylesheet" href="/css/lesson.css">
 
 <body>

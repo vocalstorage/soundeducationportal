@@ -11,6 +11,17 @@
             <div class="container">
                 <div class="row">
                     <div id="calendar_lessondate"></div>
+                    <div class="preloader-wrapper big loader">
+                        <div class="spinner-layer spinner-blue-only">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div><div class="gap-patch">
+                                <div class="circle"></div>
+                            </div><div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -24,6 +35,9 @@
     <div id="addEventModal" class="modal">
 
     </div>
+
+
+
     <script>
         var events = {!! json_encode($events) !!};
     </script>

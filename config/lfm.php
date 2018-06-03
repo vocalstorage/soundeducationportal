@@ -24,9 +24,9 @@ return [
     */
 
     // If true, private folders will be created for each signed-in user.
-    'allow_multi_user' => true,
+    'allow_multi_user' => false,
     // If true, share folder will be created when allow_multi_user is true.
-    'allow_share_folder' => true,
+    'allow_share_folder' => false,
 
     // Flexible way to customize client folders accessibility
     // If you want to customize client folders, publish tag="lfm_handler"
@@ -121,6 +121,7 @@ return [
         'image/svg+xml',
         'application/pdf',
         'text/plain',
+        'application/vnd.ms-excel','application/vnd.openxmlformats-officedocument.wordprocessingml.document','application/docx'
     ],
 
     /*

@@ -45,6 +45,8 @@ class StudentLessonDateController extends Controller
                     array_push($event, $event['status'] = 'full');
                 } else {
                     array_push($event, $event['status'] = 'open');
+                    array_push($event, $event['backgroundColor'] = '66BB6A');
+                    array_push($event, $event['borderColor'] = '66BB6A');
                 }
                 array_push($events, $event);
             }
@@ -99,8 +101,11 @@ class StudentLessonDateController extends Controller
     public function delete($id)
     {
         $registration = LessonDateRegistration::find($id);
-        $registration->lessonDate->decrement('registrations');
-        $registration->delete();
+
+        if($registration->mayCancel()){
+            $registration->lessonDate->decrement('registrations');
+            $registration->delete();
+        }
 
         return redirect(route('student-appointments'));
     }
