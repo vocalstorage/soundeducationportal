@@ -11,28 +11,31 @@
 |
 */
 Auth::routes();
-Route::get('/', 'student\StudentLessonController@index')->name('lesson-index');
 
-Route::prefix('student')->group(function () {
-    Route::get('/index', 'student\StudentRegistrationController@index');
+Route::group(['middleware' => 'auth:student'], function () {
+    Route::get('/', 'student\StudentLessonController@index')->name('lesson-index');
 
-    Route::group(['middleware' => 'auth:student'], function () {
-        Route::prefix('lesson')->group(function () {
-            Route::get('/index', 'student\StudentLessonController@index')->name('lesson-index');
-        });
-        Route::get('index', 'student\StudentDashboardController@index')->name('student-dashboard-index');
+    Route::prefix('student')->group(function () {
+        Route::get('/index', 'student\StudentRegistrationController@index');
 
-        Route::prefix('account')->group(function () {
-            Route::get('edit', 'student\StudentController@edit')->name('student-edit');
-            Route::get('update', 'student\StudentController@update')->name('student-update');
-            Route::get('appointments', 'student\StudentController@appointments')->name('student-appointments');
-        });
+        Route::group(['middleware' => 'auth:student'], function () {
+            Route::prefix('lesson')->group(function () {
+                Route::get('/index', 'student\StudentLessonController@index')->name('lesson-index');
+            });
+            Route::get('index', 'student\StudentDashboardController@index')->name('student-dashboard-index');
 
-        Route::prefix('lessonDate')->group(function () {
-            Route::get('/show/{teacher_id}/{lesson_id}', 'student\StudentLessonDateController@show')->name('student-lessonDate-show');
-            Route::get('/showRegistrationForm/{lessonDate_id}', 'student\StudentLessonDateController@showRegistrationForm')->name('student-lessonDate-showRegistrationForm');
-            Route::post('/postRegistrationForm', 'student\StudentLessonDateController@postRegistrationForm')->name('student-lessonDate-postRegistrationForm');
-            Route::get('/delete/{id}', 'student\StudentLessonDateController@delete')->name('student-lessonDate-delete');
+            Route::prefix('account')->group(function () {
+                Route::get('edit', 'student\StudentController@edit')->name('student-edit');
+                Route::get('update', 'student\StudentController@update')->name('student-update');
+                Route::get('appointments', 'student\StudentController@appointments')->name('student-appointments');
+            });
+
+            Route::prefix('lessonDate')->group(function () {
+                Route::get('/show/{teacher_id}/{lesson_id}', 'student\StudentLessonDateController@show')->name('student-lessonDate-show');
+                Route::get('/showRegistrationForm/{lessonDate_id}', 'student\StudentLessonDateController@showRegistrationForm')->name('student-lessonDate-showRegistrationForm');
+                Route::post('/postRegistrationForm', 'student\StudentLessonDateController@postRegistrationForm')->name('student-lessonDate-postRegistrationForm');
+                Route::get('/delete/{id}', 'student\StudentLessonDateController@delete')->name('student-lessonDate-delete');
+            });
         });
     });
 });
@@ -42,7 +45,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/login', 'Auth\AdminLoginController@showLoginForm')->name('admin-login');
     Route::post('/login', 'Auth\AdminLoginController@login')->name('admin-login-submit');
 
-//    Route::group(['middleware' => 'auth:teacher'], function () {
+    Route::group(['middleware' => 'auth:admin'], function () {
 
         Route::get('/index', 'admin\AdminController@index')->name('admin-dashboard');
 
@@ -106,7 +109,7 @@ Route::prefix('admin')->group(function () {
             Route::post('/update/{id}', 'admin\AdminStudioController@update')->name('admin-studio-update');
             Route::get('/delete/{id}', 'admin\AdminStudioController@delete')->name('admin-studio-delete');
         });
-//    });
+    });
 });
 
 
@@ -137,4 +140,3 @@ Route::prefix('teacher')->group(function () {
         });
     });
 });
-Route::get('/home', 'HomeController@index')->name('home');
