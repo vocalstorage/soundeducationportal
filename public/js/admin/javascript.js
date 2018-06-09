@@ -17,6 +17,7 @@ $(document).ready(function () {
     $('select').formSelect();
     $('.tooltipped').tooltip();
     $('.tap-target').tapTarget();
+    $('.excel-tabs').tabs();
 
     if($('#deadline').val()){
         value = $('#deadline').val();
@@ -35,9 +36,6 @@ $(document).ready(function () {
             }
         );
     }
-
-
-
 
     $.trumbowyg.svgPath = '/assets/icons.svg';
 
@@ -71,9 +69,6 @@ $(document).ready(function () {
 
 
     $("body").on("click", ".confirm_delete", function (e) {
-        //$(this).closest().attr('id');
-
-
         e.preventDefault();
         elem = $(this);
         confirmDelete('Are you sure?',"You won't be able to revert this!",'Yes, delete it!', elem);
@@ -292,20 +287,14 @@ function confirmDelete(title, text, confirmtext, elem){
         confirmButtonText: confirmtext
     }).then((result) => {
         if (result.value) {
-            elem.closest('tr').fadeOut(500, function () {
-                elem.remove();
-            });
+            $('.loader').show();
+            $('.dim-screen').show();
             $.get(elem.attr('href'), function (data) {
                 if (data) {
-                    swal(
-                        'Deleted!',
-                        'Lesson has been deleted.',
-                        'success'
-                    )
+                  location.reload();
                 }
             });
         }
-
     })
 }
 
@@ -327,6 +316,8 @@ function validateForm() {
     if (errors !== 0) {
         return false
     } else {
+        $('.loader').show();
+        $('.dim-screen').show();
         return true
     }
 }

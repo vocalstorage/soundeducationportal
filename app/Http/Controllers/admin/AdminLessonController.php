@@ -114,14 +114,23 @@ class AdminLessonController extends Controller
             'max_registration' => 'required|integer',
             'deadline' => 'required|date_format:d/m/Y|after:today',
             'filepath' => 'required',
+            'schoolgroup_id' => 'required',
         ]);
-        $filepath_id = Filepath::where('path', $request->request->get('filepath'))->first()->id;
-        $request['deadline'] = Carbon::createFromFormat('d/m/Y', $request->request->get('deadline'));
 
+        $path = $request->request->get('filepath');
+        $filepath = Filepath::where('path', $path)->first();
+
+        if(empty($filepath)){
+            $filepath = Filepath::create([
+                'path' => $path
+            ]);
+        }
 
         $request->except('filepath');
+        $request['deadline'] = Carbon::createFromFormat('d/m/Y', $request->request->get('deadline'));
+        $request['filepath_id'] = $filepath->id;
 
-        $lesson = Lesson::create(array_merge($request->request->all(), ['filepath_id' => $filepath_id]));
+        $lesson = Lesson::create($request->request->all());
 
         return redirect(route('admin-lesson-show', $lesson->id));
     }
@@ -143,13 +152,21 @@ class AdminLessonController extends Controller
     {
         $lesson = Lesson::find($id);
 
-        $filepath_id = Filepath::where('path', $request->request->get('filepath'))->first()->id;
+        $path = $request->request->get('filepath');
+        $filepath = Filepath::where('path', $path)->first();
+
+        if(empty($filepath)){
+            $filepath = Filepath::create([
+                'path' => $path
+            ]);
+        }
+
         $request->except('filepath');
-
         $request['deadline'] = $request->request->get('deadline');
+        $request['filepath_id'] = $filepath->id;
 
 
-        $lesson->update(array_merge($request->request->all(), ['filepath_id' => $filepath_id]));
+        $lesson->update($request->request->all());
 
         return redirect(route('admin-lesson-index'));
     }

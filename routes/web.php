@@ -70,14 +70,14 @@ Route::prefix('admin')->group(function () {
             Route::get('/showRegistrationForm/{lessonDate_id}', 'admin\AdminLessonDateController@showRegistrationForm')->name('admin-lessonDate-showRegistrationForm');
         });
 
-        Route::prefix('student')->group(function () {
-            Route::get('/index', 'admin\AdminStudentController@index')->name('admin-student-index');
-            Route::get('/create', 'admin\AdminStudentController@create')->name('admin-student-create');
-            Route::post('/store', 'admin\AdminStudentController@store')->name('admin-student-store');
-            Route::get('/show', 'admin\AdminStudentController@show')->name('admin-student-show');
-            Route::get('/edit/{id}', 'admin\AdminStudentController@edit')->name('admin-student-edit');
-            Route::post('/update/{id}', 'admin\AdminStudentController@update')->name('admin-student-update');
-            Route::get('/delete/{id}', 'admin\AdminStudentController@delete')->name('admin-student-delete');
+        Route::prefix('schoolgroup')->group(function () {
+            Route::get('/index', 'admin\AdminSchoolgroupController@index')->name('admin-schoolgroup-index');
+            Route::get('/create', 'admin\AdminSchoolgroupController@create')->name('admin-schoolgroup-create');
+            Route::post('/store', 'admin\AdminSchoolgroupController@store')->name('admin-schoolgroup-store');
+            Route::get('/show', 'admin\AdminSchoolgroupController@show')->name('admin-schoolgroup-show');
+            Route::get('/edit/{id}', 'admin\AdminSchoolgroupController@edit')->name('admin-schoolgroup-edit');
+            Route::post('/update/{id}', 'admin\AdminSchoolgroupController@update')->name('admin-schoolgroup-update');
+            Route::get('/delete/{id}', 'admin\AdminSchoolgroupController@delete')->name('admin-schoolgroup-delete');
         });
 
 

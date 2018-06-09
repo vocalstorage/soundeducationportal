@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminLoginController extends Controller
 {
+    protected $redirectTo = '/student/lesson/index';
 
     public function __construct(){
         $this->middleware('guest');

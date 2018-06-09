@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-
+use App\Schoolgroup;
 
 class Student extends Authenticatable
 {
@@ -16,7 +16,7 @@ class Student extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'schoolgroup_id',
     ];
 
     /**
@@ -31,6 +31,10 @@ class Student extends Authenticatable
     public function lessonDateRegistrations()
     {
         return $this->hasmany(LessonDateRegistration::class);
+    }
+
+    public function  schoolgroup(){
+        return $this->belongsTo(Schoolgroup::class);
     }
 }
 

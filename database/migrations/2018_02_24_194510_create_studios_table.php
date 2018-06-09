@@ -19,6 +19,7 @@ class CreateStudiosTable extends Migration
             $table->text('description');
             $table->string('place');
             $table->string('street');
+            $table->string('number');
             $table->string('postal_code');
             $table->string('teacher_id');
             $table->integer('filepath_id');

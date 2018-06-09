@@ -3,6 +3,7 @@ $(document).ready(function () {
     $('.collapsibleSchedule').collapsible();
 
 
+
     $('#scheduler').modal();
     $('#eventModal').modal();
     $('.tabs').tabs();
@@ -10,12 +11,12 @@ $(document).ready(function () {
     $('.sidenav').sidenav();
     $('.tooltipped').tooltip();
 
-
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
-    })
+    });
+
     if($('#calendar_lessondate').length > 0){
         console.log(events);
         $('#calendar_lessondate').fullCalendar({

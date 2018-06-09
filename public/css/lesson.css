@@ -1,4 +1,40 @@
 
+/*.body-login{*/
+/*}*/
+
+h1, h2, h3, h4, h5, p {
+    color: #66BB6A;
+    font-family: 'Agency FB';
+}
+
+.material-icons-green{
+    color: #66BB6A;
+}
+
+.logo {
+    position: absolute;
+    margin: auto;
+    padding: 30px;
+    left: 0px;
+    top: 0px;
+}
+
+.logo > h1 {
+    margin: 0px;
+}
+
+.login-wrapper {
+    background-color: white;
+    width: 50%;
+    padding: 30px;
+    margin: auto;
+    margin-top: 10%;
+
+}
+
+.logo-text {
+    text-align: center;
+}
 
 .time{
     padding: 10%;
@@ -183,6 +219,54 @@ td.highlight a {background: #99dd73 50% 50% repeat-x !important;  border: 1px #8
     background-color: #ef5350 !important;
 }
 
+.succes{
+    background-color: #66bb6a;
+}
+
+.error{
+    border: solid 1px #ef5350;
+    color: #ef5350;
+}
+
+.error-color{
+    color: #ef5350;
+}
+.dim-screen
+{
+    display: none;
+    position:fixed;
+    padding:0;
+    margin:0;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+}
+
+.loader{
+    display: none;
+    position: absolute;
+    left:0;
+    right:0;
+    margin-left:auto;
+    margin-right:auto;
+    z-index: 1000;
+    width: 50%;
+    top: 50%;
+}
+
+.collap-header-title{
+    width: 80%;
+}
+
+.collap-header-functions{
+    width: 20%;
+}
+/*.table-excel-log td{*/
+    /*color:white*/
+/*}*/
 
 
 

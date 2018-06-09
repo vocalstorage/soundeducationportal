@@ -1,4 +1,5 @@
-<html lang="en"><head>
+<html lang="en">
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -18,22 +19,16 @@
     <link rel="stylesheet" href="/css/lesson.css">
 
 <body>
-@include('teacher.layouts.header')
-<div class="row">
 @if(\Auth::check())
-    <!-- Page Layout here -->
-        <div class="col s2">
-            <!-- Grey navigation panel -->
-        </div>
-        <div class="col s10">
+    @include('teacher.layouts.header')
+        <div class="col s12">
             <div class="container" id="dashboard_content">
                 @yield('content')
             </div>
         </div>
-    @else
-        <div class="col s12">
-
-        </div>
+    </div>
+@else
+    <div class="row">
         <div class="welcome_wrapper" style="margin-top: 5%">
             <div class="col s12">
                 <div class="container">
@@ -41,16 +36,19 @@
                 </div>
             </div>
         </div>
+    </div>
 
-    @endif
-</div>
+@endif
 
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 
-<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
 <script src="/js/materialize.min.js"></script>
 <script src="/js/trumbowyg.min.js"></script>
 <script src="https://unpkg.com/sweetalert2@7.17.0/dist/sweetalert2.all.js"></script>

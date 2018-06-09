@@ -13,6 +13,7 @@ class Studio extends Model
         'street',
         'teacher_id',
         'postal_code',
+        'number',
         'filepath_id',
         ];
 

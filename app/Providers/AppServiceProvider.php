@@ -2,7 +2,11 @@
 
 namespace App\Providers;
 
+use App\Schoolgroup;
+use function foo\func;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\View;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +17,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        view()->composer('admin.lesson.create', function($view){
+           $view->with('schoolgroups', Schoolgroup::all());
+        });
     }
 
     /**

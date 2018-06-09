@@ -1,5 +1,4 @@
 <header style="height: 5%">
-
     <nav>
         <div class="nav-wrapper green lighten-1">
             <a href="#" data-target="slide-out" class="sidenav-trigger button-collapse show-on-large"><i class="material-icons">menu</i></a>
@@ -9,7 +8,7 @@
                     <a class="dropdown-item" href="{{ route('logout') }}"
                        onclick="event.preventDefault();
                         document.getElementById('logout-form').submit();">
-                        Logout
+                        Log uit
                     </a>
 
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -23,27 +22,27 @@
 
     <ul id="slide-out" class="sidenav">
         <li class="nav-item">
-            <a class="nav-link active" href="/admin/lesson/index">
+            <a class="nav-link active" href="{{route('admin-lesson-index')}}">
                 <i class="fas fa-book"></i>
                 Lessons <span class="sr-only">(current)</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/admin/teacher/index">
+            <a class="nav-link" href="{{route('admin-teacher-index')}}">
                 <i class="fas fa-user"></i>
                 Teachers
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/admin/studio/index">
+            <a class="nav-link" href="{{route('admin-studio-index')}}">
                 <i class="fas fa-building"></i>
                 Studios
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/admin/student/index">
+            <a class="nav-link" href="{{route('admin-schoolgroup-index')}}">
                 <i class="fas fa-users"></i>
-                Students
+                Klassen
             </a>
         </li>
     </ul>

@@ -14,6 +14,7 @@ class Lesson extends Model
         'max_registration',
         'teacher_id',
         'filepath_id',
+        'schoolgroup_id',
     ];
 
     public function lessonDates(){
@@ -28,6 +29,10 @@ class Lesson extends Model
     public function diffDeadline(){
         $diffInDays = Carbon::parse($this->deadline)->diffInDays(Carbon::now());
         return $diffInDays;
+    }
+
+    public function  schoolgroup(){
+        return $this->belongsTo(Schoolgroup::class);
     }
 
     public function removeLessonDates(){

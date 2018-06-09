@@ -4,7 +4,7 @@
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
         <div class="row">
             <div class="col-lg-12">
-                <div style="float:left;"><h1 class="h2">Teachers</h1>  <a href="create">Create a new teacher</a></div>
+                <div style="float:left;"><h1 class="h2">Teachers</h1>  <a href="{{route('admin-teacher-create')}}">Create a new teacher</a></div>
 
             </div>
         </div>

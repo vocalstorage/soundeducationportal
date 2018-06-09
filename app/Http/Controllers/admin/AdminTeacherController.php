@@ -67,7 +67,6 @@ class AdminTeacherController extends Controller
     {
         $teacher = Teacher::find($id);
 
-
         $teacher->update($request->request->all());
 
         return redirect(route('admin-teacher-index'));

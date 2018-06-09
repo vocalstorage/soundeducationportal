@@ -19,10 +19,17 @@ class StudentController extends Controller
     }
 
     public function update(Request $request){
-        $request->validate([
-            'name' => 'required|unique:students',
-            'email' => 'required|unique:students',
-        ]);
+        $rules = [
+            'name' => 'required',
+        ];
+
+        if(!empty($request->request->get('password'))){
+            $rules['password'] = 'required|confirmed|min:6';
+        }else{
+            $request->request->remove('password');
+        }
+
+        $request->validate($rules);
 
         \Auth::user()->update($request->all());
 

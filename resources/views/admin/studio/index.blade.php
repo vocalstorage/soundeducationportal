@@ -19,7 +19,6 @@
             <thead>
             <tr>
                 <th>Studio Name</th>
-                <th>Description</th>
                 <th>Place</th>
                 <th>Street</th>
                 <th>Postal code</th>
@@ -31,7 +30,6 @@
             @foreach($studios as $studio)
                 <tr>
                     <td>{{$studio->name}}</td>
-                    <td>{{$studio->description}}e</td>
                     <td>{{$studio->place}}</td>
                     <td>{{$studio->street}}</td>
                     <td>{{$studio->postal_code}}</td>
@@ -42,8 +40,7 @@
                     @endif
                     <td>
                         <a href="{{route('admin-studio-edit', $studio->id)}}"><i class="material-icons">edit</i></a>
-                        <a href="{{route('admin-studio-delete', $studio->id)}}" class="confirm_delete"><i
-                                    class="material-icons">delete</i></a>
+                        <a href="{{route('admin-studio-delete', $studio->id)}}" class="confirm_delete"><i class="material-icons">delete</i></a>
                     </td>
                 </tr>
             @endforeach

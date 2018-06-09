@@ -2,87 +2,100 @@
 @section('content')
     <div class="row">
         <div class="col s12">
-            <h3 style="margin: 0px">Lessons</h3>
+            <h1 style="margin: 0px">Lessen</h1>
             <hr>
         </div>
     </div>
     <div class="row">
         <div class="col s12">
             @if(count($lessons) > 0)
-            <ul class="collapsibleSchedule collapsible popout">
-                @foreach($lessons as $lesson)
-                    @if($lesson->diffDeadline() > 5)
-                    <li>
-                        <div class="collapsible-header">
-                            <div class="card w-100">
-                                <div class="card-image">
-                                    <img src="{{$lesson->filepath->path}}">
-                                    <span class="card-title">{{$lesson->title}} (nog {{$lesson->diffDeadline()}} voor de deadline)</span>
-                                </div>
-                                <div class="card-content">
-                                    {{$lesson->description}}
-                                </div>
-                                <div class="card-action">
-                                   @if(!in_array($lesson->id,$registeredLessons)) <a class="btn waves-effect green lighten-1"><i
-                                                class="material-icons right" style="color:white">create</i>schedule</a>
-                                    @else
-                                        Already scheduled
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                        <div class="collapsible-body">
-                            <div class="row">
-                                <div class="col s12">
-                                    <h3 style="margin: 0px" id="lesson_locations_{{$lesson->id}}">Locations</h3>
-                                    <hr>
-                                </div>
-                            </div>
-                            <div class="teacher_lesson_wrapper">
-                                @foreach($lesson->lessonDates->unique('teacher_id') as $lesson_date)
-                                    <div class="row">
-                                        <div class="col-xs-6">
-                                            <div class="card">
-                                                <div class="card-image">
-                                                    <img src="{{$lesson_date->teacher->studio->filepath->path}}">
-                                                    <span class="card-title">{{$lesson_date->teacher->studio->name}}
-                                                        ({{$lesson_date->teacher->name." ".$lesson_date->teacher->prefix." ".$lesson_date->teacher->lastname}})
-                                                    </span>
-                                                </div>
-                                                <div class="card-content">
-                                                    <p>{{$lesson_date->teacher->studio->description}}</p>
-                                                    <hr>
-
-                                                        <ul>
-                                                            <li>Street: {{$lesson_date->teacher->studio->street}}</li>
-                                                            <li>City: {{$lesson_date->teacher->studio->place}}</li>
-                                                            <li>Postal
-                                                                code:{{$lesson_date->teacher->studio->postal_code}}</li>
-                                                        </ul>
-
-                                                </div>
-                                                <div class="card-action">
-                                                    @if(!in_array($lesson->id,$registeredLessons))
-                                                        <a href="{{route('student-lessonDate-show',array($lesson_date->teacher->id, $lesson->id))}}" class="btn waves-effect green lighten-1 schedule-lessonDate"><i
-                                                                    class="material-icons right" style="color:white">create</i>Schedule</a>
-
-                                                    @else
-                                                        Already scheduled
-                                                    @endif
-                                                </div>
-                                            </div>
+                <ul class="collapsibleSchedule collapsible popout">
+                    @foreach($lessons as $lesson)
+                        @if($lesson->diffDeadline() > 5)
+                            <li class="studio-item">
+                                <div class="collapsible-header">
+                                    <div class="card w-100">
+                                        <div class="card-image card-image-lesson-index">
+                                            <img src="{{$lesson->filepath->path}}" height="500" style="width: 100%">
+                                        </div>
+                                        <div class="card-content">
+                                            <h2 class="margin-none">{{$lesson->title}}</h2>
+                                            <h5>nog {{$lesson->diffDeadline()}} dagen voor de deadline</h5>
+                                            {!! $lesson->description!!}
+                                        </div>
+                                        <div class="card-action">
+                                            @if(!in_array($lesson->id,$registeredLessons)) <a
+                                                    class="btn waves-effect green lighten-1"><i
+                                                        class="material-icons right" style="color:white">create</i>Plannen</a>
+                                            @else
+                                                Al ingeschreven
+                                            @endif
                                         </div>
                                     </div>
-                                @endforeach
-                            </div>
-                            <div class="center-align btnScheduleLessonsBack">
-                                <i class="large material-icons">expand_less</i>
-                            </div>
-                        </div>
-                    </li>
-                    @endif
-                @endforeach
-            </ul>
+                                </div>
+                                <div class="collapsible-body">
+                                    <div class="row">
+                                        <div class="col s12">
+                                            <h3 style="margin: 0px" id="lesson_locations_{{$lesson->id}}">Selecteer een
+                                                locatie</h3>
+                                            <hr>
+                                        </div>
+                                    </div>
+                                    <div class="teacher_lesson_wrapper">
+                                        <div class="row">
+                                            @foreach($lesson->lessonDates->unique('teacher_id') as $lesson_date)
+                                                @if($lesson_date->teacher->studio()->exists())
+                                                    <div class="col s12 l4 ">
+                                                        <div class="card card-studio">
+                                                            <img src="{{$lesson_date->teacher->studio->filepath->path}}"
+                                                                 height="200" style="width: 100%">
+                                                            <div class="card-content card-studio-content">
+                                                                <div class="row">
+                                                                    <div class="col s12">
+                                                                        <h4> {{$lesson_date->teacher->studio->name}}
+                                                                            ({{$lesson_date->teacher->name." ".$lesson_date->teacher->prefix." ".$lesson_date->teacher->lastname}}
+                                                                            )
+                                                                        </h4>
+                                                                    </div>
+                                                                    <div class="col s12">
+                                                                        {!!  $lesson_date->teacher->studio->description!!}
+                                                                    </div>
+                                                                    <div class="col s12">
+                                                                        <div class="wrapper-location-data">
+                                                                            <h4>Gegevens</h4>
+                                                                            <p>
+                                                                                Street: {{$lesson_date->teacher->studio->street}}</p>
+                                                                            <p>
+                                                                                City: {{$lesson_date->teacher->studio->place}}</p>
+                                                                            <p>Postal
+                                                                                code:{{$lesson_date->teacher->studio->postal_code}}</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="card-action">
+                                                                @if(!in_array($lesson->id,$registeredLessons))
+                                                                    <a href="{{route('student-lessonDate-show',array($lesson_date->teacher->id, $lesson->id))}}"
+                                                                       class="btn waves-effect green lighten-1 schedule-lessonDate w-100">plannen</a>
+                                                                @else
+                                                                    Al ingeschreven
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                    <div class="center-align btnScheduleLessonsBack">
+                                        <i class="large material-icons">expand_less</i>
+                                    </div>
+                                </div>
+
+                            </li>
+                        @endif
+                    @endforeach
+                </ul>
             @else
                 <div>
                     <h5 class="center-align">No lessons found</h5>

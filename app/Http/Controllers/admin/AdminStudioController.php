@@ -38,20 +38,28 @@ class AdminStudioController extends Controller
 
     public function store(Request $request)
     {
-        $filepath_id = Filepath::where('path', $request->request->get('filepath'))->first()->id;
-
         $request->validate([
             'name' => 'required',
             'description' => 'required',
             'place' => 'required',
             'street' => 'required',
+            'number' => 'required',
             'postal_code' => 'required',
             'filepath' => 'required',
         ]);
 
-        $request->except('filepath');
+        $path = $request->request->get('filepath');
+        $filepath = Filepath::where('path', $path)->first();
 
-        Studio::create(array_merge($request->request->all(), ['filepath_id' => $filepath_id]));
+        if(empty($filepath)){
+            $filepath = Filepath::create([
+                'path' => $path
+            ]);
+        }
+        $request->except('filepath');
+        $request['filepath_id'] = $filepath->id;
+
+        Studio::create($request->request->all());
 
         return redirect(route('admin-studio-index'));
     }
@@ -73,6 +81,18 @@ class AdminStudioController extends Controller
     public function update(Request $request, $id)
     {
         $studio = Studio::find($id);
+
+        $path = $request->request->get('filepath');
+        $filepath = Filepath::where('path', $path)->first();
+
+        if(empty($filepath)){
+            $filepath = Filepath::create([
+                'path' => $path
+            ]);
+        }
+
+        $request['filepath_id'] = $filepath->id;
+        $request->except('filepath');
 
         $studio->update($request->request->all());
 

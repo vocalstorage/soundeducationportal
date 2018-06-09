@@ -11,14 +11,35 @@
             <div class="row">
                 <div class="input-field col s12">
 
-                    <input value=" @if(old('name')){{old('name')}} @else {{\Auth::user()->name}} @endif" placeholder="Placeholder" id="first_name" type="text" class="validate" name="name">
+                    <input value=" @if(old('name')){{old('name')}} @else {{\Auth::user()->name}} @endif" placeholder="Placeholder" id="first_name" type="text" class="validate {{ $errors->has('name') ? ' invalid' : '' }}" name="name">
                     <label for="first_name">Naam</label>
+                    @if ($errors->has('name'))
+                        <span class="helper-text" data-error="{{ $errors->first('name') }}"></span>
+                    @endif
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s12">
-                    <input value="@if(old('email')){{old('email')}} @else {{\Auth::user()->email}} @endif" id="email" type="email" class="validate" name="email">
-                    <label for="email">Email</label>
+                    <input disabled value="{{\Auth::user()->email}}" id="disabled" type="text" class="validate">
+                    <label for="disabled">Email</label>
+                    {{--<input value="@if(old('email')){{old('email')}} @else {{\Auth::user()->email}} @endif" id="email" type="email" class="validate {{ $errors->has('email') ? ' invalid' : '' }}" name="email">--}}
+                    {{--<label for="email">Email</label>--}}
+                    {{--@if ($errors->has('email'))--}}
+                        {{--<span class="helper-text" data-error="{{ $errors->first('email') }}"></span>--}}
+                    {{--@endif--}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s6">
+                    <input id="password_reg" type="password" class="validate {{ $errors->has('password') ? ' invalid' : '' }}" name="password" >
+                    <label for="password_reg">Password</label>
+                    @if ($errors->has('password'))
+                        <span class="helper-text" data-error="{{ $errors->first('password') }}"></span>
+                    @endif
+                </div>
+                <div class="input-field col s6">
+                    <input id="password_confirm_reg" type="password" class="validate" name="password_confirmation" >
+                    <label for="password_confirm_reg">Password confirmation</label>
                 </div>
             </div>
             <div class="row">

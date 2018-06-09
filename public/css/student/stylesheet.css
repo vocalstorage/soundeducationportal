@@ -1,68 +1,58 @@
+body {
+    background: linear-gradient(white, #bdbdbd) !important;
 
-h1, h2, h3 ,h4,h5{
+}
+/*.body-login{*/
+/*}*/
+
+h1, h2, h3, h4, h5, p {
     color: #66BB6A;
     font-family: 'Agency FB';
 }
 
-.sidenav{
+.margin-none {
+    margin: 0;
+}
+
+.sidenav {
     position: absolute;
     width: 275px;
     font-family: 'Agency FB';
     font-size: 18px;
 }
-a{
-    color: black;
-}
-.collection a.collection-item{
+
+a {
     color: black;
 }
 
-.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show>.btn-primary.dropdown-toggle{
-    color: #66BB6A;
+.collection a.collection-item {
+    color: black;
 }
 
-.w-100{
+.w-100 {
     width: 100%;
 }
 
-body{
-    background-image: url("/img/blank-business-composition-373076.jpg");
-    background-repeat: no-repeat;
-    background-size: 100%;
-}
-
-.welcome{
-    text-align: center;
-}
-
-.welcome_wrapper{
-    width: 50%;
-    padding: 10px;
-    margin: auto;
-}
-
-.w-50{
+.w-50 {
     width: 50%;
 }
 
-teacher_lesson_wrapper{
+.collapsible-body {
     width: 100%;
-}
-
-#dashboard_content{
-    /*background-color: #ffe0b2;*/
     background-color: white;
-    padding: 15px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-
-    /*//color: #EF5350 !important;*/
 }
 
-label{
+#dashboard_content {
+    padding: 15px;
+    margin-top: 50px;
+
+}
+
+label {
     color: #000000 !important;
 }
 
-.log_reg{
+.log_reg {
     font-size: 30px;
 }
 
@@ -70,8 +60,7 @@ button:focus {
     background-color: whitesmoke;
 }
 
-
-.loader{
+.loader {
     position: absolute;
     margin-left: auto;
     margin-right: auto;
@@ -79,32 +68,22 @@ button:focus {
     right: 0;
 }
 
-#eventModal{
-   max-height: none;
+#eventModal {
+    max-height: none;
     height: 50%;
 }
 
-.material-icons{
+.material-icons {
     color: #66BB6A;
     margin-right: 1rem;
 }
 
-.menu-icon{
+.menu-icon {
     color: white;
 }
 
-.container_wrapper{
+.container_wrapper {
     margin-top: 45px;
-}
-
-/*.white{*/
-    /*color:white !important;*/
-/*}*/
-
-@media only screen and (max-width: 600px) {
-    body {
-        background-color: lightblue;
-    }
 }
 
 .not-active {
@@ -114,3 +93,97 @@ button:focus {
     color: black;
 }
 
+.login {
+    margin-top: 5%;
+}
+
+.logo {
+    position: absolute;
+    margin: auto;
+    padding: 30px;
+    left: 0px;
+    top: 0px;
+}
+
+.logo > h1 {
+    margin: 0px;
+}
+
+.login-wrapper {
+    width: 70%;
+    margin: auto;
+    margin-top: 10%;
+
+}
+
+.logo-text {
+    text-align: center;
+}
+
+i.material-icons {
+    vertical-align: middle;
+}
+
+a:hover {
+    color: black;
+    text-decoration: underline;
+}
+
+
+.wrapper-location-data p {
+    font-size: 18px;
+}
+
+.wrapper-location-data{
+    margin: 15px 0px;
+}
+
+.card-content-location-data {
+    padding: 15px;
+}
+
+.card-studio {
+     margin: 30px !important;
+     float: left;
+}
+
+.card-studio h4{
+   margin: 0;
+}
+
+.card-studio-content{
+    padding: 15px !important;
+    padding-bottom: 0px !important;
+}
+
+.studio-item {
+    box-shadow: none;
+}
+
+.btn:hover {
+    color: #bdbdbd;
+}
+
+.link-9292{
+    height: 50px;
+    /*background-image: url("https://9292.nl/gimmage/N2/DefaultTemplate/Plan%20mijn%20OV-reis.png");*/
+    /*background-size: cover;*/
+}
+
+.link-9292 img{
+    padding: 5px;
+    /*background-image: url("https://9292.nl/gimmage/N2/DefaultTemplate/Plan%20mijn%20OV-reis.png");*/
+    /*background-size: cover;*/
+}
+
+
+
+
+/*.card-title-lesson{*/
+/*position: absolute;*/
+/*width: 100%;*/
+/*bottom: 0px;*/
+/*background-color: #66BB6A;*/
+/*padding: 15px;*/
+/*color: white;*/
+/*}*/

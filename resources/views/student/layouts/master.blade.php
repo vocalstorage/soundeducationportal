@@ -1,4 +1,5 @@
-<html lang="en"><head>
+<html lang="en">
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -15,25 +16,21 @@
     <link rel="stylesheet" href="/css/materialize.min.css">
     <link rel="stylesheet" href="/css/student/stylesheet.css">
 
-<body>
-
-
-{{--@include('student.layouts.header')--}}
-<!-- Navbar goes here -->
-
-@include('student.layouts.header')
-
+<body @if(!\Auth::check()) class="body-login" @endif>
+@if(\Auth::check())
+    @include('student.layouts.header')
+@endif
 <div class="row">
-    <div class="col s12">
-        <div class="container_wrapper">
+    @if(\Auth::check())
+        <div class="col s12">
             <div class="container" id="dashboard_content">
                 @yield('content')
             </div>
         </div>
-    </div>
+    @else
+        @yield('content')
+    @endif
 </div>
-
-
 
 
 <!-- Bootstrap core JavaScript
@@ -42,7 +39,9 @@
 <script src="/js/jquery.js"></script>
 <script src="/js/jquery-ui.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.serializeJSON/2.9.0/jquery.serializejson.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
 <script src="https://unpkg.com/sweetalert2@7.17.0/dist/sweetalert2.all.js"></script>
 <script src="/js/materialize.min.js"></script>
 <script src="/js/moment.js"></script>

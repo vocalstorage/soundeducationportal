@@ -9,7 +9,7 @@
                 <a class="dropdown-item" href="{{ route('logout') }}"
                    onclick="event.preventDefault();
                         document.getElementById('logout-form').submit();">
-                    Logout
+                    Log uit
                 </a>
 
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -36,7 +36,8 @@
                 </div>
             </li>
             <li>
-                <div class="collapsible-header waves-effect waves-light"><a href="{{route('lesson-index')}}"><i class="material-icons">book</i>Les planner</a>
+                <div class="collection">
+                    <a href="{{route('lesson-index')}}" class="collection-item waves-effect waves-light"><i class="material-icons">book</i>Les planner</a>
                 </div>
             </li>
         </ul>
