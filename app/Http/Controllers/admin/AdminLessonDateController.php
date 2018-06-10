@@ -15,10 +15,10 @@ class AdminLessonDateController extends Controller
     //
     public function create($date, $lesson_id)
     {
-        $teachers = teacher::all();
+        $lesson = Lesson::find($lesson_id);
+        $teachers = $lesson->teachers;
 
         foreach ($teachers as $teacher) {
-
             $timesArray = LessonDate::where('date', $date . ' 00:00:00')
                 ->where('lesson_id', $lesson_id)
                 ->where('teacher_id', $teacher->id)
@@ -26,8 +26,8 @@ class AdminLessonDateController extends Controller
             $timesArray = $timesArray->toArray();
             $teacher->setAttribute('times', $timesArray);
             $i = 1;
-            $times = "";
 
+            $times = "";
             while ($i <= 24) {
                 $number = $i / 6;
                 $firstNumber = 0;
@@ -57,7 +57,6 @@ class AdminLessonDateController extends Controller
 
         $data = [
             'teachers' => $teachers,
-            'times' => $times,
         ];
 
         return view('admin.lessonDate.create', $data);
@@ -200,6 +199,15 @@ class AdminLessonDateController extends Controller
     {
         $lessonDate = LessonDate::find($id);
         $lessonDate->delete();
+    }
+
+    public function multipleDelete(Request $request){
+
+        foreach ($request->request->get('delete') as $id){
+            $this->delete($id);
+        }
+
+        return redirect(route('admin-lesson-index'));
     }
 
     public function registerStudent($id, $student_id){

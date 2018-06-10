@@ -15,15 +15,10 @@ class TeacherLessonController extends Controller
 {
     public function index()
     {
-        $lessons = Lesson::paginate(10);
-        $view = 'index';
+        $lessons = \Auth::user()->lessons()->paginate(10);
 
-
-        $lastDate = "empty";
         $data = [
             'lessons' => $lessons,
-            'lastDate' => $lastDate,
-            'view' => $view,
         ];
 
         return view('teacher.lesson.index', $data);
@@ -62,6 +57,7 @@ class TeacherLessonController extends Controller
         $data = [
             'lesson_id' => $id,
             'events' => $events,
+            'deadline' => $lesson->deadline,
         ];
 
         return view('teacher.lesson.show', $data);

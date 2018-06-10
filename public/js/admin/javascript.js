@@ -14,6 +14,7 @@ $(document).ready(function () {
     $('.lesson_date_create_modal').modal();
     $('#eventModal').modal();
     $('#addEventModal').modal();
+    $('.modal').modal();
     $('select').formSelect();
     $('.tooltipped').tooltip();
     $('.tap-target').tapTarget();
@@ -100,6 +101,10 @@ $(document).ready(function () {
             eventOrder: 'teacher_id',
             events: events,
             timeFormat: 'H:mm',
+            validRange: {
+                start: moment(new Date()).format("YYYY-MM-DD"),
+                end: moment(deadline, "YYYY-MM-DD").subtract(5, 'days'),
+            },
             eventClick: function (event, jsEvent, view) {
                  current_event = $(this);
                 $('#eventModal').modal('open');
@@ -122,7 +127,24 @@ $(document).ready(function () {
 
                     current_date = date.format();
                 });
-            }
+            },
+            select: function(start, end, allDay) {
+                var check = $.fullCalendar.formatDate(start,'yyyy-MM-dd');
+                var today = $.fullCalendar.formatDate(new Date(),'yyyy-MM-dd');
+                if(check < today)
+                {
+                    consloe.log('test')
+                    // Previous Day. show message if you want otherwise do nothing.
+                    // So it will be unselectable
+                }
+                else
+                {
+                    consloe.log('nice')
+
+                    // Its a right date
+                    // Do something
+                }
+            },
         });
     }
     $('body').on('click', '.lessondate_delete', function (e) {
@@ -185,7 +207,6 @@ $(document).ready(function () {
     });
 
     $('body').on('click', '#lesson_date_save', function () {
-        console.log(teachers);
         $.ajax({
             url: '/admin/lessonDate/store',
             type: 'POST',
@@ -265,8 +286,6 @@ $(document).ready(function () {
             var amount = $(this).attr('data-removedamount');
             setTimeout(toast.bind(null, amount,index * 1000));
         });
-
-
     }
 
 

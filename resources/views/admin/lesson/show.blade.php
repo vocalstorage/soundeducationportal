@@ -28,4 +28,7 @@
 
     var current_lesson_id = {!! $lesson_id !!};
 
+    var deadline = {!! json_encode($deadline) !!};
+
+
 </script>

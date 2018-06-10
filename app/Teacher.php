@@ -23,6 +23,10 @@ class Teacher extends Authenticatable
         return $this->hasOne(studio::class);
     }
 
+    public function lessons(){
+        return $this->belongsToMany(Lesson::class);
+    }
+
     public function lesson_dates(){
         return $this->hasMany(LessonDate::class);
     }

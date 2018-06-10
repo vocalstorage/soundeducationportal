@@ -12,7 +12,7 @@ class StudentLessonController extends Controller
 {
     public function index(){
         $lessons = collect();
-        $lessons = Lesson::all();
+        $lessons = Lesson::where('schoolgroup_id', '=',\Auth::user()->schoolgroup->id)->get();
         $registeredLessons = [];
         
         foreach(\Auth::user()->lessonDateRegistrations as $lessonDateRegistration){
@@ -21,7 +21,6 @@ class StudentLessonController extends Controller
                array_push( $registeredLessons, $id);
             }
         }
-
 
         $data = [
             'lessons' => $lessons,

@@ -43,7 +43,7 @@ class StudentLessonDateController extends Controller
                     array_push($event, $event['backgroundColor'] = 'grey');
                     array_push($event, $event['borderColor'] = 'grey');
                     array_push($event, $event['status'] = 'full');
-                } else {
+                }else{
                     array_push($event, $event['status'] = 'open');
                     array_push($event, $event['backgroundColor'] = '66BB6A');
                     array_push($event, $event['borderColor'] = '66BB6A');
@@ -76,7 +76,6 @@ class StudentLessonDateController extends Controller
     public function postRegistrationForm(Request $request)
     {
         $lessonDate = LessonDate::find($request->get('lessonDate_id'));
-        Mail::to(\Auth::user())->send(new LessondateScheduled($lessonDate));
 
         foreach(\Auth::user()->lessonDateRegistrations as $lessonDateRegistration){
             $id = $lessonDateRegistration->lessonDate->lesson->id;
@@ -87,22 +86,24 @@ class StudentLessonDateController extends Controller
 
         if($lessonDate->registrations < $lessonDate->lesson->max_registration){
             LessonDateRegistration::create([
+                'lesson_id' => $lessonDate->lesson->id,
                 'lesson_date_id' => $request->input('lessonDate_id'),
                 'student_id' => \Auth::user()->id,
                 'skill' => $request->get('skill'),
             ]);
             $lessonDate->increment('registrations');
         }
-
+        Mail::to(\Auth::user())->send(new LessondateScheduled($lessonDate));
 
         return response()->json(array(['succes', 'succes']), 200);
     }
 
     public function delete($id)
     {
-        $registration = LessonDateRegistration::find($id);
+        $registration = LessonDateRegistration::where('id', '=' ,$id)
+        ->where('student_id', '=', \Auth::user()->id)->get()->first();
 
-        if($registration->mayCancel()){
+        if(is_integer($registration->mayCancel()) && $registration->mayCancel() !== 3){
             $registration->lessonDate->decrement('registrations');
             $registration->delete();
         }

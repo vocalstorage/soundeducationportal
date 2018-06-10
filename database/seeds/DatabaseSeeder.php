@@ -18,5 +18,19 @@ class DatabaseSeeder extends Seeder
             'email' => 'info@soundeducation.nl',
             'password' => Hash::make('Wonderwall2018'),
         ]);
+
+        DB::table('teachers')->insert([
+            'name' => 'teacher',
+            'email' => 'teacher@teacher.nl',
+            'color' => '#ffffff',
+            'password' => Hash::make('Wonderwall2018'),
+        ]);
+
+        DB::table('students')->insert([
+            'name' => 'student',
+            'email' => 'student@student.nl',
+            'schoolgroup_id' => 1,
+            'password' => Hash::make('Wonderwall2018'),
+        ]);
     }
 }

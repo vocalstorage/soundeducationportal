@@ -54,9 +54,11 @@ Route::prefix('admin')->group(function () {
             Route::get('/create', 'admin\AdminLessonController@create');
             Route::post('/store', 'admin\AdminLessonController@store')->name('admin-lesson-store');
             Route::get('/show/{id}', 'admin\AdminLessonController@show')->name('admin-lesson-show');
+            Route::get('/showWarning/{id}', 'admin\AdminLessonController@showWarning')->name('admin-lesson-show-warning');
             Route::get('/edit/{id}', 'admin\AdminLessonController@edit')->name('admin-lesson-edit');
             Route::post('/update/{id}', 'admin\AdminLessonController@update')->name('admin-lesson-update');
             Route::get('/delete/{id}', 'admin\AdminLessonController@delete')->name('admin-lesson-delete');
+
         });
 
         Route::prefix('lessonDate')->group(function () {
@@ -65,6 +67,7 @@ Route::prefix('admin')->group(function () {
             Route::get('/edit/{id}', 'admin\AdminLessonDateController@edit');
             Route::post('/update', 'admin\AdminLessonDateController@update');
             Route::get('/delete/{id}', 'admin\AdminLessonDateController@delete')->name('admin-lessonDate-delete');
+            Route::post('/multipleDelete', 'admin\AdminLessonDateController@multipleDelete')->name('admin-lessonDate-multipleDelete');
             Route::get('/registerStudent/{lessonDate_id}/{student_id}', 'admin\AdminLessonDateController@registerStudent')->name('admin-lessonDate-registerStudent');
             Route::get('/cancelStudent/{lessonDate_id}/{LessonDateRegistration_id}', 'admin\AdminLessonDateController@cancelStudent')->name('admin-lessonDate-cancelStudent');
             Route::get('/showRegistrationForm/{lessonDate_id}', 'admin\AdminLessonDateController@showRegistrationForm')->name('admin-lessonDate-showRegistrationForm');

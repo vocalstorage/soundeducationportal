@@ -22,30 +22,25 @@
                 <div class="input-field col s12">
                     <input disabled value="{{\Auth::user()->email}}" id="disabled" type="text" class="validate">
                     <label for="disabled">Email</label>
-                    {{--<input value="@if(old('email')){{old('email')}} @else {{\Auth::user()->email}} @endif" id="email" type="email" class="validate {{ $errors->has('email') ? ' invalid' : '' }}" name="email">--}}
-                    {{--<label for="email">Email</label>--}}
-                    {{--@if ($errors->has('email'))--}}
-                        {{--<span class="helper-text" data-error="{{ $errors->first('email') }}"></span>--}}
-                    {{--@endif--}}
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s6">
                     <input id="password_reg" type="password" class="validate {{ $errors->has('password') ? ' invalid' : '' }}" name="password" >
-                    <label for="password_reg">Password</label>
+                    <label for="password_reg">Wachtwoord</label>
                     @if ($errors->has('password'))
                         <span class="helper-text" data-error="{{ $errors->first('password') }}"></span>
                     @endif
                 </div>
                 <div class="input-field col s6">
                     <input id="password_confirm_reg" type="password" class="validate" name="password_confirmation" >
-                    <label for="password_confirm_reg">Password confirmation</label>
+                    <label for="password_confirm_reg">Wachtwoord bevestiging</label>
                 </div>
             </div>
             <div class="row">
                 <div class="col s12">
                     <button class="btn  waves-effect green lighten-1" type="submit" name="action">Opslaan
-                        <i class="material-icons right" style="color:white">send</i>
+
                     </button>
                 </div>
             </div>

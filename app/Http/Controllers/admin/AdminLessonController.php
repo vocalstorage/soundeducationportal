@@ -56,9 +56,44 @@ class AdminLessonController extends Controller
 
             if ($lessonDate->registrations >= $max) {
                 array_push($event, $event['status'] = 'full');
-            } else {
+            }else {
                 array_push($event, $event['status'] = 'open');
             }
+            array_push($events, $event);
+        }
+
+        $data = [
+            'lesson_id' => $id,
+            'events' => $events,
+            'deadline' => $lesson->deadline,
+        ];
+
+        return view('admin.lesson.show', $data);
+
+
+    }
+
+    public function showWarning($id)
+    {
+        $lesson = Lesson::find($id);
+
+        $max = $lesson->max;
+        $events = [];
+
+        foreach ($lesson->checkEmptyDates() as $lessonDate) {
+            if ($lessonDate->time === '24:00') {
+                $lessonDate->time = '23:59';
+            }
+
+            $event = [
+                'start' => date('Y-m-d', strtotime($lessonDate->date)) . 'T' . $lessonDate->time,
+                'lessonDate_id' => $lessonDate->id,
+                'title' => $lessonDate->teacher->name . '(' . $lessonDate->lessonDateRegistrations->count() . ')',
+                'backgroundColor' => '#ffee58',
+                'borderColor' => '#ffee58',
+                'teacher_id' => $lessonDate->teacher->id,
+            ];
+            array_push($event, $event['status'] = 'open');
             array_push($events, $event);
         }
         $data = [
@@ -126,22 +161,22 @@ class AdminLessonController extends Controller
             ]);
         }
 
-        $request->except('filepath');
         $request['deadline'] = Carbon::createFromFormat('d/m/Y', $request->request->get('deadline'));
         $request['filepath_id'] = $filepath->id;
 
         $lesson = Lesson::create($request->request->all());
-
+        $lesson->teachers()->sync($request->request->get('teachers'));
         return redirect(route('admin-lesson-show', $lesson->id));
     }
 
     public function edit($id)
     {
         $lesson = Lesson::find($id);
-
+        $teachers = Teacher::all();
 
         $data = [
-            'lesson' => $lesson
+            'lesson' => $lesson,
+            'teachers' => $teachers,
         ];
 
         $html = view('admin.lesson.edit', $data)->render();
@@ -167,19 +202,18 @@ class AdminLessonController extends Controller
 
 
         $lesson->update($request->request->all());
+        $lesson->teachers()->sync($request->request->get('teachers'));
+
 
         return redirect(route('admin-lesson-index'));
     }
 
     public function delete($id)
     {
-
         $lesson = Lesson::find($id);
-
         $lesson->lessonDates()->delete();
-        $lesson->lessonDates()->delete();
+        $lesson->delete();
 
+        return redirect(route('admin-lesson-index'));
     }
-
-
 }

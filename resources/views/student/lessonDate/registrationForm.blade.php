@@ -8,7 +8,7 @@
 <div class="container">
     <div class="registrated-studendts left-align">
         <ul>
-            <label>Students:</label>
+            <label>Studenten:</label>
             <li>
                 @if(count($lessonDate->lessonDateRegistrations ) > 0)
                 @foreach($lessonDate->lessonDateRegistrations as $lessonDateRegistration)
@@ -18,7 +18,7 @@
                     </div>
                 @endforeach
                 @else
-                No students found
+                Geen studenten kunnen vinden.
                 @endif
             </li>
         </ul>
@@ -26,13 +26,13 @@
     <hr>
     <br>
     <div class="input-field">
-        <select id="skill-field" name="skill" class="validate" required>
-            <option value="0" disabled selected>Choose your option</option>
+        <select id="skill-field" name="skill" class="validate" required="required">
+            <option value="0" disabled >Kies een niveau</option>
             <option value="1">Beginner</option>
             <option value="2">Intermediate</option>
             <option value="3">Advanced</option>
         </select>
-        <label>Choose your skill level</label>
+        <label data-error="Select an option">Kies je niveau</label>
     </div>
     <div class="modal-footer">
         <form action="">

@@ -28,6 +28,18 @@
                         <label>Deadline</label>
                         <input type="text" class="deadline"  name="deadline" value="{{$lesson->deadline}}">
                     </div>
+                    <div class="input-field col s12">
+                        <select multiple name="teachers">
+                            <option value="" disabled selected>Choose your option</option>
+                            @foreach($teachers as $teacher)
+                                @if($teacher->studio)
+                                    <option @if($lesson->teachers->contains($teacher)) selected @endif value="{{$teacher->id}}"  data-icon="{{$teacher->studio->filepath->path}}">{{$teacher->name}} ({{$teacher->studio->name}})</option>
+                                @endif
+                            @endforeach
+
+                        </select>
+                        <label>Select teachers</label>
+                    </div>
                     <label>Image:</label>
                     <div class="file-field input-field col s10">
                         <a id="lfm" data-input="thumbnail" data-preview="holder">

@@ -53,22 +53,18 @@
                                                                 <div class="row">
                                                                     <div class="col s12">
                                                                         <h4> {{$lesson_date->teacher->studio->name}}
-                                                                            ({{$lesson_date->teacher->name." ".$lesson_date->teacher->prefix." ".$lesson_date->teacher->lastname}}
-                                                                            )
+                                                                            ({{$lesson_date->teacher->name." ".$lesson_date->teacher->prefix." ".$lesson_date->teacher->lastname}})
                                                                         </h4>
                                                                     </div>
                                                                     <div class="col s12">
-                                                                        {!!  $lesson_date->teacher->studio->description!!}
+                                                                        <p>{!!  $lesson_date->teacher->studio->description!!}</p>
                                                                     </div>
                                                                     <div class="col s12">
                                                                         <div class="wrapper-location-data">
                                                                             <h4>Gegevens</h4>
-                                                                            <p>
-                                                                                Street: {{$lesson_date->teacher->studio->street}}</p>
-                                                                            <p>
-                                                                                City: {{$lesson_date->teacher->studio->place}}</p>
-                                                                            <p>Postal
-                                                                                code:{{$lesson_date->teacher->studio->postal_code}}</p>
+                                                                            <p>Straat: {{$lesson_date->teacher->studio->street}}</p>
+                                                                            <p>Plaats: {{$lesson_date->teacher->studio->place}}</p>
+                                                                            <p>Postcode: {{$lesson_date->teacher->studio->postal_code}}</p>
                                                                         </div>
                                                                     </div>
                                                                 </div>

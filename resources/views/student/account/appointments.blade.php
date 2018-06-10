@@ -14,11 +14,12 @@
                         <div class="card-image">
                             <img src="{{$lessonDateRegistration->lessonDate->teacher->studio->filepath->path}}"
                                  alt="img">
-                            <span class="card-title">{{$lessonDateRegistration->lessonDate->lesson->title}}
-                                ({{date_format(new DateTime($lessonDateRegistration->lessonDate->date),'l\, jS F \a\t '. $lessonDateRegistration->lessonDate->time)}})
-                            </span>
                         </div>
                         <div class="card-content">
+                            <h3>{{$lessonDateRegistration->lessonDate->lesson->title}}
+                                ({{date_format(new DateTime($lessonDateRegistration->lessonDate->date),'l\, jS F \a\t '. $lessonDateRegistration->lessonDate->time)}}
+                                )
+                            </h3>
                             <ul>
                                 <label>Studenten:</label>
                                 <li>
@@ -41,25 +42,31 @@
                                         <h4 style="margin-top: 0">Gegevens</h4>
                                         <p>Straat: {{$lessonDateRegistration->lessonDate->teacher->studio->street}}</p>
                                         <p>Plaats: {{$lessonDateRegistration->lessonDate->teacher->studio->place}}</p>
-                                        <p id="zipcode">Postcode: {{$lessonDateRegistration->lessonDate->teacher->studio->postal_code}}</p>
+                                        <p id="zipcode">
+                                            Postcode: {{$lessonDateRegistration->lessonDate->teacher->studio->postal_code}}</p>
                                     </div>
                                     <div class="col s6">
                                         <h4 style="margin-top: 0">Reisplannen</h4>
-                                        <a target="_blank" class="btn link-9292 waves-effect green lighten-1 float-right" href="https://9292.nl/?naar={{strtolower($lessonDateRegistration->lessonDate->teacher->studio->place)}}_{{strtolower($lessonDateRegistration->lessonDate->teacher->studio->street)}}-{{$lessonDateRegistration->lessonDate->teacher->studio->number}}">
-                                            <img src="https://9292.nl/gimmage/N2/DefaultTemplate/Plan%20mijn%20OV-reis.png" class="responsive-img">
+                                        <a target="_blank"
+                                           class="btn link-9292 waves-effect green lighten-1 float-right"
+                                           href="https://9292.nl/?naar={{strtolower($lessonDateRegistration->lessonDate->teacher->studio->place)}}_{{strtolower($lessonDateRegistration->lessonDate->teacher->studio->street)}}-{{$lessonDateRegistration->lessonDate->teacher->studio->number}}">
+                                            <img src="https://9292.nl/gimmage/N2/DefaultTemplate/Plan%20mijn%20OV-reis.png"
+                                                 class="responsive-img">
                                         </a>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        @if($lessonDateRegistration->mayCancel())
+                        @if(is_int($lessonDateRegistration->mayCancel()))
                             <div class="card-action">
                                 <a href="{{route('student-lessonDate-delete',$lessonDateRegistration->id)}}"
-                                   class="btn lessonDateCancelBtn waves-effect green lighten-1">Uitschrijven</a>
+                                   class="btn lessonDateCancelBtn waves-effect green lighten-1" data-cancelled="{{$lessonDateRegistration->mayCancel()}}">Uitschrijven</a>
                             </div>
                         @else
                             <div class="card-action">
-                                <a href="#" class="tooltipped btn waves-effect green lighten-1" data-position="bottom" data-tooltip="na 5 dagen kan er niet meer uitgeschreven worden">Uitschrijven
+                                <a href="#" class="tooltipped btn waves-effect green lighten-1" data-delay="50" data-position="top"
+                                   data-tooltip="{{$lessonDateRegistration->mayCancel()}}">
+                                    Uitschrijven
                                     (DISABLED)</a>
                             </div>
                         @endif
