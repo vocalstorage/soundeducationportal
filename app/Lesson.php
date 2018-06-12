@@ -34,7 +34,7 @@ class Lesson extends Model
 
     public function teachers()
     {
-        return $this->belongsToMany(teacher::class);
+        return $this->belongsToMany(Teacher::class);
     }
 
     public function schoolgroup()
