@@ -27,7 +27,10 @@
                                 <td>{{$lesson->deadline}}</td>
                                 <td>
                                     <a href="{{route('teacher-lesson-show',$lesson->id)}}" class="lesson_show">
-                                        <i class="material-icons">remove_red_eye</i>
+                                        <i class="material-icons">event_note</i>
+                                    </a>
+                                    <a href="{{route('teacher-lesson-presence',$lesson->id)}}">
+                                        <i class="material-icons">access_time</i>
                                     </a>
                                 </td>
                             </tr>

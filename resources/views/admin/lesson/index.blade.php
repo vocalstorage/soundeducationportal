@@ -37,9 +37,12 @@
                                 <td>{{$lesson->lessonDates->count() - $lesson->removeLessonDates()}}</td>
                                 <td>
                                     <a href="{{route('admin-lesson-show',$lesson->id)}}" class="lesson_show">
-                                        <i class="material-icons">remove_red_eye</i>
+                                        <i class="material-icons">event_note</i>
                                     </a>
-                                    <a href="{{route('admin-lesson-edit',$lesson->id)}}" class="lesson_edit">
+                                    <a href="{{route('admin-lesson-presence',$lesson->id)}}">
+                                        <i class="material-icons">access_time</i>
+                                    </a>
+                                    <a href="{{route('admin-lesson-edit',$lesson->id)}}" >
                                         <i class="material-icons">edit</i>
                                     </a>
                                     <a href="{{route('admin-lesson-delete',$lesson->id)}}" class="confirm_delete">
@@ -109,35 +112,6 @@
                     {{$lessons->links() }}
                 </div>
             </div>
-        </div>
-    </div>
-
-    <div id="modal" class="modal times">
-        <div class="modal-content">
-
-        </div>
-        <div class="modal-footer">
-            <a class="modal-action modal-close waves-effect waves-green btn-flat lesson_date_update">Edit</a>
-        </div>
-    </div>
-
-    <div id="modal" class="modal lesson_edit_modal">
-        <div class="lesson_edit_modal-content modal-content">
-
-        </div>
-        <hr>
-        <div class="lesson_edit_modal-footer modal-footer">
-            <a class="waves-effect waves-green btn lesson_update">Edit</a>
-        </div>
-    </div>
-
-    <div id="modal" class="modal lesson_date_create_modal">
-        <div class="lesson_date_create_modal-content modal-content">
-
-        </div>
-        <hr>
-        <div class="lesson_date_create_modal-footer modal-footer">
-            <a class=" waves-effect waves-green btn lesson_date_store">Store</a>
         </div>
     </div>
 @endsection

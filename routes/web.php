@@ -57,6 +57,7 @@ Route::prefix('admin')->group(function () {
             Route::get('/showWarning/{id}', 'admin\AdminLessonController@showWarning')->name('admin-lesson-show-warning');
             Route::get('/edit/{id}', 'admin\AdminLessonController@edit')->name('admin-lesson-edit');
             Route::post('/update/{id}', 'admin\AdminLessonController@update')->name('admin-lesson-update');
+            Route::get('/presenece/{id}', 'admin\AdminLessonController@presence')->name('admin-lesson-presence');
             Route::get('/delete/{id}', 'admin\AdminLessonController@delete')->name('admin-lesson-delete');
 
         });
@@ -126,6 +127,7 @@ Route::prefix('teacher')->group(function () {
         Route::prefix('lesson')->group(function () {
             Route::get('/index', 'teacher\TeacherLessonController@index')->name('teacher-lesson-index');
             Route::get('/show/{id}', 'teacher\TeacherLessonController@show')->name('teacher-lesson-show');
+            Route::get('/presenece/{id}', 'teacher\TeacherLessonController@presence')->name('teacher-lesson-presence');
         });
 
         Route::prefix('lessonDate')->group(function () {

@@ -265,6 +265,22 @@ td.highlight a {background: #99dd73 50% 50% repeat-x !important;  border: 1px #8
     width: 20%;
 }
 
+.col-presence{
+    margin: 15px 0px;\
+}
+
+/*.switch-on label{*/
+    /*color:#66BB6A;*/
+/*!*}*!*/
+
+/*.switch label input[type=checkbox]:checked+.lever {*/
+    /*background-color: #66BB6A;*/
+    /*color:#66BB6A;*/
+/*}*/
+
+/*.switch label input[type=checkbox]:checked+.lever:after {*/
+    /*background-color: #26a69a;*/
+/*}*/
 
 /*.table-excel-log td{*/
     /*color:white*/

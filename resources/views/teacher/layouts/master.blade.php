@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="/css/fullcalendar.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="/css/materialize.min.css">
+    <link rel="stylesheet" href="/css/jquery.qtip.min.css">
     <link rel="stylesheet" href="/css/lesson.css">
 
 <body>
@@ -56,6 +57,7 @@
 <script src="/js/fullcalendar.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.serializeJSON/2.9.0/jquery.serializejson.min.js"></script>
 <script src="/vendor/laravel-filemanager/js/lfm.js"></script>
+<script src="/js/jquery.qtip.js"></script>
 <script src="/js/teacher/javascript.js"></script>
 
 

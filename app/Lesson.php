@@ -75,7 +75,6 @@ class Lesson extends Model
                 }
             }
         }
-
         return collect($lessonDates);
     }
 }

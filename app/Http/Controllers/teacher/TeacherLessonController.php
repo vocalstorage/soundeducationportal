@@ -62,4 +62,56 @@ class TeacherLessonController extends Controller
 
         return view('teacher.lesson.show', $data);
     }
+
+    public function presence($id)
+    {
+        $lesson = Lesson::find($id);
+
+        $max = $lesson->max;
+        $events = [];
+
+        foreach ($lesson->lessonDates as $lessonDate) {
+            if($lessonDate->teacher->id == Auth::id()) {
+                if(count($lessonDate->lessonDateRegistrations) > 0){
+                    if ($lessonDate->time === '24:00') {
+                        $lessonDate->time = '23:59';
+                    }
+                    $registrations = [];
+
+                    foreach($lessonDate->lessonDateRegistrations as $registration){
+                        $registrationJson['student'] = $registration->student->name;
+                        $registrationJson['presence'] = true;
+                        array_push($registrations, $registrationJson);
+                    }
+
+                    $event = [
+                        'start' => date('Y-m-d', strtotime($lessonDate->date)) . 'T' . $lessonDate->time,
+                        'lessonDate_id' => $lessonDate->id,
+                        'title' => $lessonDate->teacher->name,
+                        'backgroundColor' => $lessonDate->teacher->color,
+                        'borderColor' => $lessonDate->teacher->color,
+                        'presence' => true,
+                    ];
+
+                    if(!empty($registrations)){
+                        $event['registrations'] = $registrations;
+                    }
+
+                    if ($lessonDate->registrations >= $max) {
+                        array_push($event, $event['status'] = 'full');
+                    } else {
+                        array_push($event, $event['status'] = 'open');
+                    }
+                    array_push($events, $event);
+                }
+                $data =
+                    ['lesson_id' => $id,
+                    'events' => $events,
+                    'deadline' => $lesson->deadline,];
+            }
+        }
+
+
+        return view('admin.lesson.presence', $data);
+    }
 }

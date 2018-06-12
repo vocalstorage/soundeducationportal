@@ -31,7 +31,7 @@ $(document).ready(function () {
 
     if ($('#calendar_lessondate').length > 0) {
         $('#calendar_lessondate').fullCalendar({
-            defaultView: 'month',
+            defaultView: 'agendaWeek',
             header: {
                 left: 'myCustomButton',
                 center: 'title',
@@ -63,6 +63,57 @@ $(document).ready(function () {
 
                     current_date = date.format();
                 });
+            }
+        });
+    }
+
+    if ($('#calendar_presence').length > 0) {
+        $('#calendar_presence').fullCalendar({
+            defaultView: 'listWeek',
+            header: {
+                left: 'myCustomButton',
+                center: 'title',
+                right: 'today, prev,next'
+            },
+            eventLimit: 6, // If you set a number it will hide the itens
+            eventLimitText: "lessen",
+            eventOrder: 'teacher_id',
+            events: events,
+            timeFormat: 'H:mm',
+            validRange: {
+                start: moment(new Date()).format("YYYY-MM-DD"),
+                end: moment(deadline, "YYYY-MM-DD").subtract(5, 'days'),
+            },
+            eventRender: function(event, element) {
+                $(element).find('a').addClass('col s12');
+
+                var target =  $(element).find(".fc-list-item-title");
+                // var title = $("<div class='col s9'>");
+                // title = title.html(event.title);
+
+
+
+                $.each( event.registrations, function( index, obj ){
+                    var student = $("<div class='col-presence col s9'>");
+                    var studentContent = '<div>' + obj.student + '</div>';
+                    student.html(studentContent);
+                    target.append(student);
+
+                    var presenceContent = $('.switch').html();
+                    var presenceSwitch = $("<div class='col-presence switch col s3'>");
+                    presenceSwitch.html(presenceContent);
+
+                    target.append(presenceSwitch);
+
+                    if(event.presence) {
+                        $(element).find("input").attr('checked', 'checked');
+                    }
+                });
+
+
+
+
+
             }
         });
     }

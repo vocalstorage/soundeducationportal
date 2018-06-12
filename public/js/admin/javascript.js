@@ -131,23 +131,49 @@ $(document).ready(function () {
             select: function(start, end, allDay) {
                 var check = $.fullCalendar.formatDate(start,'yyyy-MM-dd');
                 var today = $.fullCalendar.formatDate(new Date(),'yyyy-MM-dd');
-                if(check < today)
-                {
-                    consloe.log('test')
-                    // Previous Day. show message if you want otherwise do nothing.
-                    // So it will be unselectable
-                }
-                else
-                {
-                    consloe.log('nice')
-
-                    // Its a right date
-                    // Do something
-                }
             },
         });
     }
-    $('body').on('click', '.lessondate_delete', function (e) {
+
+    if ($('#calendar_presence').length > 0) {
+        $('#calendar_presence').fullCalendar({
+            defaultView: 'listWeek',
+            header: {
+                left: 'myCustomButton',
+                center: 'title',
+                right: 'today, prev,next'
+            },
+            eventLimit: 6, // If you set a number it will hide the itens
+            eventLimitText: "lessen",
+            eventOrder: 'teacher_id',
+            events: events,
+            timeFormat: 'H:mm',
+            validRange: {
+                start: moment(new Date()).format("YYYY-MM-DD"),
+                end: moment(deadline, "YYYY-MM-DD").subtract(5, 'days'),
+            },
+            eventRender: function(event, element) {
+                var target =  $(element).find(".fc-list-item-title");
+
+                var title = $("<div class='col 12'>");
+                title = title.html(event.title);
+                target.append(title);
+                target.append('aaaaaaaaa');
+
+                var content = $('.switch').html();
+                var presenceSwitch = $("<div class='switch col s3'>");
+                presenceSwitch.html(content);
+                target.append(presenceSwitch);
+
+                if(event.presence) {
+                    $(element).find("input").attr('checked', 'checked');
+                }
+                $(element).find('a').addClass('col s9');
+            }
+        });
+    }
+
+        $('body').on('click', '.lessondate_delete', function (e) {
         e.preventDefault();
         $.get($(this).attr('href'), function() {
             $('#eventModal').modal('close');
@@ -242,6 +268,8 @@ $(document).ready(function () {
             }
         });
     });
+
+
 
 
 

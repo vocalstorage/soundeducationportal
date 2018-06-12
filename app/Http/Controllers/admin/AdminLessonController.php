@@ -16,9 +16,9 @@ class AdminLessonController extends Controller
     {
         $lessons = Lesson::with('lessonDates')->paginate(10);
 
-        foreach ($lessons as $lesson){
+        foreach ($lessons as $lesson) {
             $amount = $lesson->removeLessonDates();
-            if($amount> 0){
+            if ($amount > 0) {
                 $lesson['removedlessondates'] = $amount;
             }
         }
@@ -56,7 +56,7 @@ class AdminLessonController extends Controller
 
             if ($lessonDate->registrations >= $max) {
                 array_push($event, $event['status'] = 'full');
-            }else {
+            } else {
                 array_push($event, $event['status'] = 'open');
             }
             array_push($events, $event);
@@ -155,7 +155,7 @@ class AdminLessonController extends Controller
         $path = $request->request->get('filepath');
         $filepath = Filepath::where('path', $path)->first();
 
-        if(empty($filepath)){
+        if (empty($filepath)) {
             $filepath = Filepath::create([
                 'path' => $path
             ]);
@@ -190,7 +190,7 @@ class AdminLessonController extends Controller
         $path = $request->request->get('filepath');
         $filepath = Filepath::where('path', $path)->first();
 
-        if(empty($filepath)){
+        if (empty($filepath)) {
             $filepath = Filepath::create([
                 'path' => $path
             ]);
@@ -215,5 +215,44 @@ class AdminLessonController extends Controller
         $lesson->delete();
 
         return redirect(route('admin-lesson-index'));
+    }
+
+    public function presence($id)
+    {
+        $lesson = Lesson::find($id);
+
+        $max = $lesson->max;
+        $events = [];
+
+        foreach ($lesson->lessonDates as $lessonDate) {
+            foreach ($lessonDate->lessonDateRegistrations as $registration) {
+                if ($lessonDate->time === '24:00') {
+                    $lessonDate->time = '23:59';
+                }
+
+
+                $event = [
+                        'start' => date('Y-m-d', strtotime($lessonDate->date)) . 'T' . $lessonDate->time,
+                        'lessonDate_id' => $lessonDate->id,
+                        'title' => $registration->student->name,
+                        'backgroundColor' => $lessonDate->teacher->color,
+                        'borderColor' => $lessonDate->teacher->color,
+                        'presence' => true,
+                    ];
+
+                    if ($lessonDate->registrations >= $max) {
+                        array_push($event, $event['status'] = 'full');
+                    } else {
+                        array_push($event, $event['status'] = 'open');
+                    }
+                    array_push($events, $event);
+                }
+            $data = ['lesson_id' => $id,
+                'events' => $events,
+                'deadline' => $lesson->deadline,];
+        }
+
+
+        return view('teacher.lesson.presence', $data);
     }
 }
