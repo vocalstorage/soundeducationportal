@@ -27,7 +27,6 @@ class TeacherLoginController extends Controller
         if(Auth::guard('teacher')->attempt(['email' => $request->email, 'password' => $request->password])){
             return redirect(route('teacher-dashboard'));
         }
-        dd($request);
         return redirect()->back()->withInput($request->only('email','remember'));
     }
 }
