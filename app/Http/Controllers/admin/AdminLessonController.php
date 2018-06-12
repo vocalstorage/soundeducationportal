@@ -9,6 +9,7 @@ use App\Lesson;
 use App\Filepath;
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
+use App\Studio;
 
 class AdminLessonController extends Controller
 {
