@@ -7,10 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\TeacherSendPassword;
-use Illuminate\Support\Str;
 use Webpatser\Uuid;
 use App\Teacher;
-use App\Studio;
 
 class AdminTeacherController extends Controller
 {

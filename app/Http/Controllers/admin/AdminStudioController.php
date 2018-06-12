@@ -4,7 +4,6 @@ namespace App\Http\Controllers\admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
 use App\Studio;
 use App\Teacher;
 use App\Filepath;
@@ -13,7 +12,7 @@ class AdminStudioController extends Controller
 {
     public function index()
     {
-        $studios = studio::all();
+        $studios = Studio::all();
 
         $teacherNoRelation = Teacher::has('studio', '<', 1)->get()->count();
 
