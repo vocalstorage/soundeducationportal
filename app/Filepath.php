@@ -10,12 +10,12 @@ class Filepath extends Model
         'path',
     ];
 
-    public function Studio()
+    public function studio()
     {
         return $this->hasOne(Studio::class);
     }
 
-    public function Lesson()
+    public function lesson()
     {
         return $this->hasOne(Lesson::class);
     }

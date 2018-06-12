@@ -20,7 +20,7 @@ class Teacher extends Authenticatable
 
     public function studio()
     {
-        return $this->hasOne(studio::class);
+        return $this->hasOne(Studio::class);
     }
 
     public function lessons(){
