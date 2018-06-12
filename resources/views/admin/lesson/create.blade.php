@@ -51,7 +51,7 @@
                     <select multiple name="teachers">
                         <option value="" disabled selected>Choose your option</option>
                         @foreach($teachers as $teacher)
-                            @if($teacher->studio)
+                            @if(count($teacher->studio))
                             <option value="{{$teacher->id}}"  data-icon="{{$teacher->studio->filepath->path}}">{{$teacher->name}} ({{$teacher->studio->name}})</option>
                             @endif
                         @endforeach
