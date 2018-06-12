@@ -29,7 +29,7 @@
                         <input type="text" class="deadline"  name="deadline" value="{{$lesson->deadline}}">
                     </div>
                     <div class="input-field col s12">
-                        <select multiple name="teachers">
+                        <select multiple name="teachers[]">
                             <option value="" disabled selected>Choose your option</option>
                             @foreach($teachers as $teacher)
                                 @if($teacher->studio)

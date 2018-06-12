@@ -158,7 +158,6 @@ $(document).ready(function () {
                 var title = $("<div class='col 12'>");
                 title = title.html(event.title);
                 target.append(title);
-                target.append('aaaaaaaaa');
 
                 var content = $('.switch').html();
                 var presenceSwitch = $("<div class='switch col s3'>");

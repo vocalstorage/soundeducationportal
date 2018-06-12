@@ -47,7 +47,7 @@
                     @endif
                 </div>
                 <div class="input-field col s12">
-                    <select multiple name="teachers">
+                    <select multiple name="teachers[]">
                         <option value="" disabled selected>Choose your option</option>
                         @foreach($teachers as $teacher)
                             <option value="{{$teacher->id}}"  data-icon="{{$teacher->studio->filepath->path}}">{{$teacher->name}} ({{$teacher->studio->name}})</option>
