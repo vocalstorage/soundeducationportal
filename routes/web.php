@@ -51,7 +51,7 @@ Route::prefix('admin')->group(function () {
 
         Route::prefix('lesson')->group(function () {
             Route::get('/index', 'admin\AdminLessonController@index')->name('admin-lesson-index');
-            Route::get('/create', 'admin\AdminLessonController@create');
+            Route::get('/create', 'admin\AdminLessonController@create')->name('admin-lesson-create');
             Route::post('/store', 'admin\AdminLessonController@store')->name('admin-lesson-store');
             Route::get('/show/{id}', 'admin\AdminLessonController@show')->name('admin-lesson-show');
             Route::get('/showWarning/{id}', 'admin\AdminLessonController@showWarning')->name('admin-lesson-show-warning');

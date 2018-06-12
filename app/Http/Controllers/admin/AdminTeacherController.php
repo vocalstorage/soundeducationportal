@@ -9,8 +9,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\TeacherSendPassword;
 use Illuminate\Support\Str;
 use Webpatser\Uuid;
-use App\teacher;
-use App\studio;
+use App\Teacher;
 
 class AdminTeacherController extends Controller
 {
