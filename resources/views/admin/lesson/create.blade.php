@@ -46,16 +46,12 @@
                         <span class="helper-text" data-error="{{ $errors->first('deadline') }}"></span>
                     @endif
                 </div>
-
                 <div class="input-field col s12">
                     <select multiple name="teachers">
                         <option value="" disabled selected>Choose your option</option>
                         @foreach($teachers as $teacher)
-                            @if(count($teacher->studio))
                             <option value="{{$teacher->id}}"  data-icon="{{$teacher->studio->filepath->path}}">{{$teacher->name}} ({{$teacher->studio->name}})</option>
-                            @endif
                         @endforeach
-
                     </select>
                     <label>Select teachers</label>
                 </div>
