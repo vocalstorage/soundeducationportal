@@ -97,7 +97,7 @@
                         </div>
                         @if(is_int($lessonDateRegistration->mayCancel()))
                             <div class="card-action">
-                                <a href="{{route('student-lessonDate-delete',$lessonDateRegistration->id)}}"
+                                <a href="{{route('student-registration-delete',$lessonDateRegistration->id)}}"
                                    class="btn lessonDateCancelBtn waves-effect green lighten-1" data-cancelled="{{$lessonDateRegistration->mayCancel()}}">Uitschrijven</a>
                             </div>
                         @else

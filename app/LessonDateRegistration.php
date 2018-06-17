@@ -39,9 +39,9 @@ class LessonDateRegistration extends Model
     public function mayCancel(){
         $errors = [];
         $errorHtml = '';
-        $date = Carbon::parse($this->lessonDate->date);
+        $deadline = Carbon::parse($this->lessonDate->lesson->deadline);
         $now = Carbon::now();
-        if($date->diffInDays($now) <= 5){
+        if($deadline->diffInDays($now) <= 5){
             $error = ['message' => '5 dagen voor de deadline is het niet meer mogelijk om in te schrijven.'];
             array_push($errors, $error);
         }
