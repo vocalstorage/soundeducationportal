@@ -61,7 +61,7 @@ $(document).ready(function () {
         if($(this).attr('data-cancelled') == '2'){
             swal({
                 title: 'Weet je zeker dat je wilt uitschijven?',
-                text: "Dit is de laatste keer dat je kan uitschrijven!",
+                text: "Dit is de laatste keer dat je kunt uitschrijven!",
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -106,7 +106,7 @@ $(document).ready(function () {
                 url: '/student/registration/store',
                 type: 'POST',
                 dataType: 'JSON',
-                data: {'lessonDate_id' : $(this).attr('id'), 'skill' : $('#skill-field :selected').text()},
+                data: {'lessonDate_id' : $(this).attr('data-id'), 'skill' : $('#skill-field :selected').text()},
                 success: function (data) {
                     swal({
                         title: 'Succesvol ingeschreven',
