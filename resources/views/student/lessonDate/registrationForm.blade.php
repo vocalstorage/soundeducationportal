@@ -36,7 +36,7 @@
     </div>
     <div class="modal-footer">
         <form action="">
-            <a href="#!" class="modal-action btn  waves-effect green lighten-1 lessonDateRegisterBtn" id="{{$lessonDate->id}}">Afspraak maken</a>
+            <a href="#!" class="modal-action btn  waves-effect green lighten-1 lessonDateRegisterBtn" data-id="{{$lessonDate->id}}">Afspraak maken</a>
         </form>
     </div>
 </div>
