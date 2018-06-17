@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\LessonDate;
@@ -12,7 +12,7 @@ use App\Http\Controllers\Controller;
 
 class AdminLessonDateController extends Controller
 {
-    //
+
     public function create($date, $lesson_id)
     {
         $lesson = Lesson::find($lesson_id);
@@ -70,7 +70,6 @@ class AdminLessonDateController extends Controller
         foreach ($teachers as $teacherJson) {
             if (!empty($teacherJson['times'])) {
                 $times = $teacherJson['times'];
-
                 foreach ($times as $time) {
                     $lessonDateId = $lesson->lessonDates()->updateOrCreate([
                         'date' => date('Y-m-d', strtotime($request->request->get('date'))),
@@ -210,10 +209,32 @@ class AdminLessonDateController extends Controller
         return redirect(route('admin-lesson-index'));
     }
 
+    public function handleWarnings(Request $request){
+        $lessonDatesWithWarnings = json_decode($request->get('warnings')[0]);
+
+        if(!empty($request->request->get('delete'))){
+            foreach ($request->request->get('delete') as $id){
+                $this->delete($id);
+                $key = array_search($id,$lessonDatesWithWarnings);
+                unset($lessonDatesWithWarnings[$key]);
+            }
+        }
+
+        if(!empty($lessonDatesWithWarnings)){
+            LessonDate::whereIn('id', $lessonDatesWithWarnings)->update([
+                'warning' => 2
+            ]);
+        }
+
+
+        return redirect(route('admin-lesson-index'));
+    }
+
     public function registerStudent($id, $student_id){
         $lessonDate = LessonDate::find($id);
 
         LessonDateRegistration::create([
+            'lesson_id' => $lessonDate->lesson->id,
             'lesson_date_id' => $id,
             'student_id' => $student_id,
             'skill' => 'none',
@@ -243,6 +264,16 @@ class AdminLessonDateController extends Controller
         ];
 
         return view('admin.lessonDate.registrationForm', $data);
+    }
+
+
+    public function handlePresence(Request $request){
+        $LessonDateRegistration = LessonDateRegistration::find($request->request->get('registration_id'));
+        $LessonDateRegistration->update(['presence' => (int)($request->request->get('presence') === 'true')]);
+
+        return response()->json([
+            (int)($request->request->get('presence') === 'true')
+        ]);
     }
 
 

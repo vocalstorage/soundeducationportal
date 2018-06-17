@@ -17,7 +17,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        view()->composer('admin.lesson.create', function($view){
+        view()->composer(['admin.lesson.create','admin.lesson.edit' ], function($view){
            $view->with('schoolgroups', Schoolgroup::all());
         });
     }

@@ -8,7 +8,7 @@
     </div>
     <div class="row">
         <div class="col s12">
-            <form action="/admin/studio/store" onsubmit="return validateForm()" method="post">
+            <form action="/admin/studio/store" onsubmit="return validateForm('Creating studio')" method="post">
                 {{csrf_field()}}
                 @include('admin.layouts.errors')
 

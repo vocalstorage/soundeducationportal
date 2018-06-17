@@ -17,7 +17,9 @@ class LessonDateRegistration extends Model
         'lesson_date_id',
         'student_id',
         'lesson_id',
-        'skill'];
+        'skill',
+        'comment',
+        'presence'];
 
     public function lesson()
     {
@@ -63,5 +65,10 @@ class LessonDateRegistration extends Model
             return $cancelled;
         }
 
+    }
+
+    public function isPast(){
+        $date = Carbon::parse($this->lessonDate->date);
+        return $date->isPast();
     }
 }

@@ -6,6 +6,7 @@ $(document).ready(function () {
     var current_date;
     var current_event;
 
+    $('.tooltipped').tooltip();
 
 
     $('.collapsible').collapsible();
@@ -17,6 +18,8 @@ $(document).ready(function () {
     $('#eventModal').modal();
     $('#addEventModal').modal();
     $('select').formSelect();
+    $('.commentModal').modal();
+
 
 
 
@@ -28,48 +31,38 @@ $(document).ready(function () {
         }
     });
 
+    $.trumbowyg.svgPath = '/assets/icons.svg';
+
+    $('#description').trumbowyg({
+        btns: [
+            ['foreColor', 'backColor', 'strong', 'em'],
+            ['undo', 'redo'], // Only supported in Blink browsers
+            ['formatting'],
+            ['strong', 'em'],
+            ['superscript', 'subscript'],
+            ['link'],
+            ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
+            ['unorderedList', 'orderedList'],
+            ['horizontalRule'],
+            ['removeformat'],
+            ['fullscreen']
+        ]
+    });
+
+    $('#description').trumbowyg('html', $("#description_value").val());
+
 
     if ($('#calendar_lessondate').length > 0) {
         $('#calendar_lessondate').fullCalendar({
             defaultView: 'agendaWeek',
-            header: {
-                left: 'myCustomButton',
-                center: 'title',
-                right: 'today, prev,next'
+            customButtons: {
+                myCustomButton: {
+                    text: 'Aanwezigheid',
+                    click: function() {
+                        $('#calendar_lessondate,#calendar_presence').fadeToggle(200);
+                    }
+                }
             },
-            eventLimit: 6, // If you set a number it will hide the itens
-            eventLimitText: "lessen",
-            eventOrder: 'teacher_id',
-            events: events,
-            timeFormat: 'H:mm',
-            eventClick: function (event, jsEvent, view) {
-                 current_event = $(this);
-                $('#eventModal').modal('open');
-                $.get('/teacher/lessonDate/showRegistrationForm/' + event.lessonDate_id, function (data) {
-                    $('#eventModal').html('');
-                    $('#eventModal').append(data);
-                    $('select').formSelect();
-                });
-
-            },
-            dayClick: function (date, jsEvent, view) {
-                $('#eventModal').modal('open');
-                $.get('/teacher/lessonDate/create/' + date.format() + '/' + current_lesson_id, function (data) {
-                    $('#eventModal').html('');
-                    $('#eventModal').append(data);
-                    $('select').formSelect();
-                    $('#datepicker').datepicker();
-                    $('#eventTabs').tabs();
-
-                    current_date = date.format();
-                });
-            }
-        });
-    }
-
-    if ($('#calendar_presence').length > 0) {
-        $('#calendar_presence').fullCalendar({
-            defaultView: 'listWeek',
             header: {
                 left: 'myCustomButton',
                 center: 'title',
@@ -84,36 +77,93 @@ $(document).ready(function () {
                 start: moment(new Date()).format("YYYY-MM-DD"),
                 end: moment(deadline, "YYYY-MM-DD").subtract(5, 'days'),
             },
-            eventRender: function(event, element) {
-                $(element).find('a').addClass('col s12');
-
-                var target =  $(element).find(".fc-list-item-title");
-                // var title = $("<div class='col s9'>");
-                // title = title.html(event.title);
-
-
-
-                $.each( event.registrations, function( index, obj ){
-                    var student = $("<div class='col-presence col s9'>");
-                    var studentContent = '<div>' + obj.student + '</div>';
-                    student.html(studentContent);
-                    target.append(student);
-
-                    var presenceContent = $('.switch').html();
-                    var presenceSwitch = $("<div class='col-presence switch col s3'>");
-                    presenceSwitch.html(presenceContent);
-
-                    target.append(presenceSwitch);
-
-                    if(event.presence) {
-                        $(element).find("input").attr('checked', 'checked');
-                    }
+            eventClick: function (event, jsEvent, view) {
+                 current_event = $(this);
+                $('#eventModal').modal('open');
+                $('#eventModalLoader').show();
+                $('.event-modal-content').html('');
+                $.get('/teacher/lessonDate/showRegistrationForm/' + event.lessonDate_id, function (data) {
+                    $('.event-modal-content').fadeOut(200,function () {
+                        $('.event-modal-content').append(data);
+                        $('#eventModalLoader').hide();
+                        $('.event-modal-content').fadeIn(200);
+                    });
                 });
 
+            },
+            dayClick: function (date, jsEvent, view) {
+                $('#eventModal').modal('open');
+                $.get('/teacher/lessonDate/create/' + date.format() + '/' + current_lesson_id, function (data) {
+                    $('#eventModal').modal('open');
+                    $('#eventModalLoader').show();
+                    $('.event-modal-content').html('');
+                    $('.event-modal-content').fadeOut(200,function () {
+                        $('.event-modal-content').html('');
+                        $('.event-modal-content').append(data);
+                        $('.event-modal-content').fadeIn(200);
+                    });
+                    current_date = date.format();
+                });
+            },
+        });
+    }
 
+    if ($('#calendar_presence').length > 0) {
+        $('#calendar_presence').fullCalendar({
+            defaultView: 'listWeek',
+            customButtons: {
+                myCustomButton: {
+                    text: 'Kalendar',
+                    click: function() {
+                        $('#calendar_lessondate,#calendar_presence').fadeToggle(200);
+                    }
+                }
+            },
+            header: {
+                left: 'myCustomButton',
+                center: 'title',
+                right: 'today, prev,next'
+            },
+            eventLimit: 6, // If you set a number it will hide the itens
+            eventLimitText: "lessen",
+            eventOrder: 'teacher_id',
+            events: event_regs,
+            timeFormat: 'H:mm',
+            validRange: {
+                start: moment(new Date()).format("YYYY-MM-DD"),
+                end: moment(deadline, "YYYY-MM-DD").subtract(5, 'days'),
+            },
+            eventRender: function(event_reg, element) {
+                var target = $(element).find(".fc-list-item-title");
 
+                $.each( event_reg.registrations, function( index, registration ){
+                    var row = $('<div class="row">');
+                    var student = $("<div class='col-presence col s4'>");
+                    var studentContent = registration.student;
+                    student.html(studentContent);
+                    row.append(student);
 
+                    var comment = $("<div class='col-presence col s4'>");
+                    if(registration.comment){
+                        var studentComment = '<div class="comment" data-message="'+registration.comment+'"><i class="material-icons comment-icon">email</i></div>';
+                        comment.html(studentComment);
+                    }
+                    row.append(comment);
 
+                    var presenceContent = $('.switch').html();
+                    var presenceSwitch = $("<div class='col-presence switch col s4'>");
+                    row.append(presenceSwitch);
+                    presenceSwitch.html(presenceContent);
+
+                    var input = row.find("input");
+                    input.attr('data-id', registration.id);
+                    input.addClass('checkbox'+registration.id);
+
+                    if(registration.presence) {
+                        input.prop('checked', true);
+                    }
+                    target.append(row);
+                });
             }
         });
     }
@@ -155,13 +205,70 @@ $(document).ready(function () {
         });
     });
 
+
+    $('body').on('change', '.presence', function() {
+        var id = $(this).attr('data-id');
+        handlePresence(id, $(this));
+    });
+
+    $('body').on('click', '.comment', function () {
+        $('.modal-phrase').html($(this).attr('data-message'));
+        $('.commentModal').modal('open');
+    });
+
+    $('.fc-button').addClass('btn');
+
+    var editor_config = {
+        path_absolute : "/",
+        selector: "textarea.my-editor",
+        plugins: [
+            "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+            "searchreplace wordcount visualblocks visualchars code fullscreen",
+            "insertdatetime media nonbreaking save table contextmenu directionality",
+            "emoticons template paste textcolor colorpicker textpattern"
+        ],
+        toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media",
+        relative_urls: false,
+        file_browser_callback : function(field_name, url, type, win) {
+            var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
+            var y = window.innerHeight|| document.documentElement.clientHeight|| document.getElementsByTagName('body')[0].clientHeight;
+
+            var cmsURL = editor_config.path_absolute + 'laravel-filemanager?field_name=' + field_name;
+            if (type == 'image') {
+                cmsURL = cmsURL + "&type=Images";
+            } else {
+                cmsURL = cmsURL + "&type=Files";
+            }
+
+            tinyMCE.activeEditor.windowManager.open({
+                file : cmsURL,
+                title : 'Filemanager',
+                width : x * 0.8,
+                height : y * 0.8,
+                resizable : "yes",
+                close_previous : "no"
+            });
+        }
+    };
+
 });
 
+function handlePresence(id,elem){
+    $.post( "/teacher/lessonDate/handlePresence", { registration_id: elem.attr('data-id'), presence: elem.is(":checked") })
+        .done(function( data ) {
+            $('.checkbox'+id).prop('checked',elem.is(":checked"));
 
-function validateForm() {
+    });
+}
+
+function validateForm(target) {
+    if(target.length <= 0){
+        target = 'form';
+    }
     errors = 0;
-    $('form').serializeArray().forEach(function (obj) {
-        if (obj.value.length == 0) {
+    console.log(target);
+    $(target).serializeArray().forEach(function (obj) {
+        if (obj.value.length == 0 && obj.name !== 'password'){
             if (obj.name == "description") {
                 $('.trumbowyg-box').css('border-bottom', 'solid 2px red');
                 $('.trumbowyg-box').addClass('animated shake');
@@ -172,10 +279,11 @@ function validateForm() {
             errors++;
         }
     });
-
     if (errors !== 0) {
         return false
     } else {
+        $('.loader').show();
+        $('.dim-screen').show();
         return true
     }
 }

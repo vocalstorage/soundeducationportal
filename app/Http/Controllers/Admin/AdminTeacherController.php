@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -31,11 +31,10 @@ class AdminTeacherController extends Controller
 
     public function store(Request $request)
     {
-
         $request->validate([
             'name' => 'required',
-            'email' => 'required',
-            'color' => 'required',
+            'email' => 'required|email|unique:teachers',
+            'color' => 'required|unique:teachers',
         ]);
 
         $password = Uuid\Uuid::generate()->string;
@@ -43,7 +42,6 @@ class AdminTeacherController extends Controller
         $teacher = Teacher::create(array_merge($request->request->all(),['password' => Hash::make($password)]));
 
         Mail::to($teacher)->send(new TeacherSendPassword($teacher,$password));
-
 
         return redirect(route('admin-studio-create'));
     }
@@ -72,5 +70,7 @@ class AdminTeacherController extends Controller
 
     public function delete($id){
         Teacher::find($id)->delete();
+
+        return redirect(route('admin-teacher-index'));
     }
 }

@@ -1,3 +1,4 @@
+<script  type="text/javascript">
 $(document).ready(function () {
     var times = [];
     var fadeSpeed = 500;
@@ -5,6 +6,7 @@ $(document).ready(function () {
     var current_teacher_key = 0;
     var current_date;
     var current_event;
+    var takenColors = 0;
 
     $('.collapsible').collapsible();
     $('.sidenav').sidenav();
@@ -19,32 +21,24 @@ $(document).ready(function () {
     $('.tooltipped').tooltip();
     $('.tap-target').tapTarget();
     $('.excel-tabs').tabs();
+    $('.commentModal').modal();
 
-    if($('#deadline').val()){
-        value = $('#deadline').val();
-        $('#deadline').datepicker(
-            {
-                minDate: 0,
-                format: 'dd/mm/yyyy'
-            }
-        );
-        $('#deadline').datepicker('setDate', value);
-    }else{
-        $('#deadline').datepicker(
-            {
-                minDate: new Date(),
-                format: 'dd/mm/yyyy'
-            }
-        );
-    }
 
-    $.trumbowyg.svgPath = '/assets/icons.svg';
+    $('#deadline').datepicker(
+        {
+            minDate: new Date(),
+            format: 'dd/mm/yyyy'
+        }
+    );
+
 
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+
+    $.trumbowyg.svgPath = '/assets/icons.svg';
 
     $('#description').trumbowyg({
         btns: [
@@ -72,7 +66,7 @@ $(document).ready(function () {
     $("body").on("click", ".confirm_delete", function (e) {
         e.preventDefault();
         elem = $(this);
-        confirmDelete('Are you sure?',"You won't be able to revert this!",'Yes, delete it!', elem);
+        confirmDelete('Are you sure?',"You won't be able to revert this!",'Yes, delete it!', elem, $(this).attr('data-message'));
     });
 
     $('#description')
@@ -108,33 +102,45 @@ $(document).ready(function () {
             eventClick: function (event, jsEvent, view) {
                  current_event = $(this);
                 $('#eventModal').modal('open');
+                $('#eventModalLoader').show();
+                $('.event-modal-content').html('');
                 $.get('/admin/lessonDate/showRegistrationForm/' + event.lessonDate_id, function (data) {
-                    $('#eventModal').html('');
-                    $('#eventModal').append(data);
+                    $('.event-modal-content').fadeOut(200,function () {
+                        $('.event-modal-content').append(data);
+                        $('#eventModalLoader').hide();
+                        $('.event-modal-content').fadeIn(200, function(){
+                            $('#eventTabs').tabs();
+                        });
+                    });
                     $('select').formSelect();
                 });
 
             },
             dayClick: function (date, jsEvent, view) {
                 $('#eventModal').modal('open');
-
+                $('#eventModalLoader').show();
+                $('.event-modal-content').html('');
                 $.get('/admin/lessonDate/create/' + date.format() + '/' + current_lesson_id, function (data) {
-                    $('#eventModal').html('');
-                    $('#eventModal').append(data);
-                    $('select').formSelect();
-                    $('#datepicker').datepicker();
-                    $('#eventTabs').tabs();
-
-                    current_date = date.format();
+                    $('.event-modal-content').fadeOut(200,function () {
+                        $('.event-modal-content').html(data);
+                        $('#eventModalLoader').hide();
+                        $('.event-modal-content').fadeIn(200, function(){
+                            $('#eventTabs').tabs();
+                        });
+                    });
                 });
+                current_date = date.format();
             },
             select: function(start, end, allDay) {
                 var check = $.fullCalendar.formatDate(start,'yyyy-MM-dd');
                 var today = $.fullCalendar.formatDate(new Date(),'yyyy-MM-dd');
             },
+            eventRender: function eventRender( event, element, view ) {
+                console.log('test');
+                return current_colors.includes(event.backgroundColor);
+            }
         });
     }
-
     if ($('#calendar_presence').length > 0) {
         $('#calendar_presence').fullCalendar({
             defaultView: 'listWeek',
@@ -153,26 +159,43 @@ $(document).ready(function () {
                 end: moment(deadline, "YYYY-MM-DD").subtract(5, 'days'),
             },
             eventRender: function(event, element) {
-                var target =  $(element).find(".fc-list-item-title");
+                console.log(event);
+                $.each( event.registrations, function( index, registration ){
+                    var target = $(element).find(".fc-list-item-title");
+                    var row = $('<div class="row">');
+                    var student = $("<div class='col-presence col s4'>");
+                    var studentContent = registration.student;
+                    student.html(studentContent);
+                    row.append(student);
 
-                var title = $("<div class='col 12'>");
-                title = title.html(event.title);
-                target.append(title);
+                    var comment = $("<div class='col-presence col s4'>");
+                    if(registration.comment){
+                        var studentComment = '<div class="comment" data-message="'+registration.comment+'"><i class="material-icons comment-icon">email</i></div>';
+                        comment.html(studentComment);
+                    }
+                    row.append(comment);
 
-                var content = $('.switch').html();
-                var presenceSwitch = $("<div class='switch col s3'>");
-                presenceSwitch.html(content);
-                target.append(presenceSwitch);
+                    var presenceContent = $('.switch').html();
+                    var presenceSwitch = $("<div class='col-presence switch col s4'>");
+                    row.append(presenceSwitch);
+                    presenceSwitch.html(presenceContent);
 
-                if(event.presence) {
-                    $(element).find("input").attr('checked', 'checked');
-                }
-                $(element).find('a').addClass('col s9');
+
+
+                    var input = row.find(".presence");
+                    input.attr('data-id', registration.id);
+                    input.addClass('checkbox'+registration.id);
+                    if(registration.presence == true) {
+                        input.prop('checked', true);
+                    }
+
+                    target.append(row);
+                });
             }
         });
     }
 
-        $('body').on('click', '.lessondate_delete', function (e) {
+    $('body').on('click', '.lessondate_delete', function (e) {
         e.preventDefault();
         $.get($(this).attr('href'), function() {
             $('#eventModal').modal('close');
@@ -197,6 +220,8 @@ $(document).ready(function () {
 
     $('body').on("click", ".time", function(){
         var span = $(this);
+        console.log(teachers);
+
         if ($(this).attr('class') === 'time') {
             $(this).addClass('selected_time');
 
@@ -244,7 +269,6 @@ $(document).ready(function () {
     });
 
     $('body').on('click', '.close', function () {
-        alert($(this).find('.alert-succes').attr('class'));
         $(this).find('.alert-succes').fadeOut(200);
     });
 
@@ -315,14 +339,82 @@ $(document).ready(function () {
         });
     }
 
+    $('body').on('change', '.legend-lesson-filter', function() {
+        if($(this).is(':checked')){
+            current_colors.push($(this).attr('data-color'));
+        }else{
+            var index = current_colors.indexOf($(this).attr('data-color'));
+            current_colors.splice(index, 1);
 
+        }
+
+        $('#calendar_lessondate').fullCalendar('rerenderEvents');
+    });
+
+    // $('body').on('click', '.test', function () {
+    //     alert('test');
+    //     $('#calendar_lessondate').fullCalendar('rerenderEvents');
+    // });
+
+    $('body').on('click', '.comment', function () {
+        $('.modal-phrase').html($(this).attr('data-message'));
+        $('.commentModal').modal('open');
+    });
+
+    $('body').on('change', '.presence', function() {
+        var id = $(this).attr('data-id');
+        handlePresence(id, $(this));
+    });
+
+    $('.fc-button').addClass('btn waves-effect');
+
+    if(takenColors.length > 0){
+       takenColors.forEach(function(color) {
+            var index = colors.indexOf(color);
+            colors.splice(index,1);
+       });
+    }
+
+    $('[name="color"]').paletteColorPicker({
+        // Color in { key: value } format
+        colors: colors,
+        // Add custom class to the picker
+        custom_class: 'color-picker-big',
+        timeout: 50000, // default -> 2000
+
+        // Force the position of picker's bubble
+        position: 'downside', // default -> 'upside'
+        // Where is inserted the color picker's button, related to the input
+        insert: 'after', // default -> 'before'
+        // Don't add clear_btn
+        clear_btn: 'last', // null -> without clear button, default -> 'first'
+        // Forces closin all bubbles that are open before opening the current one
+        close_all_but_this: false, // default is false
+        // Sets the input's background color to the selected one on click
+        // seems that some users find this useful ;)
+
+        onchange_callback: function() {
+            $('[name="color"]').click();
+        }
+    });
+
+    // $('#mycalendar').fullCalendar({
+    //     events: events,
+    //     eventRender: function eventRender( event, element, view ) {
+    //         return ['all', event.school].indexOf($('#school_selector').val()) >= 0
+    //     }
+    // });
+    //
+    // $('#school_selector').on('change',function(){
+    //     $('#mycalendar').fullCalendar('rerenderEvents');
+    // })
 });
 
 function toast(amount){
     M.toast({html: 'Er zijn zojuist ' +  amount + ' lessen verwijderd', classes: 'alert-succes'});
 }
 
-function confirmDelete(title, text, confirmtext, elem){
+function confirmDelete(title, text, confirmtext, elem, loadMessage){
     swal({
         title: title,
         text: text,
@@ -333,8 +425,10 @@ function confirmDelete(title, text, confirmtext, elem){
         confirmButtonText: confirmtext
     }).then((result) => {
         if (result.value) {
-            $('.loader').show();
-            $('.dim-screen').show();
+            swal({
+                title: loadMessage
+            });
+            swal.showLoading();
             $.get(elem.attr('href'), function (data) {
                 if (data) {
                   location.reload();
@@ -344,7 +438,7 @@ function confirmDelete(title, text, confirmtext, elem){
     })
 }
 
-function validateForm() {
+function validateForm(message) {
     errors = 0;
     $('form').serializeArray().forEach(function (obj) {
         if (obj.value.length == 0) {
@@ -362,17 +456,25 @@ function validateForm() {
     if (errors !== 0) {
         return false
     } else {
-        $('.loader').show();
-        $('.dim-screen').show();
+        swal({
+            title: message
+        });
+        swal.showLoading();
         return true
     }
+}
+
+function handlePresence(id,elem){
+    $.post( "/admin/lessonDate/handlePresence", { registration_id: elem.attr('data-id'), presence: elem.is(":checked") })
+        .done(function( data ) {
+            $('.checkbox'+id).prop('checked',elem.is(":checked"));
+
+        });
 }
 
 $.fn.extend({
     toggleText: function(a, b){
         return this.text(this.text() == b ? a : b);
-    }
+}
 });
-
-
-
+</script>

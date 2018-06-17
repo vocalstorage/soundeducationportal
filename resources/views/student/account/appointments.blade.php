@@ -9,8 +9,46 @@
     <div class="row">
         @if(count(\Auth::user()->lessonDateRegistrations) > 0)
             @foreach(\Auth::user()->lessonDateRegistrations as $lessonDateRegistration)
-                <div class="col l6 x12">
+                @if( empty($lessonDateRegistration->comment))
+                <div class="col l6 x12" style="position: relative">
                     <div class="card">
+                        @if($lessonDateRegistration->isPast())
+                        <div class="overlay waves-effect grey darken-4"></div>
+                            <div class="overlay-content animated fadeIn">
+                                <div class="message {{$errors->has('comment') ? 'display-none' : '' }}">
+                                    @if($lessonDateRegistration->presence)
+                                        <i class="material-icons material-icons-big">done</i>
+                                        <h1 class="center-align animated zoomIn">Aanwezig</h1>
+                                    @else
+                                        <i class="material-icons material-icons-big red-text lighten-1">clear</i>
+                                        <h1 class="center-align animated zoomIn red-text lighten-1">Niet aanwezig</h1>
+                                        <br />
+                                        <div class="container">
+                                            <div class="col s12">
+                                                <p class="center-align">
+                                                    <button class="btn waves-effect red lighten-1 btn-comment">Plaats een opmerking</button>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    @endif
+
+                                </div>
+                                <div class="comment {{$errors->has('comment') ? '' : 'display-none' }}">
+                                    <form action="{{route('student-registration-update', $lessonDateRegistration->id)}}" onsubmit="return validateForm()" method="post">
+                                        {{csrf_field()}}
+                                        <h3 class="center-align animated zoomIn white-text">Plaats een opmerking</h3>
+                                        <textarea id="comment" class="materialize-textarea white-text validate {{$errors->has('comment') ? ' invalid' : '' }}" name="comment" minlength="5" required></textarea>
+                                        @if ($errors->has('comment'))
+                                            <span class="helper-text left" data-error="{{ $errors->first('comment') }}"></span>
+                                        @endif
+                                        <div class="col s6">
+                                            <button class="btn waves-effect red lighten-1 left btn-comment">Terug</button>
+                                            <button type="submit" class="btn waves-effect red lighten-1 right">Plaats opmerking</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        @endif
                         <div class="card-image">
                             <img src="{{$lessonDateRegistration->lessonDate->teacher->studio->filepath->path}}"
                                  alt="img">
@@ -72,6 +110,11 @@
                         @endif
                     </div>
                 </div>
+                @else
+                    <div>
+                        <h5 class="center-align">Geen afspraken gevonden</h5>
+                    </div>
+                @endif
             @endforeach
         @else
             <div>

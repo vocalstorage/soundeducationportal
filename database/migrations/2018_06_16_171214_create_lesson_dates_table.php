@@ -17,12 +17,17 @@ class CreateLessonDatesTable extends Migration
             $table->increments('id');
             $table->dateTime('date');
             $table->string('time');
+            $table->integer('registrations');
+            $table->boolean('warning')->default(false);
             $table->integer('lesson_id')->unsigned();
             $table->integer('teacher_id')->unsigned();
-            $table->integer('registrations');
             $table->timestamps();
 
-            //$table->foreign('lesson_id')->references('id')->on('lessons');
+            $table->foreign('lesson_id')
+                ->references('id')->on('lessons')->onDelete('cascade');
+
+            $table->foreign('teacher_id')
+                ->references('id')->on('teachers')->onDelete('cascade');
         });
     }
 

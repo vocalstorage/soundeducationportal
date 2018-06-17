@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\teacher;
+namespace App\Http\Controllers\Teacher;
 
 use Illuminate\Http\Request;
 use App\LessonDate;
@@ -16,7 +16,7 @@ class TeacherLessonDateController extends Controller
 {
     public function create($date, $lesson_id)
     {
-        $teacher = teacher::find(Auth::id());
+        $teacher = Teacher::find(Auth::id());
 
 
         $timesArray = LessonDate::where('date', $date . ' 00:00:00')
@@ -116,6 +116,14 @@ class TeacherLessonDateController extends Controller
         ];
 
         return view('teacher.lessonDate.registrationForm', $data);
+    }
+
+    public function handlePresence(Request $request){
+        LessonDateRegistration::where('id', '=', $request->request->get('registration_id'))->update(['presence' => (int)($request->request->get('presence') === 'true')]);
+
+        return response()->json([
+            (int)($request->request->get('presence') === 'true')
+        ]);
     }
 
 

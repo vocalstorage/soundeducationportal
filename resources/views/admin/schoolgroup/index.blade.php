@@ -16,7 +16,7 @@
                     </div>
                     <div class="collap-header-functions">
                         <a href="{{route('admin-schoolgroup-edit', $schoolgroup->id)}}"><i class="material-icons">edit</i></a>
-                        <a href="{{route('admin-schoolgroup-delete', $schoolgroup->id)}}" class="confirm_delete"><i class="material-icons">delete</i></a>
+                        <a href="{{route('admin-schoolgroup-delete', $schoolgroup->id)}}" class="confirm_delete" data-message="Deleting student: {{$schoolgroup->name}}"><i class="material-icons">delete</i></a>
                     </div>
                 </div>
                 <div class="collapsible-body">
@@ -25,6 +25,7 @@
                         <tr>
                             <th>Name</th>
                             <th>Email</th>
+                            <th>Cancels</th>
                             <th>#</th>
                         </tr>
                         </thead>
@@ -33,8 +34,9 @@
                             <tr>
                                 <td>{{$student->name}}</td>
                                 <td>{{$student->email}}</td>
+                                <td>{{$student->cancels()}}</td>
                                 <td>
-                                    {{--<a href="{{route('admin-student-delete', $student->id)}}" class="confirm_delete"><i class="material-icons">delete</i></a>--}}
+                                    <a href="{{route('admin-student-delete', $student->id)}}" class="confirm_delete" data-message="Deleting student: {{$student->name}}" ><i class="material-icons">delete</i></a>
                                 </td>
                             </tr>
                         @endforeach

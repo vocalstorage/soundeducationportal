@@ -8,7 +8,7 @@
     </div>
     <div class="row">
         <div class="col s12">
-            <form action="{{route('admin-schoolgroup-update', $schoolgroup->id)}}" onsubmit="return validateForm()" method="post">
+            <form action="{{route('admin-schoolgroup-update', $schoolgroup->id)}}" onsubmit="return validateForm('Editing class')" method="post">
                 {{csrf_field()}}
                 <div class="input-field col s12">
                     <input id="schoolgroup" value="@if(old('title')){{old('title')}}@else {{$schoolgroup->title}}@endif" type="text"

@@ -32,15 +32,11 @@ class TeacherLessonController extends Controller
         $events = [];
 
         foreach ($lesson->lessonDates as $lessonDate) {
-            if($lessonDate->teacher->id == Auth::id()){
-                if ($lessonDate->time === '24:00') {
-                    $lessonDate->time = '23:59';
-                }
-
+            if ($lessonDate->teacher->id == Auth::id()) {
                 $event = [
                     'start' => date('Y-m-d', strtotime($lessonDate->date)) . 'T' . $lessonDate->time,
                     'lessonDate_id' => $lessonDate->id,
-                    'title' => $lessonDate->teacher->name . '(' . $lessonDate->lessonDateRegistrations->count() . ')',
+                    'title' => '(' . $lessonDate->lessonDateRegistrations->count() . ')',
                     'backgroundColor' => $lessonDate->teacher->color,
                     'borderColor' => $lessonDate->teacher->color,
                     'teacher_id' => $lessonDate->teacher->id,
@@ -54,11 +50,53 @@ class TeacherLessonController extends Controller
                 array_push($events, $event);
             }
         }
+        $event_regs = [];
+
+        foreach ($lesson->lessonDates as $lessonDate) {
+            if ($lessonDate->teacher->id == Auth::id()) {
+                if (count($lessonDate->lessonDateRegistrations) > 0) {
+                    $registrations = [];
+                    foreach ($lessonDate->lessonDateRegistrations as $registration) {
+                        $registrationJson['id'] = $registration->id;
+                        $registrationJson['student'] = $registration->student->name;
+                        $registrationJson['presence'] = $registration->presence;
+
+                        if(!empty($registration->comment)){
+                            $registrationJson['comment'] = $registration->comment;
+                        }
+
+                        array_push($registrations, $registrationJson);
+                    }
+
+                    $event = [
+                        'start' => date('Y-m-d', strtotime($lessonDate->date)) . 'T' . $lessonDate->time,
+                        'lessonDate_id' => $lessonDate->id,
+                        'backgroundColor' => $lessonDate->teacher->color,
+                        'borderColor' => $lessonDate->teacher->color,
+                    ];
+
+                    if (!empty($registrations)) {
+                        $event['registrations'] = $registrations;
+                    }
+
+                    if ($lessonDate->registrations >= $max) {
+                        array_push($event_regs, $event['status'] = 'full');
+                    } else {
+                        array_push($event_regs, $event['status'] = 'open');
+                    }
+                    array_push($event_regs, $event);
+                }
+            }
+        }
+
+
         $data = [
             'lesson_id' => $id,
             'events' => $events,
+            'event_regs' => $event_regs,
             'deadline' => $lesson->deadline,
         ];
+
 
         return view('teacher.lesson.show', $data);
     }
@@ -71,16 +109,17 @@ class TeacherLessonController extends Controller
         $events = [];
 
         foreach ($lesson->lessonDates as $lessonDate) {
-            if($lessonDate->teacher->id == Auth::id()) {
-                if(count($lessonDate->lessonDateRegistrations) > 0){
+            if ($lessonDate->teacher->id == Auth::id()) {
+                if (count($lessonDate->lessonDateRegistrations) > 0) {
                     if ($lessonDate->time === '24:00') {
                         $lessonDate->time = '23:59';
                     }
                     $registrations = [];
 
-                    foreach($lessonDate->lessonDateRegistrations as $registration){
+                    foreach ($lessonDate->lessonDateRegistrations as $registration) {
+                        $registrationJson['id'] = $registration->id;
                         $registrationJson['student'] = $registration->student->name;
-                        $registrationJson['presence'] = true;
+                        $registrationJson['presence'] = $registration->presence;
                         array_push($registrations, $registrationJson);
                     }
 
@@ -93,7 +132,7 @@ class TeacherLessonController extends Controller
                         'presence' => true,
                     ];
 
-                    if(!empty($registrations)){
+                    if (!empty($registrations)) {
                         $event['registrations'] = $registrations;
                     }
 
@@ -104,14 +143,18 @@ class TeacherLessonController extends Controller
                     }
                     array_push($events, $event);
                 }
-                $data =
-                    ['lesson_id' => $id,
-                    'events' => $events,
-                    'deadline' => $lesson->deadline,];
             }
         }
 
 
-        return view('admin.lesson.presence', $data);
+
+        $data = [
+            'lesson' => $lesson,
+            'events' => $events,
+            'deadline' => $lesson->deadline,
+        ];
+
+
+        return view('teacher.lesson.presence', $data);
     }
 }

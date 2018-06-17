@@ -7,14 +7,13 @@
     </div>
     <div class="row">
         <div class="col s12">
-            <form id="lesson_form" action="{{route('admin-lesson-store')}}" onsubmit="return validateForm()"
+            <form id="lesson_form" action="{{route('admin-lesson-store')}}" onsubmit="return validateForm('Creating lesson')"
                   method="post">
                 {{csrf_field()}}
 
                 <div class="input-field col s12">
-                    <input id="title" value="@if(old('title')){{old('title')}}@endif" type="text"
-                           class="validate {{ $errors->has('title') ? ' invalid' : '' }}" name="title">
-                    <label for="title">Title</label>
+                    <input id="title" value="@if(old('title')){{old('title')}}@endif" type="text" class="validate {{ $errors->has('title') ? ' invalid' : '' }}" name="title" data-error="Please enter your first name.">
+                    <label for="title" data-error="Please enter your first name.">Title</label>
                     @if ($errors->has('title'))
                         <span class="helper-text" data-error="{{ $errors->first('title') }}"></span>
                     @endif
@@ -23,8 +22,7 @@
                 <div class="col s12">
                     <label class="active" for="description_value">Description:</label>
                     <div id="description"></div>
-                    <input id="description_value" class="validate" type="hidden" name="description"
-                           value="@if(old('description')){{old('description')}}@endif" required>
+                    <input id="description_value" class="validate" type="hidden" name="description" value="@if(old('description')){{old('description')}}@endif" required>
                 </div>
 
                 <div class="input-field col s12">
@@ -50,7 +48,8 @@
                     <select multiple name="teachers[]">
                         <option value="" disabled selected>Choose your option</option>
                         @foreach($teachers as $teacher)
-                            <option value="{{$teacher->id}}"  data-icon="{{$teacher->studio->filepath->path}}">{{$teacher->name}} ({{$teacher->studio->name}})</option>
+                            <option value="{{$teacher->id}}"  data-icon="{{$teacher->studio->filepath->path}}">{{$teacher->name}} ({{$teacher->studio->name}})
+                            </option>
                         @endforeach
                     </select>
                     <label>Select teachers</label>

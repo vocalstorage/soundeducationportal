@@ -19,12 +19,16 @@ class CreateLessonsTable extends Migration
             $table->text('description');
             $table->date('deadline');
             $table->integer('max_registration');
-            $table->integer('schoolgroup_id');
-            $table->integer('filepath_id');
+            $table->integer('schoolgroup_id')->unsigned();
+            $table->integer('filepath_id')->unsigned();
             $table->timestamps();
             $table->softDeletes();
 
-            //$table->foreign('studio_id')->references('id')->on('studios');
+            $table->foreign('schoolgroup_id')
+                ->references('id')->on('schoolgroups')->onDelete('cascade');
+
+            $table->foreign('filepath_id')
+                ->references('id')->on('filepaths');
         });
     }
 

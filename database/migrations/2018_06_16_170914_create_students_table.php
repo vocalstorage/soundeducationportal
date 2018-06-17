@@ -18,9 +18,12 @@ class CreateStudentsTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->integer('schoolgroup_id');
+            $table->integer('schoolgroup_id')->unsigned();
             $table->rememberToken();
             $table->timestamps();
+
+            $table->foreign('schoolgroup_id')
+                ->references('id')->on('schoolgroups');
         });
     }
 

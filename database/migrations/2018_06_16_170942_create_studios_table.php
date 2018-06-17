@@ -21,10 +21,16 @@ class CreateStudiosTable extends Migration
             $table->string('street');
             $table->string('number');
             $table->string('postal_code');
-            $table->string('teacher_id');
-            $table->integer('filepath_id');
+            $table->integer('teacher_id')->unsigned();
+            $table->integer('filepath_id')->unsigned();
             $table->timestamps();
-           // $table->foreign('user_id')->references('id')->on('users');
+
+            $table->foreign('teacher_id')
+                ->references('id')->on('teachers')->onDelete('cascade');
+
+            $table->foreign('filepath_id')
+                ->references('id')->on('filepaths');
+
         });
     }
 

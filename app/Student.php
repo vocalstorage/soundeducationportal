@@ -15,7 +15,7 @@ class Student extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'schoolgroup_id',
+        'name', 'password', 'schoolgroup_id',
     ];
 
     /**
@@ -32,8 +32,12 @@ class Student extends Authenticatable
         return $this->hasmany(LessonDateRegistration::class);
     }
 
-    public function  schoolgroup(){
+    public function schoolgroup(){
         return $this->belongsTo(Schoolgroup::class);
+    }
+
+    public function cancels(){
+        return $this->lessonDateRegistrations()->onlyTrashed()->get()->count();
     }
 }
 

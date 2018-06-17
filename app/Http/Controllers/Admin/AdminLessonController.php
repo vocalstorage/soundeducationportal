@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use App\LessonDate;
 use Illuminate\Http\Request;
@@ -9,25 +9,20 @@ use App\Lesson;
 use App\Filepath;
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
-use App\Studio;
 
 class AdminLessonController extends Controller
 {
     public function index()
     {
-        $lessons = Lesson::with('lessonDates')->paginate(10);
+        $lessons = Lesson::whereHas('lessonDates')
+            ->where('deadline', '>', Carbon::today())
+            ->orderBy('deadline', 'asc')->paginate(10);
 
-        foreach ($lessons as $lesson) {
-            $amount = $lesson->removeLessonDates();
-            if ($amount > 0) {
-                $lesson['removedlessondates'] = $amount;
-            }
-        }
+        $teacherStudioRelations = Teacher::whereHas('studio')->get()->count();
 
-        $lastDate = "empty";
         $data = [
             'lessons' => $lessons,
-            'lastDate' => $lastDate,
+            'teacherStudioRelations' => $teacherStudioRelations,
         ];
 
         return view('admin.lesson.index', $data);
@@ -49,7 +44,7 @@ class AdminLessonController extends Controller
             $event = [
                 'start' => date('Y-m-d', strtotime($lessonDate->date)) . 'T' . $lessonDate->time,
                 'lessonDate_id' => $lessonDate->id,
-                'title' => $lessonDate->teacher->name . '(' . $lessonDate->lessonDateRegistrations->count() . ')',
+                'title' => '(' . $lessonDate->lessonDateRegistrations->count() . ')',
                 'backgroundColor' => $lessonDate->teacher->color,
                 'borderColor' => $lessonDate->teacher->color,
                 'teacher_id' => $lessonDate->teacher->id,
@@ -63,15 +58,39 @@ class AdminLessonController extends Controller
             array_push($events, $event);
         }
 
+        $event_regs = [];
+
+        foreach ($lesson->lessonDates as $lessonDate) {
+            foreach ($lessonDate->lessonDateRegistrations as $registration) {
+                if ($lessonDate->time === '24:00') {
+                    $lessonDate->time = '23:59';
+                }
+                $event_reg = [
+                    'start' => date('Y-m-d', strtotime($lessonDate->date)) . 'T' . $lessonDate->time,
+                    'lessonDate_id' => $lessonDate->id,
+                    'title' => $registration->student->name,
+                    'backgroundColor' => $lessonDate->teacher->color,
+                    'borderColor' => $lessonDate->teacher->color,
+                    'presence' => true,
+                ];
+
+                if ($lessonDate->registrations >= $max) {
+                    array_push($event_regs, $event_reg['status'] = 'full');
+                } else {
+                    array_push($event_regs, $event_reg['status'] = 'open');
+                }
+                array_push($event_regs, $event_reg);
+            }
+        }
+
+
         $data = [
-            'lesson_id' => $id,
+            'lesson' => $lesson,
             'events' => $events,
-            'deadline' => $lesson->deadline,
+            'event_regs' => $event_regs,
         ];
 
         return view('admin.lesson.show', $data);
-
-
     }
 
     public function showWarning($id)
@@ -110,7 +129,7 @@ class AdminLessonController extends Controller
     public function create()
     {
 
-        $teachers = Teacher::all();
+        $teachers = Teacher::whereHas('studio')->get();
         $lesson_date = "";
         $view = 'create';
 
@@ -186,7 +205,18 @@ class AdminLessonController extends Controller
 
     public function update(Request $request, $id)
     {
+
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'max_registration' => 'required|integer',
+            'deadline' => 'required|date_format:d/m/Y|after:today',
+            'filepath' => 'required',
+            'schoolgroup_id' => 'required',
+        ]);
+
         $lesson = Lesson::find($id);
+
 
         $path = $request->request->get('filepath');
         $filepath = Filepath::where('path', $path)->first();
@@ -198,7 +228,7 @@ class AdminLessonController extends Controller
         }
 
         $request->except('filepath');
-        $request['deadline'] = $request->request->get('deadline');
+        $request['deadline'] = Carbon::createFromFormat('d/m/Y', $request->request->get('deadline'));
         $request['filepath_id'] = $filepath->id;
 
 
@@ -226,34 +256,46 @@ class AdminLessonController extends Controller
         $events = [];
 
         foreach ($lesson->lessonDates as $lessonDate) {
-            foreach ($lessonDate->lessonDateRegistrations as $registration) {
-                if ($lessonDate->time === '24:00') {
-                    $lessonDate->time = '23:59';
-                }
+            if (count($lessonDate->lessonDateRegistrations) > 0) {
+                $registrations = [];
+                foreach ($lessonDate->lessonDateRegistrations as $registration) {
+                    $registrationJson['id'] = $registration->id;
+                    $registrationJson['student'] = $registration->student->name;
+                    $registrationJson['presence'] = $registration->presence;
 
+                    if (!empty($registration->comment)) {
+                        $registrationJson['comment'] = $registration->comment;
+                    }
+
+                    array_push($registrations, $registrationJson);
+                }
 
                 $event = [
-                        'start' => date('Y-m-d', strtotime($lessonDate->date)) . 'T' . $lessonDate->time,
-                        'lessonDate_id' => $lessonDate->id,
-                        'title' => $registration->student->name,
-                        'backgroundColor' => $lessonDate->teacher->color,
-                        'borderColor' => $lessonDate->teacher->color,
-                        'presence' => true,
-                    ];
+                    'start' => date('Y-m-d', strtotime($lessonDate->date)) . 'T' . $lessonDate->time,
+                    'lessonDate_id' => $lessonDate->id,
+                    'backgroundColor' => $lessonDate->teacher->color,
+                    'borderColor' => $lessonDate->teacher->color,
+                ];
 
-                    if ($lessonDate->registrations >= $max) {
-                        array_push($event, $event['status'] = 'full');
-                    } else {
-                        array_push($event, $event['status'] = 'open');
-                    }
-                    array_push($events, $event);
+                if (!empty($registrations)) {
+                    $event['registrations'] = $registrations;
                 }
-            $data = ['lesson_id' => $id,
-                'events' => $events,
-                'deadline' => $lesson->deadline,];
+
+                if ($lessonDate->registrations >= $max) {
+                    $event['status'] = 'full';
+                } else {
+                     $event['status'] = 'open';
+                }
+                array_push($events, $event);
+            }
         }
 
+        $data = [
+            'events' => $events,
+            'lesson' => $lesson,
+        ];
 
-        return view('teacher.lesson.presence', $data);
+
+            return view('admin.lesson.presence', $data);
+        }
     }
-}

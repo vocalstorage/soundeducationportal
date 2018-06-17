@@ -1,9 +1,9 @@
-@extends('admin.layouts.master')
+@extends('teacher.layouts.master')
 
 @section('content')
     <div class="row">
         <div class="col s12">
-            <div style="float:left;"><h2 class="h2">Aanwezigheid</h2></div>
+            <div style="float:left;"><h2 class="h2">Aanwezigheid {{$lesson->title}}</h2></div>
         </div>
     </div>
     <hr>
@@ -12,6 +12,7 @@
             <div class="container">
                 <div class="row">
                     <div id="calendar_presence"></div>
+
                 </div>
             </div>
         </div>
@@ -28,9 +29,9 @@
 @endsection
 
 <script>
-    var events = {!! json_encode($events) !!};
+    var event_regs = {!! json_encode($events) !!};
 
-    var current_lesson_id = {!! $lesson_id !!};
+    var current_lesson_id = {!! $lesson->id !!};
 
     var deadline = {!! json_encode($deadline) !!};
 </script>

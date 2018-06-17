@@ -7,10 +7,10 @@
         </div>
     </div>
     <div class="row">
-        <form class="col s12" action="{{route('student-update')}}">
+        <form class="col s12" action="{{route('student-update')}}" method="post">
+            {{csrf_field()}}
             <div class="row">
                 <div class="input-field col s12">
-
                     <input value=" @if(old('name')){{old('name')}} @else {{\Auth::user()->name}} @endif" placeholder="Placeholder" id="first_name" type="text" class="validate {{ $errors->has('name') ? ' invalid' : '' }}" name="name">
                     <label for="first_name">Naam</label>
                     @if ($errors->has('name'))
@@ -47,4 +47,7 @@
         </form>
     </div>
 
+    @if(!empty($succes_msg))
+        <div class="succes-msg" data-message="{{$succes_msg}}" style="display: none"></div>
+    @endif
 @endsection

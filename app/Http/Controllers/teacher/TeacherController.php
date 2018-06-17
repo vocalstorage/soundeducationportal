@@ -14,7 +14,13 @@ class TeacherController extends Controller
     }
 
     public function edit(){
-        return view('teacher.account.edit');
+
+        $studio = Auth::user()->studio;
+
+        $data = [
+            'studio' => $studio,
+        ];
+        return view('teacher.account.edit', $data);
     }
 
     public function update(Request $request){
@@ -26,9 +32,10 @@ class TeacherController extends Controller
         if($request['password']){
             $request['password'] = Hash::make($request->request->get('password'));
         }
-        Auth::user()->update($request->all());
 
-        return view('teacher.account.edit');
+        Auth::user()->update(array_filter($request->request->all()));
+
+        return redirect(route('teacher-edit'));
     }
 
     public function appointments(){

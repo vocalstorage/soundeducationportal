@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\teacher;
+namespace App\Http\Controllers\Teacher;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Auth;
 
 class TeacherLoginController extends Controller
 {
-
     public function __construct(){
         $this->middleware('guest');
     }
@@ -22,7 +21,6 @@ class TeacherLoginController extends Controller
             'email' => 'required|email',
             'password' => 'required|min:6'
         ]);
-
 
         if(Auth::guard('teacher')->attempt(['email' => $request->email, 'password' => $request->password])){
             return redirect(route('teacher-dashboard'));

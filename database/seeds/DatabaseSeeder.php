@@ -26,6 +26,10 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('Wonderwall2018'),
         ]);
 
+        DB::table('schoolgroups')->insert([
+            'title' => 'd20',
+        ]);
+
         DB::table('students')->insert([
             'name' => 'student',
             'email' => 'student@student.nl',

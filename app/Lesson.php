@@ -34,7 +34,7 @@ class Lesson extends Model
 
     public function teachers()
     {
-        return $this->belongsToMany(Teacher::class);
+        return $this->belongsToMany(Teacher::class)->whereHas('studio');
     }
 
     public function schoolgroup()
@@ -44,23 +44,26 @@ class Lesson extends Model
 
     public function diffDeadline()
     {
-        $diffInDays = Carbon::parse($this->deadline)->diffInDays(Carbon::now());
+        $deadline = Carbon::parse($this->deadline);
+
+        $diffInDays = $deadline->diffInDays(Carbon::now());
+
         return $diffInDays;
     }
 
     public function removeLessonDates()
     {
         $i = 0;
-        if ($this->lessonDates->count() > 0) {
-            foreach ($this->lessonDates as $lessonDate) {
-                $date = Carbon::parse($lessonDate->date);
-                if ($date->isPast()) {
-                    $lessonDate->lessonDateRegistrations()->delete();
-                    $lessonDate->delete();
-                    $i++;
-                }
-            }
-        }
+//        if ($this->lessonDates->count() > 0) {
+//            foreach ($this->lessonDates as $lessonDate) {
+//                $date = Carbon::parse($lessonDate->date);
+//                if ($date->isPast()) {
+//                    $lessonDate->lessonDateRegistrations()->delete();
+//                    $lessonDate->delete();
+//                    $i++;
+//                }
+//            }
+//        }
         return $i;
     }
 
@@ -68,13 +71,23 @@ class Lesson extends Model
     {
         $lessonDates = [];
         if ($this->lessonDates->count() > 0) {
-            foreach ($this->lessonDates as $lessonDate) {
+            foreach ($this->lessonDates()->where('warning', '!=', '2')->get() as $lessonDate) {
                 $difference = Carbon::parse($this->deadline)->diffInDays($lessonDate->date);
+
                 if($difference <= 10){
+                    $lessonDate->warning = true;
+                    $lessonDate->save();
                     array_push($lessonDates, $lessonDate);
                 }
             }
         }
         return collect($lessonDates);
     }
+
+    public function isPast(){
+        $date = Carbon::parse($this->deadline);
+        return $date->isPast();
+    }
+
+
 }

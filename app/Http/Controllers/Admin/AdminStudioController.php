@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -14,11 +14,11 @@ class AdminStudioController extends Controller
     {
         $studios = Studio::all();
 
-        $teacherNoRelation = Teacher::has('studio', '<', 1)->get()->count();
+        $teacherStudioNoRelations = Teacher::whereDoesntHave('studio')->get()->count();
 
         $data = [
             'studios' => $studios,
-            'teacherNoRelation' => $teacherNoRelation,
+            'teacherStudioNoRelations' => $teacherStudioNoRelations,
         ];
 
         return view('admin.studio.index', $data);
@@ -79,6 +79,16 @@ class AdminStudioController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'place' => 'required',
+            'street' => 'required',
+            'number' => 'required',
+            'postal_code' => 'required',
+            'filepath' => 'required',
+        ]);
+
         $studio = Studio::find($id);
 
         $path = $request->request->get('filepath');

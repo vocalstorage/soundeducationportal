@@ -1,5 +1,4 @@
 @extends('admin.layouts.master')
-
 @section('content')
     <div class="row">
         <div class="col s12">
@@ -8,10 +7,10 @@
     </div>
     <div class="row">
         <div class="col s12">
-            <form action="{{route('admin-lesson-update', $lesson->id)}}" onsubmit="return validateForm()" method="post">
+            <form action="{{route('admin-lesson-update', $lesson->id)}}" onsubmit="return validateForm('Updating lesson')" method="post">
                 {{csrf_field()}}
                 <form>
-                    <div class="input-field">
+                    <div class="input-field col s12">
                         <input value="{{$lesson->title}}" type="text" class="validate" name="title" id="title">
                         <label class="active" for="title">Lesson name:</label>
                     </div>
@@ -19,14 +18,18 @@
                     <div id="description"></div>
                     <input value="{{$lesson->description}}" id="description_value" type="hidden">
 
-                    <div class="input-field">
+                    <div class="input-field col s12">
                         <input value="{{$lesson->max_registration}}" type="number" min="1" name="max_registration"
                                class="validate" id="max">
                         <label class="active" for="max">max:</label>
                     </div>
-                    <div class="input-field">
-                        <label>Deadline</label>
-                        <input type="text" class="deadline"  name="deadline" value="{{$lesson->deadline}}">
+                    <div class="input-field col s12">
+                        <input id="deadline" value="@if(old('deadline')){{old('deadline')}}@else {{date("d/m/Y", strtotime($lesson->deadline))}}@endif" type="text"
+                               class="validate {{ $errors->has('deadline') ? ' invalid' : '' }}" name="deadline">
+                        <label for="deadline">Deadline</label>
+                        @if ($errors->has('deadline'))
+                            <span class="helper-text" data-error="{{ $errors->first('deadline') }}"></span>
+                        @endif
                     </div>
                     <div class="input-field col s12">
                         <select multiple name="teachers[]">
@@ -54,7 +57,16 @@
                     <div class="col s2">
                         <img src="{{$lesson->filepath->path}}" id="holder" style="margin-top:15px;max-height:100px;">
                     </div>
-                    <div class="input-field">
+                    <div class="input-field col s12">
+                        <select name="schoolgroup_id">
+                            <option value="" disabled>Choose your option</option>
+                            @foreach($schoolgroups as $schoolgroup)
+                                <option @if($lesson->schoolgroup->id == $schoolgroup->id) selected @endif value="{{$schoolgroup->id}}">{{$schoolgroup->title}}</option>
+                            @endforeach
+                        </select>
+                        <label>Select an class</label>
+                    </div>
+                    <div class="input-field col s12">
                         <button type="submit" class="btn green lighten-1 waves-effect">Save</button>
                     </div>
                 </form>

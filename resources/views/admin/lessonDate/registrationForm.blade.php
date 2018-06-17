@@ -1,15 +1,9 @@
 <div class="modal-content">
-    <h4>    {{$lessonDate->lesson->title}}</h4>
-    <hr>
+    <h4>{{$lessonDate->lesson->title}} - {{date_format(new DateTime($lessonDate->date),'l\, jS F \a\t '. $lessonDate->time)}}</h4>
+    <div class="divider"></div>
 </div>
 
 <div class="container">
-    <ul>
-        <label>Info:</label>
-        <li>Datum:{{$lessonDate->date}}</li>
-        <li>Tijd: {{$lessonDate->time}}</li>
-    </ul>
-    <hr>
     <div class="registrated-studendts left-align">
         <ul class="studentRegistrations">
             <label>Students:</label>
@@ -50,7 +44,6 @@
     </div>
     <hr>
     <div class="modal-footer">
-
-            <a href="{{route('admin-lessonDate-delete', $lessonDate->id)}}" class="modal-action btn  waves-effect green lighten-1 lessondate_delete">Verwijder</a>
+        <a href="{{route('admin-lessonDate-delete', $lessonDate->id)}}" class="modal-action btn  waves-effect green lighten-1 lessondate_delete">Verwijder</a>
     </div>
 </div>

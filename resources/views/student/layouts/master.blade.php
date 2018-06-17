@@ -23,7 +23,7 @@
 <div class="row">
     @if(\Auth::check())
         <div class="col s12">
-            <div class="container" id="dashboard_content">
+            <div class="container animated fadeIn" id="dashboard_content">
                 @yield('content')
             </div>
         </div>

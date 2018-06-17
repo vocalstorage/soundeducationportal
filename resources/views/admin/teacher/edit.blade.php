@@ -8,7 +8,7 @@
     </div>
     <div class="row">
         <div class="col s12">
-            <form action="{{route('admin-teacher-update', $teacher->id)}}" onsubmit="return validateForm()" method="post">
+            <form action="{{route('admin-teacher-update', $teacher->id)}}" onsubmit="return validateForm('Editing teacher')" method="post">
 
                 {{csrf_field()}}
 
@@ -20,9 +20,12 @@
                 </div>
                 <div class="row">
                     <div class="col s6">
-                        <div class="input-field">
-                            <label for="color" class="active">Teacher color:</label>
-                            <input class="colorpicker" type='color' name='color' id="color" value="{{$teacher->color}}"/>
+                         <div class="input-field">
+                            <input name='color' id="color" type="text" class="colorpicker validate {{ $errors->has('color') ? ' invalid' : $teacher->color }}" value="{{old('color') ? old('color') : $teacher->color}}" required/>
+                            {{--<input type="text" id="color" class="validate {{ $errors->has('color') ? ' invalid' : '' }}"  style="display: none"/>--}}
+                            @if ($errors->has('color'))
+                                <span class="helper-text" data-error="{{ $errors->first('color') }}"></span>
+                            @endif
                         </div>
                     </div>
                     <div class="col s6">
@@ -43,3 +46,11 @@
         </div>
     </div>
 @endsection
+
+<div style="display:block;" id="data" data-takenColors="{{json_encode($teachers->pluck('color')->toArray())}}"></div>
+
+<script>
+    var data = document.getElementById('data');
+    var takenColors = JSON.parse(data.dataset.takencolors);
+
+</script>

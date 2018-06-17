@@ -11,7 +11,6 @@
             @if(count($lessons) > 0)
                 <ul class="collapsibleSchedule collapsible popout">
                     @foreach($lessons as $lesson)
-                        @if($lesson->diffDeadline() > 5)
                             <li class="studio-item">
                                 <div class="collapsible-header">
                                     <div class="card w-100">
@@ -20,15 +19,18 @@
                                         </div>
                                         <div class="card-content">
                                             <h2 class="margin-none">{{$lesson->title}}</h2>
-                                            <h5>nog {{$lesson->diffDeadline()}} dagen voor de deadline</h5>
+
+                                           <h5>{{$lesson->diffDeadline() ? 'nog '. $lesson->diffDeadline(). ' dag(en) voor de deadline' : 'deadline behaald'}}</h5>
+
                                             {!! $lesson->description!!}
                                         </div>
                                         <div class="card-action">
-                                            @if(!in_array($lesson->id,$registeredLessons)) <a
-                                                    class="btn waves-effect green lighten-1"><i
-                                                        class="material-icons right" style="color:white">create</i>Plannen</a>
+                                            @if(in_array($lesson->id,$registeredLessons))
+                                                Al ingeschreven.
+                                            @elseif($lesson->diffDeadline() < 5)
+                                                Inschrijven niet meer mogelijk, deadline is behaald.
                                             @else
-                                                Al ingeschreven
+                                            <a class="btn waves-effect green lighten-1"><i class="material-icons right" style="color:white">create</i>Plannen</a>
                                             @endif
                                         </div>
                                     </div>
@@ -70,9 +72,10 @@
                                                                 </div>
                                                             </div>
                                                             <div class="card-action">
-                                                                @if(!in_array($lesson->id,$registeredLessons))
-                                                                    <a href="{{route('student-lessonDate-show',array($lesson_date->teacher->id, $lesson->id))}}"
-                                                                       class="btn waves-effect green lighten-1 schedule-lessonDate w-100">plannen</a>
+                                                                @if($lesson->diffDeadline() < 5)
+                                                                    Inschrijven niet meer mogelijk, deadline is behaald.
+                                                                @elseif(!in_array($lesson->id,$registeredLessons) )
+                                                                    <a href="{{route('student-lessonDate-show',array($lesson_date->teacher->id, $lesson->id))}}" class="btn waves-effect green lighten-1 schedule-lessonDate w-100">plannen</a>
                                                                 @else
                                                                     Al ingeschreven
                                                                 @endif
@@ -87,17 +90,13 @@
                                         <i class="large material-icons">expand_less</i>
                                     </div>
                                 </div>
-
-                            </li>
-                        @endif
                     @endforeach
                 </ul>
             @else
                 <div>
-                    <h5 class="center-align">No lessons found</h5>
+                    <h5 class="center-align animated fadeIn">Geen lessen gevonden</h5>
                 </div>
             @endif
         </div>
     </div>
-
 @endsection

@@ -8,7 +8,7 @@
     </div>
     <div class="row">
         <div class="col s12">
-            <form action="{{route('admin-schoolgroup-store')}}" onsubmit="return validateForm()" method="post">
+            <form action="{{route('admin-schoolgroup-store')}}" onsubmit="return validateForm('Fetching excel data')" method="post">
                 {{csrf_field()}}
                 <label>Excel file:</label>
                 <div class="file-field input-field col s10">

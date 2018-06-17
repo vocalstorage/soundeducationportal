@@ -1,11 +1,15 @@
 @extends('admin.layouts.master')
 
 @section('content')
-
     <div class="item">
         <div class="row">
             <div class="col s12">
-                <div style="float:left;"><h1 class="h2 ">Lessons</h1> <a href="create">Create a new lesson</a></div>
+                <div style="float:left;"><h1 class="h2 ">Lessons</h1>
+                @if($teacherStudioRelations > 0)
+                    <a href="{{route('admin-lesson-create')}}">Create a new Lesson</a>
+                @else
+                    <a href="{{route('admin-teacher-create')}}" class="tooltipped" data-position="bottom" data-tooltip="Please create a teacher first (click link to create)">Create a studio (DISABLED)</a>
+                @endif
             </div>
 
         </div>
@@ -19,46 +23,36 @@
                             <th>Max</th>
                             <th>Deadline</th>
                             <th>Open dates</th>
+                            <th>Class</th>
+                            <th>Messages</th>
                             <th>#</th>
-                            <th>#</th>
+
                         </tr>
                         </thead>
                         <tbody>
 
                         @foreach($lessons as $lesson)
-                            @if(!empty($lesson->removeLessonDates()))
-                                <div class="removed_lessondate" data-removedamount="{{$lesson->removeLessonDates()}}"
-                                     style="display: none"></div>
-                            @endif
+                            {{--@if(!empty($lesson->removeLessonDates()))--}}
+                                {{--<div class="removed_lessondate" data-removedamount="{{$lesson->removeLessonDates()}}"--}}
+                                     {{--style="display: none"></div>--}}
+                            {{--@endif--}}
                             <tr>
                                 <td>{{$lesson->title}}</td>
                                 <td>{{$lesson->max_registration}}</td>
                                 <td>{{$lesson->deadline}}</td>
                                 <td>{{$lesson->lessonDates->count() - $lesson->removeLessonDates()}}</td>
-                                <td>
-                                    <a href="{{route('admin-lesson-show',$lesson->id)}}" class="lesson_show">
-                                        <i class="material-icons">event_note</i>
-                                    </a>
-                                    <a href="{{route('admin-lesson-presence',$lesson->id)}}">
-                                        <i class="material-icons">access_time</i>
-                                    </a>
-                                    <a href="{{route('admin-lesson-edit',$lesson->id)}}" >
-                                        <i class="material-icons">edit</i>
-                                    </a>
-                                    <a href="{{route('admin-lesson-delete',$lesson->id)}}" class="confirm_delete">
-                                        <i class="material-icons">delete</i>
-                                    </a>
-                                </td>
+                                <td>{{$lesson->schoolgroup->title}}</td>
                                 <td>
                                     @if(!$lesson->checkEmptyDates()->isEmpty())
-                                        <a class="btn yellow lighten-1 waves-effect pulse modal-trigger"
+                                        <a class="btn yellow darken-3 waves-effect pulse modal-trigger"
                                            href="#modal{{$lesson->id}}">WARNING</a>
                                         <div id="modal{{$lesson->id}}" class="modal">
-                                            <form action="{{route('admin-lessonDate-multipleDelete')}}" method="post">
+                                            <form action="{{route('admin-lessonDate-handleWarnings')}}" method="post">
                                                 {{csrf_field()}}
-                                                <h4>Er zijn zojuist {{$lesson->checkEmptyDates()->count()}} lege lesson
-                                                    gevonden</h4>
+
                                                 <div class="modal-content">
+                                                    <h3>{{$lesson->checkEmptyDates()->count()}} lessons found close to be empty</h3>
+                                                    <hr>
                                                     <table>
                                                         <thead>
                                                         <tr>
@@ -77,9 +71,7 @@
                                                                 <td>
                                                                     <p>
                                                                         <label>
-                                                                            <input type="checkbox"
-                                                                                   value="{{$lessonDate->id}}"
-                                                                                   name="delete[]"/>
+                                                                            <input type="checkbox" value="{{$lessonDate->id}}" name="delete[]"/>
                                                                             <span></span>
                                                                         </label>
                                                                     </p>
@@ -90,20 +82,34 @@
                                                     </table>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <a href="#!" class="modal-close waves-effect waves-green btn">Cancel</a>
-                                                    <button class="btn waves-effect waves-light" type="submit"
-                                                            name="action">Remove
-                                                        <i class="material-icons right">delete</i>
-                                                    </button>
+                                                    <div class="col s6"> <a href="#!" class="modal-close waves-effect green lighten-1 btn left">Later</a></div>
+                                                    <div class="col s6">
+                                                        <button class="btn waves-effect green lighten-1" type="submit"
+                                                                name="action">Confirm
+                                                        </button>
+                                                    </div>
+
+
                                                 </div>
+
+                                                <input type="hidden" name="warnings[]" value="{{json_encode($lesson->checkEmptyDates()->pluck('id')->toArray())}}">
                                             </form>
                                         </div>
                                     @endif
-                                    @if($lesson->lessonDates->count() === 0)
-                                            <a href="{{route('admin-lesson-delete',$lesson->id)}}" class="confirm_delete btn waves-effect red lighten-1 pulse">
-                                                Verwijder
-                                            </a>
-                                    @endif
+                                </td>
+                                <td>
+                                    <a href="{{route('admin-lesson-show',$lesson->id)}}" class="lesson_show">
+                                        <i class="material-icons">event_note</i>
+                                    </a>
+                                    <a href="{{route('admin-lesson-presence',$lesson->id)}}">
+                                        <i class="material-icons">access_time</i>
+                                    </a>
+                                    <a href="{{route('admin-lesson-edit',$lesson->id)}}" >
+                                        <i class="material-icons">edit</i>
+                                    </a>
+                                    <a href="{{route('admin-lesson-delete',$lesson->id)}}" class="confirm_delete" data-message="Deleting lesson: {{$lesson->name}}">
+                                        <i class="material-icons">delete</i>
+                                    </a>
                                 </td>
                             </tr>
                         @endforeach

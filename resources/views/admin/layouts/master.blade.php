@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="/css/materialize.min.css">
     <link rel="stylesheet" href="/css/animate.min.css">
-    <link rel="stylesheet" href="/css/jquery.qtip.min.css">
+    <link rel="stylesheet" href="/css/palette-color-picker.css">
     <link rel="stylesheet" href="/css/lesson.css">
 
 <body>
@@ -50,9 +50,7 @@
 
 <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
         crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="/js/materialize.min.js"></script>
 <script src="/js/trumbowyg.min.js"></script>
 <script src="https://unpkg.com/sweetalert2@7.17.0/dist/sweetalert2.all.js"></script>
@@ -60,8 +58,11 @@
 <script src="/js/fullcalendar.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.serializeJSON/2.9.0/jquery.serializejson.min.js"></script>
 <script src="/vendor/laravel-filemanager/js/lfm.js"></script>
-<script src="/js/jquery.qtip.js"></script>
-<script src="/js/admin/javascript.js"></script>
+<script src="/js/palette-color-picker.min.js"></script>
+<script src="/js/admin/materializeColors.js"></script>
+
+
+@include('admin.includes.script')
 
 
 </body>

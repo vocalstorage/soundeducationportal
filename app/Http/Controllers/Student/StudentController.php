@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\student;
+namespace App\Http\Controllers\Student;
 
 use App\Lesson;
 use App\LessonDate;
@@ -10,17 +10,19 @@ use App\Mail\LessondateScheduled;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 
 class StudentController extends Controller
 {
+
     public function edit(){
         return view('student.account.edit');
     }
 
     public function update(Request $request){
         $rules = [
-            'name' => 'required',
+            'name' => 'required|min:5',
         ];
 
         if(!empty($request->request->get('password'))){
@@ -31,9 +33,17 @@ class StudentController extends Controller
 
         $request->validate($rules);
 
+        $request['password'] = Hash::make($request->request->get('password'));
+
+
         \Auth::user()->update($request->all());
 
-        return view('student.account.edit');
+        $succes_msg = "gegevens zijn aangepast";
+        $data = [
+            'succes_msg' => $succes_msg,
+        ];
+
+        return view('student.account.edit', $data);
     }
 
     public function appointments(){

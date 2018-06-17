@@ -24,14 +24,13 @@
 
     <ul id="slide-out" class="sidenav">
         <li class="nav-item">
-            <a class="nav-link active" href="{{route('teacher-lesson-index')}}">
-                <i class="fas fa-book"></i>
-                Lessons <span class="sr-only">(current)</span>
-            </a>
+            <a href="{{route('teacher-edit')}}" class="collection-item waves-effect waves-light"><i class="material-icons">account_box</i>My account</a>
         </li>
         <li class="nav-item">
-            <a href="{{route('teacher-edit')}}" class="collection-item waves-effect waves-light"><i
-                        class="material-icons">edit</i>Edit account</a>
+            <a class="nav-link active" href="{{route('teacher-lesson-index')}}">
+                <i class="material-icons">book</i>
+                Lessons
+            </a>
         </li>
     </ul>
 </header>

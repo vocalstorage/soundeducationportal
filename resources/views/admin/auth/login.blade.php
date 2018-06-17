@@ -15,8 +15,7 @@
             <div class="row">
                 <div class="input-field col s12">
                     <i class="material-icons prefix material-icons-green">email</i>
-                    <input id="email_log" placeholder="email" type="text"
-                           class="validate {{ $errors->has('email') ? ' invalid' : '' }}" name="email">
+                    <input id="email_log" placeholder="email" type="text" class="validate {{ $errors->has('email') ? ' invalid' : '' }}" name="email">
                     <label for="email_log">Email</label>
                     @if ($errors->has('email'))
                         <span class="helper-text" data-error="{{ $errors->first('email') }}"></span>

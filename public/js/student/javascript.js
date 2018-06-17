@@ -1,5 +1,6 @@
 $(document).ready(function () {
     $('.collapsibleMenu').collapsible();
+
     $('.collapsibleSchedule').collapsible();
     $('#scheduler').modal();
     $('#eventModal').modal();
@@ -44,7 +45,7 @@ $(document).ready(function () {
             eventClick:  function(event, jsEvent, view) {
                 if(event.status == 'open'){
                     $('#eventModal').modal('open');
-                    $.get( '/student/lessonDate/showRegistrationForm/'+event.lessonDate_id, function( data ) {
+                    $.get( '/student/registration/show/'+event.lessonDate_id, function( data ) {
                         console.log(data);
                         $('#eventModal').html('');
                         $('#eventModal').append(data);
@@ -102,7 +103,7 @@ $(document).ready(function () {
             });
             swal.showLoading();
             $.ajax({
-                url: '/student/lessonDate/postRegistrationForm',
+                url: '/student/registration/store',
                 type: 'POST',
                 dataType: 'JSON',
                 data: {'lessonDate_id' : $(this).attr('id'), 'skill' : $('#skill-field :selected').text()},
@@ -130,6 +131,24 @@ $(document).ready(function () {
             });
         }
     });
+
+    if($('.succes-msg').length > 0){
+
+        swal({
+            type: 'success',
+            title:  $('.succes-msg').attr('data-message'),
+            showConfirmButton: true,
+        });
+    }
+
+    $('.overlay').fadeTo('slow' , 0.9 );
+
+    $('body').on('click','.btn-comment', function () {
+        $('.message, .comment').toggle(500);
+
+    });
+
+    $('.fc-button').addClass('btn waves-effect');
 });
 
 

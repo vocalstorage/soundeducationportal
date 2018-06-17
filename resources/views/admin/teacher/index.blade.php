@@ -20,7 +20,7 @@
             <tbody>
             @foreach($teachers as $teacher)
                 <tr>
-                    <td>{{$teacher->name . " " .$teacher->prefix . " " . $teacher->lastname}}</td>
+                    <td>{{$teacher->name}}</td>
                     <td>@if($teacher->studio)
                             {{$teacher->studio()->first()->name}}
                         @else
@@ -32,7 +32,7 @@
                     </td>
                     <td>
                         <a href="{{route('admin-teacher-edit', $teacher->id)}}"><i class="material-icons">edit</i></a>
-                        <a href="{{route('admin-teacher-delete', $teacher->id)}}" class="confirm_delete"><i class="material-icons">delete</i></a>
+                        <a href="{{route('admin-teacher-delete', $teacher->id)}}" class="confirm_delete" data-message="Deleting teacher: {{$teacher->name}}"><i class="material-icons">delete</i></a>
                     </td>
                 </tr>
             @endforeach

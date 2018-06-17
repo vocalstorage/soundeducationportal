@@ -265,9 +265,52 @@ td.highlight a {background: #99dd73 50% 50% repeat-x !important;  border: 1px #8
     width: 20%;
 }
 
-.col-presence{
-    margin: 15px 0px;\
+.more-text{
+    display: none;
 }
+
+.col-presence{
+    position: relative;
+}
+
+.legend{
+    position: absolute;
+    width: 20%;
+    right: 30px;
+    top: 272px;
+}
+
+#eventModalLoader{
+    display: none;
+    position: absolute;
+    left:0;
+    right:0;
+    margin-left:auto;
+    margin-right:auto;
+    z-index: 1000;
+    top: 40%;
+}
+
+.spinner-green-only{
+    border-color: #66bb6a !important;
+}
+
+.palette-color-picker-button{
+    z-index: 1000;
+}
+
+.color-picker-big{
+    width: 1200px;
+}
+
+.swatch{
+    width: 1% !important;
+    margin: 10px !important;
+    padding-top: 15px !important;
+    padding: 25px;
+}
+
+
 
 /*.switch-on label{*/
     /*color:#66BB6A;*/
