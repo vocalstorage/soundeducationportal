@@ -27,8 +27,16 @@ class StudentRegistrationController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'lesson_id' => 'required|int',
+            'lesson_date_id' => 'required|int',
+            'student_id' => 'required|int',
+            'skill' => 'required|string',
+        ]);
+
         $lessonDate = LessonDate::find($request->get('lessonDate_id'));
 
+        //check if student may register
         foreach(\Auth::user()->lessonDateRegistrations as $lessonDateRegistration){
             $id = $lessonDateRegistration->lessonDate->lesson->id;
             if($id == $lessonDate->lesson->id){
@@ -36,7 +44,8 @@ class StudentRegistrationController extends Controller
             }
         }
 
-        if($lessonDate->registrations < $lessonDate->lesson->max_registration){
+        //check if max is not reached
+        if($lessonDate->registrations < $lessonDate->lesson->max_registration && !$lessonDate->lesson->deadline->isPast){
             LessonDateRegistration::create([
                 'lesson_id' => $lessonDate->lesson->id,
                 'lesson_date_id' => $request->input('lessonDate_id'),
@@ -52,8 +61,7 @@ class StudentRegistrationController extends Controller
 
     public function delete($id)
     {
-        $registration = LessonDateRegistration::where('id', '=' ,$id)
-        ->where('student_id', '=', \Auth::user()->id)->get()->first();
+        $registration = LessonDateRegistration::where('id', '=' ,$id)->where('student_id', '=', \Auth::user()->id)->get()->first();
 
         if(is_integer($registration->mayCancel()) && $registration->mayCancel() !== 3){
             $registration->lessonDate->decrement('registrations');
@@ -63,12 +71,13 @@ class StudentRegistrationController extends Controller
         return redirect(route('student-appointments'));
     }
 
-    public function update(Request $request, $id){
-        $lessonDateRegistration = LessonDateRegistration::find($id);
-
+    public function update(Request $request, $id)
+    {
         $request->validate([
             'comment' => 'required|min:5',
         ]);
+
+        $lessonDateRegistration = LessonDateRegistration::where('id', '=' ,$id)->where('student_id', '=', \Auth::user()->id)->get()->first();
 
         $lessonDateRegistration->update(['comment' => $request->request->get('comment')]);
 
