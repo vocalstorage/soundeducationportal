@@ -13,7 +13,7 @@
                 <label>Excel file:</label>
                 <div class="file-field input-field col s10">
                     <a id="excelFilemanager" data-input="thumbnail" data-preview="holder">
-                        <div class="btn green lighten-1 waves-effect">
+                        <div class="btn  waves-effect">
                             <i class="material-icons">file_upload</i>
                         </div>
                     </a>
@@ -30,7 +30,7 @@
                     @endif
                 </div>
                 <div class="input-field col s12">
-                    <button id="createSchoolgroup" type="submit" class="btn green lighten-1 waves-effect">Submit</button>
+                    <button id="createSchoolgroup" type="submit" class="btn  waves-effect">Submit</button>
                 </div>
             </form>
         </div>

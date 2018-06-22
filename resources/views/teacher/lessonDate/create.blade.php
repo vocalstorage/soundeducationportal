@@ -21,7 +21,7 @@
 
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn waves-effect waves-light green lighten-1" id="lesson_date_save">Opslaan</button>
+        <button type="button" class="btn waves-effect waves-light " id="lesson_date_save">Opslaan</button>
     </div>
 </div>
 

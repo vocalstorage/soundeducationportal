@@ -64,7 +64,7 @@ class AdminSchoolgroupController extends Controller
                         if($e->errorInfo[1] == 1062){
                             $result['err_message'] = 'dubbele invoer';
                         }else{
-                            $result['err_message'] = 'er is iets fout gegaan';
+                            $result['err_message'] = json_encode($e->errorInfo).$result->email;
                         }
                         array_push($failures, $result);
 

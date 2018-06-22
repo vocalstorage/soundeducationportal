@@ -66,13 +66,12 @@ class AdminLessonDateController extends Controller
     {
         $lesson = Lesson::find($request->request->get('lesson_id'));
         $teachers = collect($request->request->get('teachers'));
-
         foreach ($teachers as $teacherJson) {
             if (!empty($teacherJson['times'])) {
                 $times = $teacherJson['times'];
                 foreach ($times as $time) {
                     $lessonDateId = $lesson->lessonDates()->updateOrCreate([
-                        'date' => date('Y-m-d', strtotime($request->request->get('date'))),
+                        'date' => $request->request->get('date'),
                         'time' => $time,
                         'teacher_id' => $teacherJson['id'],
                         'registrations' => '0',
@@ -165,7 +164,7 @@ class AdminLessonDateController extends Controller
         if ($times_edit_added) {
             foreach ($times_edit_added as $time) {
                 $lessonDateId = $lesson->lessonDates()->create([
-                    'date' => date('Y-m-d', strtotime($lesson_date->date)),
+                    'date' => $lesson_date->date,
                     'deadline' => $lesson_date->deadline,
                     'time' => $time,
                     'teacher_id' => $lesson_date->teacher_id,

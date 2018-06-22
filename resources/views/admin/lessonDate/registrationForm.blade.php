@@ -4,7 +4,7 @@
 </div>
 
 <div class="container">
-    <div class="registrated-studendts left-align">
+    <div class="registrated-students left-align">
         <ul class="studentRegistrations">
             <label>Students:</label>
             <li>
@@ -44,6 +44,6 @@
     </div>
     <hr>
     <div class="modal-footer">
-        <a href="{{route('admin-lessonDate-delete', $lessonDate->id)}}" class="modal-action btn  waves-effect green lighten-1 lessondate_delete">Verwijder</a>
+        <a href="{{route('admin-lessonDate-delete', $lessonDate->id)}}" class="modal-action btn  waves-effect  lessondate_delete">Verwijder</a>
     </div>
 </div>

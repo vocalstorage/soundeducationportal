@@ -23,6 +23,7 @@ class StudentController extends Controller
     public function update(Request $request){
         $rules = [
             'name' => 'required|min:5',
+            'email'  =>  'required|email|unique:teachers,email,'.Auth::id()
         ];
 
         if(!empty($request->request->get('password'))){

@@ -30,8 +30,8 @@
 </div>
 
     <div class="input-field" id="form-lesson_date_update" style="display: none">
-    <button type="button" class="btn waves-effect waves-light green lighten-1" id="btnAddDateUpdate">Edit</button>
-    <button type="button" class="btn waves-effect waves-light green lighten-1" id="btnAddDateCancel">Cancel</button>
+    <button type="button" class="btn waves-effect waves-light " id="btnAddDateUpdate">Edit</button>
+    <button type="button" class="btn waves-effect waves-light " id="btnAddDateCancel">Cancel</button>
 </div>
 
 @if(!$lesson_date)

@@ -1,7 +1,7 @@
 <header style="height: 5%">
     <nav>
-        <div class="nav-wrapper green lighten-1">
-            <a href="#" data-target="slide-out" class="sidenav-trigger button-collapse show-on-large"><i class="material-icons">menu</i></a>
+        <div class="nav-wrapper">
+            <a href="#" data-target="slide-out" class="sidenav-trigger button-collapse show-on-large"><i class="material-icons menu-icon">menu</i></a>
             <a href="admin/index">Soundeducation</a>
             <ul class="right hide-on-med-and-down">
                 <li>
@@ -23,25 +23,25 @@
     <ul id="slide-out" class="sidenav">
         <li class="nav-item">
             <a class="nav-link active" href="{{route('admin-lesson-index')}}">
-                <i class="fas fa-book"></i>
-                Lessons <span class="sr-only">(current)</span>
+                <i class="material-icons green-text lighten-1">music_note</i>
+                Lessons
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{{route('admin-teacher-index')}}">
-                <i class="fas fa-user"></i>
+                <i class="material-icons green-text lighten-1">people</i>
                 Teachers
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{{route('admin-studio-index')}}">
-                <i class="fas fa-building"></i>
+                <i class="material-icons green-text lighten-1">business</i>
                 Studios
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{{route('admin-schoolgroup-index')}}">
-                <i class="fas fa-users"></i>
+                <i class="material-icons green-text lighten-1">school</i>
                 Klassen
             </a>
         </li>

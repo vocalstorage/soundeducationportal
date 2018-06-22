@@ -1,14 +1,48 @@
+$largeDesktopDevicesXl : max-width(1200px);
+$desktopDevicesL : min-width(992px);
+$tabletDevices :  max-width(600px);
+$mobileDevices : min-width(600px);
+
+
 
 // Fonts
 @import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
 
-// Variables
-@import "variables";
+@import "libs/materialize.scss";
 
-// Bootstrap
-@import '~bootstrap/scss/bootstrap';
+@import "libs/palette-color-picker.css";
 
-.navbar-laravel {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+@import "~fullcalendar/dist/fullcalendar.min.css";
+
+@import "~sweetalert2/dist/sweetalert2.min.css";
+
+@import "~animate.css/animate.min.css";
+
+@import "student/stylesheet.scss";
+
+@import "admin/stylesheet.scss";
+
+h1, h2, h3, h4, h5, p {
+  color: $primary-color;
+  font-family: 'Agency FB';
 }
+
+
+.menu-icon{
+  color: white;
+}
+@media only screen and (max-width: 600px) {
+  h4{
+    font-size: 2rem;
+  }
+  .container{
+    width: 100% !important;
+  }
+
+  .card-image{
+    img{
+      height:230px;
+    }
+  }
+}
+

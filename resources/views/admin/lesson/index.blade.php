@@ -32,14 +32,10 @@
                         <tbody>
 
                         @foreach($lessons as $lesson)
-                            {{--@if(!empty($lesson->removeLessonDates()))--}}
-                                {{--<div class="removed_lessondate" data-removedamount="{{$lesson->removeLessonDates()}}"--}}
-                                     {{--style="display: none"></div>--}}
-                            {{--@endif--}}
                             <tr>
                                 <td>{{$lesson->title}}</td>
                                 <td>{{$lesson->max_registration}}</td>
-                                <td>{{$lesson->deadline}}</td>
+                                <td>{{$lesson->deadline->format('d/m/Y')}}</td>
                                 <td>{{$lesson->lessonDates->count() - $lesson->removeLessonDates()}}</td>
                                 <td>{{$lesson->schoolgroup->title}}</td>
                                 <td>
@@ -82,9 +78,9 @@
                                                     </table>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <div class="col s6"> <a href="#!" class="modal-close waves-effect green lighten-1 btn left">Later</a></div>
+                                                    <div class="col s6"> <a href="#!" class="modal-close waves-effect  btn left">Later</a></div>
                                                     <div class="col s6">
-                                                        <button class="btn waves-effect green lighten-1" type="submit"
+                                                        <button class="btn waves-effect " type="submit"
                                                                 name="action">Confirm
                                                         </button>
                                                     </div>

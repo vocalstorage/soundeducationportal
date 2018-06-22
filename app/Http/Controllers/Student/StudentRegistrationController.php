@@ -28,13 +28,11 @@ class StudentRegistrationController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'lesson_id' => 'required|int',
             'lesson_date_id' => 'required|int',
-            'student_id' => 'required|int',
             'skill' => 'required|string',
         ]);
 
-        $lessonDate = LessonDate::find($request->get('lessonDate_id'));
+        $lessonDate = LessonDate::find($request->get('lesson_date_id'));
 
         //check if student may register
         foreach(\Auth::user()->lessonDateRegistrations as $lessonDateRegistration){
@@ -44,11 +42,12 @@ class StudentRegistrationController extends Controller
             }
         }
 
+
         //check if max is not reached
-        if($lessonDate->registrations < $lessonDate->lesson->max_registration && !$lessonDate->lesson->deadline->isPast){
+        if($lessonDate->registrations < $lessonDate->lesson->max_registration && !$lessonDate->lesson->deadline->isPast()){
             LessonDateRegistration::create([
                 'lesson_id' => $lessonDate->lesson->id,
-                'lesson_date_id' => $request->input('lessonDate_id'),
+                'lesson_date_id' => $request->input('lesson_date_id'),
                 'student_id' => \Auth::user()->id,
                 'skill' => $request->get('skill'),
             ]);

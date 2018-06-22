@@ -40,7 +40,7 @@
                     </div>
                 </div>
                 <div class="input-field">
-                    <button type="submit" class="btn green lighten-1 waves-effect">Save</button>
+                    <button type="submit" class="btn  waves-effect">Save</button>
                 </div>
             </form>
         </div>

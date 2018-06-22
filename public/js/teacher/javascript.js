@@ -8,7 +8,6 @@ $(document).ready(function () {
 
     $('.tooltipped').tooltip();
 
-
     $('.collapsible').collapsible();
     $('.sidenav').sidenav();
     $('.times').modal();
@@ -20,37 +19,13 @@ $(document).ready(function () {
     $('select').formSelect();
     $('.commentModal').modal();
 
-
-
-
-    $.trumbowyg.svgPath = '/assets/icons.svg';
-
-    $.ajaxSetup({
+        $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
 
-    $.trumbowyg.svgPath = '/assets/icons.svg';
-
-    $('#description').trumbowyg({
-        btns: [
-            ['foreColor', 'backColor', 'strong', 'em'],
-            ['undo', 'redo'], // Only supported in Blink browsers
-            ['formatting'],
-            ['strong', 'em'],
-            ['superscript', 'subscript'],
-            ['link'],
-            ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
-            ['unorderedList', 'orderedList'],
-            ['horizontalRule'],
-            ['removeformat'],
-            ['fullscreen']
-        ]
-    });
-
-    $('#description').trumbowyg('html', $("#description_value").val());
-
+    console.log(deadline);
 
     if ($('#calendar_lessondate').length > 0) {
         $('#calendar_lessondate').fullCalendar({
@@ -74,8 +49,8 @@ $(document).ready(function () {
             events: events,
             timeFormat: 'H:mm',
             validRange: {
-                start: moment(new Date()).format("YYYY-MM-DD"),
-                end: moment(deadline, "YYYY-MM-DD").subtract(5, 'days'),
+                start: new moment,
+                end:  moment(deadline.date).subtract(5, 'days'),
             },
             eventClick: function (event, jsEvent, view) {
                  current_event = $(this);
@@ -130,8 +105,8 @@ $(document).ready(function () {
             events: event_regs,
             timeFormat: 'H:mm',
             validRange: {
-                start: moment(new Date()).format("YYYY-MM-DD"),
-                end: moment(deadline, "YYYY-MM-DD").subtract(5, 'days'),
+                start: new moment,
+                end:  moment(deadline.date).subtract(5, 'days'),
             },
             eventRender: function(event_reg, element) {
                 var target = $(element).find(".fc-list-item-title");
@@ -269,13 +244,10 @@ function validateForm(target) {
     console.log(target);
     $(target).serializeArray().forEach(function (obj) {
         if (obj.value.length == 0 && obj.name !== 'password'){
-            if (obj.name == "description") {
-                $('.trumbowyg-box').css('border-bottom', 'solid 2px red');
-                $('.trumbowyg-box').addClass('animated shake');
-            } else {
-                $('input[name=' + obj.name + ']').addClass('invalid animated shake');
-                $('select[name=' + obj.name + ']').addClass('invalid animated shake');
-            }
+
+            $('input[name=' + obj.name + ']').addClass('invalid animated shake');
+            $('select[name=' + obj.name + ']').addClass('invalid animated shake');
+
             errors++;
         }
     });

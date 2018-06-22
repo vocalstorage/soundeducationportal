@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div class="input-field">
-                <button type="submit" class="btn green lighten-1 waves-effect">Submit</button>
+                <button type="submit" class="btn  waves-effect">Submit</button>
             </div>
         </form>
     </div>

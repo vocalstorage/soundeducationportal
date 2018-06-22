@@ -4,7 +4,7 @@
 <div class="register z-depth-3 white">
     <div class="row">
         <div class="col s12">
-            <nav class="green lighten-1 ">
+            <nav class=" ">
                 <div class="nav-wrapper">
                     <ul id="nav">
                         <li class="w-50 waves-effect"><a href="{{ route('login') }}"><span class="log_reg">Login</span></a></li>
@@ -57,7 +57,7 @@
                 </div>
                 <div class="input-field">
                     <div class="col s8">
-                        <button type="submit" class="btn  waves-effect green lighten-1 ">
+                        <button type="submit" class="btn  waves-effect  ">
                             Register
                         </button>
                     </div>

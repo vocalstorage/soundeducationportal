@@ -39,7 +39,7 @@
             </div>
             <div class="row">
                 <div class="col s12">
-                    <button class="btn  waves-effect green lighten-1" type="submit" name="action">Opslaan
+                    <button class="btn  waves-effect " type="submit" name="action">Opslaan
 
                     </button>
                 </div>

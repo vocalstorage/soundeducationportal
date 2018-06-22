@@ -50,7 +50,7 @@
 
     <div class="legend">
         <ul class="collection">
-            <li class="collection-item green lighten-1 white-text">Teachers</li>
+            <li class="collection-item  white-text">Teachers</li>
             @foreach($lesson->teachers as $teacher)
                     <li class="collection-item">
                         <label>

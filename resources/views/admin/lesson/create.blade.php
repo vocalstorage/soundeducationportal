@@ -58,7 +58,7 @@
                 <label>Image:</label>
                 <div class="file-field input-field col s10">
                     <a id="lfm" data-input="thumbnail" data-preview="holder">
-                        <div class="btn green lighten-1 waves-effect">
+                        <div class="btn  waves-effect">
                             <i class="material-icons">file_upload</i>
                         </div>
                     </a>
@@ -83,7 +83,7 @@
                     <label>Select an class</label>
                 </div>
                 <div class="input-field col s12">
-                    <button type="submit" id="btn_save" class="btn green lighten-1 waves-effect">Save</button>
+                    <button type="submit" id="btn_save" class="btn  waves-effect">Save</button>
                 </div>
             </form>
         </div>

@@ -38,8 +38,17 @@ $(document).ready(function () {
     });
 
     if($('#calendar_lessondate').length > 0){
+        var view = "month";
+        if(window.innerWidth < 600){
+            view = "listWeek";
+        }
         $('#calendar_lessondate').fullCalendar({
-            defaultView: 'month',
+            header: {
+                left: 'myCustomButton',
+                center: 'title',
+                right: 'today, prev,next'
+            },
+            defaultView: view,
             events: events,
             timeFormat: 'h:mm',
             eventClick:  function(event, jsEvent, view) {
@@ -58,7 +67,7 @@ $(document).ready(function () {
 
     $('body').on('click', '.lessonDateCancelBtn' , function (e){
         e.preventDefault();
-        if($(this).attr('data-cancelled') == '2'){
+        if($(this).attr('data-cancelled') == '3'){
             swal({
                 title: 'Weet je zeker dat je wilt uitschijven?',
                 text: "Dit is de laatste keer dat je kunt uitschrijven!",
@@ -81,6 +90,7 @@ $(document).ready(function () {
         });
 
     });
+
 
     $('body').on('click', '.collapsibleSchedule', function () {
         var target = $(this).find('li.active .collapsible-body');
@@ -106,7 +116,7 @@ $(document).ready(function () {
                 url: '/student/registration/store',
                 type: 'POST',
                 dataType: 'JSON',
-                data: {'lessonDate_id' : $(this).attr('data-id'), 'skill' : $('#skill-field :selected').text()},
+                data: {'lesson_date_id' : $(this).attr('data-id'), 'skill' : $('#skill-field :selected').text()},
                 success: function (data) {
                     swal({
                         title: 'Succesvol ingeschreven',
@@ -143,12 +153,15 @@ $(document).ready(function () {
 
     $('.overlay').fadeTo('slow' , 0.9 );
 
+
     $('body').on('click','.btn-comment', function () {
         $('.message, .comment').toggle(500);
 
     });
 
-    $('.fc-button').addClass('btn waves-effect');
+    $('.fc-button').addClass('btn waves-effect green lighten-1').removeClass('fc-state-default');
+
+
 });
 
 

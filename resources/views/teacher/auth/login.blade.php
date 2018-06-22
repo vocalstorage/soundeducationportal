@@ -36,7 +36,7 @@
                 </div>
             </div>
             <div class="input-field">
-                <button type="submit" class="btn waves-effect green lighten-1  col s12">
+                <button type="submit" class="btn waves-effect   col s12">
                     Login
                 </button>
             </div>

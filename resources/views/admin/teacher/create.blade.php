@@ -26,14 +26,14 @@
                     @endif
                 </div>
                 <div class="input-field">
-                    <input name='color' id="color" type="text" class="colorpicker validate {{ $errors->has('color') ? ' invalid' : '' }}" value="{{old('color') ? old('color') : ''}}" required/>
+                    <input name='color' id="color" type="text" class="colorpicker validate {{ $errors->has('color') ? ' invalid' : '' }}" value="{{old('color') ? old('color') : ''}}" disabled required/>
                     {{--<input type="text" id="color" class="validate {{ $errors->has('color') ? ' invalid' : '' }}"  style="display: none"/>--}}
                     @if ($errors->has('color'))
                         <span class="helper-text" data-error="{{ $errors->first('color') }}"></span>
                     @endif
                 </div>
                 <div class="input-field">
-                    <button type="submit" class="btn green lighten-1 waves-effect">Submit</button>
+                    <button type="submit" class="btn  waves-effect">Submit</button>
                 </div>
             </form>
         </div>

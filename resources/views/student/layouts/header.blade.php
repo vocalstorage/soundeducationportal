@@ -1,7 +1,7 @@
 
 
 <nav>
-    <div class="nav-wrapper green lighten-1">
+    <div class="nav-wrapper ">
         <a href="#" data-target="slide-out" class="sidenav-trigger button-collapse show-on-large"><i class="material-icons menu-icon">menu</i></a>
         <a href="admin/index">Soundeducation</a>
         <ul class="right hide-on-med-and-down">

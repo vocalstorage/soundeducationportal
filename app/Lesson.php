@@ -10,11 +10,15 @@ class Lesson extends Model
     public $fillable = [
         'title',
         'description',
-        'deadline',
         'max_registration',
+        'deadline',
         'teacher_id',
         'filepath_id',
         'schoolgroup_id',
+    ];
+
+    protected $dates = [
+        'deadline'
     ];
 
     public function lessonDates()
@@ -42,11 +46,10 @@ class Lesson extends Model
         return $this->belongsTo(Schoolgroup::class);
     }
 
+//    TODO CHECK
     public function diffDeadline()
     {
-        $deadline = Carbon::parse($this->deadline);
-
-        $diffInDays = $deadline->diffInDays(Carbon::now());
+        $diffInDays = $this->deadline->diffInDays(Carbon::now());
 
         return $diffInDays;
     }
@@ -71,8 +74,11 @@ class Lesson extends Model
     {
         $lessonDates = [];
         if ($this->lessonDates->count() > 0) {
-            foreach ($this->lessonDates()->where('warning', '!=', '2')->get() as $lessonDate) {
-                $difference = Carbon::parse($this->deadline)->diffInDays($lessonDate->date);
+            foreach ($this->lessonDates()
+                         ->where('warning', '!=', '2')
+                         ->where('registrations', '<=', '1')
+                         ->get() as $lessonDate) {
+                $difference = $this->deadline->diffInDays($lessonDate->date);
 
                 if($difference <= 10){
                     $lessonDate->warning = true;
@@ -84,10 +90,10 @@ class Lesson extends Model
         return collect($lessonDates);
     }
 
-    public function isPast(){
-        $date = Carbon::parse($this->deadline);
-        return $date->isPast();
-    }
+//    public function isPast(){
+//        $date = $this->deadline->addDays(10);
+//        return $date->isPast();
+//    }
 
 
 }

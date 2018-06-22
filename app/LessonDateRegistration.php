@@ -39,7 +39,7 @@ class LessonDateRegistration extends Model
     public function mayCancel(){
         $errors = [];
         $errorHtml = '';
-        $deadline = Carbon::parse($this->lessonDate->lesson->deadline);
+        $deadline = $this->lessonDate->lesson->deadline;
         $now = Carbon::now();
         if($deadline->diffInDays($now) <= 5){
             $error = ['message' => '5 dagen voor de deadline is het niet meer mogelijk om in te schrijven.'];
@@ -49,7 +49,7 @@ class LessonDateRegistration extends Model
             ->where('lesson_id', '=', $this->lesson->id)
             ->where('student_id', '=', \Auth::user()->id)->get()->count();
 
-        if($cancelled == 3){
+        if($cancelled == 4){
             $error = ['message' => 'Maximum aantal uitschrijvingen voor les bereikt.'];
             array_push($errors, $error);
         }
@@ -65,10 +65,5 @@ class LessonDateRegistration extends Model
             return $cancelled;
         }
 
-    }
-
-    public function isPast(){
-        $date = Carbon::parse($this->lessonDate->date);
-        return $date->isPast();
     }
 }

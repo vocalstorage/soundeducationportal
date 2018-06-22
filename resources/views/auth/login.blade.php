@@ -39,7 +39,7 @@
                             </div>
 
                             <div class="input-field col s12">
-                                <button type="submit" class="btn  waves-effect green lighten-1  col s12">
+                                <button type="submit" class="btn  waves-effect   col s12">
                                     Inloggen
                                 </button>
                             </div>

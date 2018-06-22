@@ -1,0 +1,30 @@
+.palette-color-picker-button{
+  z-index: 1000;
+}
+
+.color-picker-big{
+  width: 1200px;
+}
+
+.swatch{
+  width: 1% !important;
+  margin: 10px !important;
+  padding-top: 15px !important;
+  padding: 25px;
+}
+
+.color-box{
+  width: 30px;
+  height: 30px;
+}
+
+.horizontal-list {
+  list-style: none;
+  margin: 0px;
+}
+.horizontal-list li {
+  display: inline;
+  list-style-type: none;
+  padding-right: 20px;
+  float: left;
+}

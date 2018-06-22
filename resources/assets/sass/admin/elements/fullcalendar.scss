@@ -1,0 +1,9 @@
+.fc-day:hover, .fc-event-container{
+  cursor: pointer;
+}
+
+/*Turn pointer events back on*/
+.fc-bgevent,
+.fc-event-container{
+  pointer-events:auto; /*events*/
+}

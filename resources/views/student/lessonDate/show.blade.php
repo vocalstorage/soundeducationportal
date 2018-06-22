@@ -8,11 +8,7 @@
     </div>
     <div class="row">
         <div class="col s12">
-            <div class="container">
-                <div class="row">
-                    <div id="calendar_lessondate"></div>
-                </div>
-            </div>
+            <div id="calendar_lessondate"></div>
         </div>
     </div>
 

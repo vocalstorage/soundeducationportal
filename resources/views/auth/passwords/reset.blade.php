@@ -50,7 +50,7 @@
                                           data-error="{{ $errors->first('password_confirmation') }}"></span>
                                 @endif
                         </div>
-                        <button type="submit" class="btn  waves-effect green lighten-1  col s12">
+                        <button type="submit" class="btn  waves-effect   col s12">
                             Herstel wacthwoord
                         </button>
                     </div>

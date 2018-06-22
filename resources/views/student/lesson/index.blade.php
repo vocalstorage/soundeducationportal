@@ -30,7 +30,7 @@
                                             @elseif($lesson->diffDeadline() < 5)
                                                 Inschrijven niet meer mogelijk, deadline is behaald.
                                             @else
-                                            <a class="btn waves-effect green lighten-1"><i class="material-icons right" style="color:white">create</i>Plannen</a>
+                                            <a class="btn waves-effect "><i class="material-icons right" style="color:white">create</i>Plannen</a>
                                             @endif
                                         </div>
                                     </div>
@@ -75,7 +75,7 @@
                                                                 @if($lesson->diffDeadline() < 5)
                                                                     Inschrijven niet meer mogelijk, deadline is behaald.
                                                                 @elseif(!in_array($lesson->id,$registeredLessons) )
-                                                                    <a href="{{route('student-lessonDate-show',array($lesson_date->teacher->id, $lesson->id))}}" class="btn waves-effect green lighten-1 schedule-lessonDate w-100">plannen</a>
+                                                                    <a href="{{route('student-lessonDate-show',array($lesson_date->teacher->id, $lesson->id))}}" class="btn waves-effect  schedule-lessonDate w-100">plannen</a>
                                                                 @else
                                                                     Al ingeschreven
                                                                 @endif

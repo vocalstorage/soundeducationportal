@@ -6,12 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class LessonDate extends Model
 {
-    protected $fillable = ['date',
+    protected $fillable = [
         'registrations',
         'lesson_id',
         'teacher_id',
         'date',
         'time',];
+
+    protected $dates = [
+        'date'
+    ];
 
     public function lesson()
     {
