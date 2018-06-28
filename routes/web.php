@@ -123,8 +123,6 @@ Route::prefix('teacher')->group(function () {
     Route::post('/login', 'Teacher\TeacherLoginController@login')->name('teacher-login-submit');
 
     Route::group(['middleware' => 'auth:teacher'], function () {
-//        Route::get('/index', 'Teacher\TeacherController@index')->name('teacher-dashboard');
-
         Route::prefix('lesson')->group(function () {
             Route::get('/index', 'Teacher\TeacherLessonController@index')->name('teacher-lesson-index');
             Route::get('/show/{id}/{calendarView}', 'Teacher\TeacherLessonController@show')->name('teacher-lesson-show');

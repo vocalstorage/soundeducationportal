@@ -10176,6 +10176,27 @@ input[type=range]::-ms-thumb {
   box-shadow: 0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12), 0 11px 15px -7px rgba(0, 0, 0, 0.2);
 }
 
+.time {
+  padding: 10%;
+  color: black;
+  -webkit-transition: color 1s;
+  /* Safari */
+  transition: color 1s;
+  -webkit-transition: background-color 1s;
+  /* Safari */
+  transition: background-color 1s;
+}
+
+.time:hover {
+  color: white;
+  background-color: #66BB6A;
+  cursor: pointer;
+}
+
+.selected_time {
+  background-color: #419345;
+}
+
 .header .footer {
   background-color: #66BB6A;
 }
