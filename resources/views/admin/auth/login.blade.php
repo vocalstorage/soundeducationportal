@@ -1,6 +1,5 @@
-@extends('teacher.layouts.master')
+@extends('admin.layouts.master')
 @section('content')
-    <div class="login-wrapper ">
         <div class="logo">
             <img src="//static1.squarespace.com/static/555f4c1ce4b0c32dcc3c12e4/t/5582b255e4b00d5e96225f5a/1527848374125/?format=200w"
                  alt="">
@@ -35,14 +34,13 @@
                 </div>
             </div>
             <div class="input-field">
-                <div class="col s12">
+
                     <button type="submit" class="btn  waves-effect  col s12">
                         Login
                     </button>
-                </div>
+
             </div>
         </form>
-    </div>
 @endsection
 
 

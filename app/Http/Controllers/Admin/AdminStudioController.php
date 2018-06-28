@@ -45,6 +45,7 @@ class AdminStudioController extends Controller
             'number' => 'required',
             'postal_code' => 'required',
             'filepath' => 'required',
+            'teacher_id' => 'required',
         ]);
 
         $path = $request->request->get('filepath');
@@ -87,6 +88,7 @@ class AdminStudioController extends Controller
             'number' => 'required',
             'postal_code' => 'required',
             'filepath' => 'required',
+            'teacher_id' => 'required',
         ]);
 
         $studio = Studio::find($id);
@@ -108,10 +110,11 @@ class AdminStudioController extends Controller
         return redirect(route('admin-studio-index'));
     }
 
-    public function delete($id){
-        $studio = Studio::find($id);
-
-        $studio->delete();
+    public function delete(Request $request, $id){
+        if($request->ajax()) {
+            $studio = Studio::find($id);
+            $studio->delete();
+        }
 
         return redirect(route('admin-studio-index'));
     }

@@ -5,11 +5,11 @@
         <div class="row">
             <div class="col-lg-12">
                 <div style="float:left;">
-                    <h1 class="h2">Studios</h1>
+                    <h1 class="h2">{{trans('modules/studio.title')}}</h1>
                     @if($teacherStudioNoRelations > 0)
-                    <a href="{{route('admin-studio-create')}}">Create new Studio</a>
+                    <a href="{{route('admin-studio-create')}}">{{trans('modules/studio.function.create')}}</a>
                     @else
-                        <a href="{{route('admin-teacher-create')}}" class="tooltipped" data-position="bottom" data-tooltip="Please create a teacher first (click link to create)">Create a studio (DISABLED)</a>
+                        <a href="{{route('admin-teacher-create')}}" class="tooltipped" data-position="bottom" data-tooltip="Please create a teacher first (click link to create)">{{trans('modules/studio.function.create')}} (DISABLED)</a>
                     @endif
                 </div>
 
@@ -18,11 +18,11 @@
         <table class="table table-striped" style="margin-top: 2%">
             <thead>
             <tr>
-                <th>Studio Name</th>
-                <th>Place</th>
-                <th>Street</th>
-                <th>Postal code</th>
-                <th>Owner</th>
+                <th>{{trans('form.label.title')}}</th>
+                <th>{{trans('form.label.place')}}</th>
+                <th>{{trans('form.label.street')}}</th>
+                <th>{{trans('form.label.zipcode')}}</th>
+                <th>{{trans('form.label.owner')}}</th>
                 <th>#</th>
             </tr>
             </thead>
@@ -31,17 +31,20 @@
                 <tr>
                     <td>{{$studio->name}}</td>
                     <td>{{$studio->place}}</td>
-                    <td>{{$studio->street}}</td>
+                    <td>{{$studio->street}} {{$studio->number}}</td>
                     <td>{{$studio->postal_code}}</td>
                     @if($studio->teacher)
                         <td><span style="color: {{$studio->teacher->color}}">{{$studio->teacher->name}}</span></td>
                     @else
-                        <td>Owner not found</td>
+                        <td>Eigenaar niet gevonden</td>
                     @endif
                     <td>
                         <a href="{{route('admin-studio-edit', $studio->id)}}"><i class="material-icons">edit</i></a>
-                        <a href="{{route('admin-studio-delete', $studio->id)}}" class="confirm_delete" data-message="Deleting studio:{{$studio->name}}"><i class="material-icons">delete</i></a>
-                    </td>
+                        <a href="{{route('admin-studio-delete', $studio->id)}}" class="swal-show-warning"
+                           data-message="{{$studio->warnings()}}"
+                           data-loading-message="Deleting studio">
+                            <i class="material-icons">delete</i>
+                        </a>                               </td>
                 </tr>
             @endforeach
             </tbody>

@@ -31,5 +31,16 @@ class LessonDate extends Model
     {
         return $this->hasMany(LessonDateRegistration::class);
     }
+
+    public function warnings(){
+        $html = "";
+
+        if($this->lessonDateRegistrations()){
+            $html .= '<p class="warning">De les heeft '. $this->lessonDateRegistrations->count().' registratie(s)</p>';
+        }
+
+        return $html;
+    }
+
 }
 

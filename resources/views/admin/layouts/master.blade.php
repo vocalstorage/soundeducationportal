@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="/css/app.css">
 
 
-<body>
+<body class="admin">
 @if(\Auth::check())
     @include('admin.layouts.header')
     <div class="row">
@@ -24,12 +24,25 @@
     </div>
 
 @else
+    <div class="login-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col s12">
     @yield('content')
+                </div>
+            </div>
+        </div>
+    </div>
 @endif
 
 <div class="dim-screen">
     @include('admin.includes.loader')
 </div>
+
+<div class="dim-screen">
+    @include('admin.includes.loader-progress')
+</div>
+
 <script src="/js/app.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.serializeJSON/2.9.0/jquery.serializejson.min.js"></script>
 <script src="/vendor/laravel-filemanager/js/lfm.js"></script>

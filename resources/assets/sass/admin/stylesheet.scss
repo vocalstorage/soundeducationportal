@@ -1,25 +1,28 @@
-@import "elements/elements";
+.admin {
+  @import "elements/elements";
 
-@import "pages/pages";
+  @import "pages/pages";
 
-.scroll{
-  overflow:hidden;
-  overflow-y: scroll;
-  height: 500px;
-  display:block;
+  .scroll{
+    overflow:hidden;
+    overflow-y: scroll;
+    height: 500px;
+    display:block;
+  }
+
+  .studentSearchForm{
+    display: none;
+  }
+
+  .removed_lessondate{
+    display: none;
+  }
+
+  .col-presence{
+    position: relative;
+  }
 }
 
-.studentSearchForm{
-  display: none;
-}
-
-.removed_lessondate{
-  display: none;
-}
-
-.col-presence{
-  position: relative;
-}
 
 
 

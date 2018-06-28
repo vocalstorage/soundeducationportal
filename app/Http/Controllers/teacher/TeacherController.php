@@ -10,7 +10,20 @@ use Illuminate\Support\Facades\Hash;
 class TeacherController extends Controller
 {
     public function index(){
-        return view('teacher.index');
+        $lessonDates = [];
+        foreach (Auth::user()->lessons as $lesson){
+            foreach ($lesson->lessonDates as $lessonDate){
+                if($lessonDate->date->isToday()){
+                    array_push($lessonDates, $lessonDate);
+                }
+            }
+        }
+
+        $data = [
+            'lessonDates' => $lessonDates
+        ];
+
+        return view('teacher.index' , $data);
     }
 
     public function edit(){

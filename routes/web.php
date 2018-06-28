@@ -13,14 +13,14 @@
 Auth::routes();
 
 Route::group(['middleware' => 'auth:student'], function () {
-    Route::get('/', 'Student\StudentLessonController@index')->name('lesson-index');
+    Route::get('/', 'Student\StudentLessonController@index')->name('student-lesson-index');
 
     Route::prefix('student')->group(function () {
         Route::get('/index', 'student\StudentRegistrationController@index');
 
         Route::group(['middleware' => 'auth:student'], function () {
             Route::prefix('lesson')->group(function () {
-                Route::get('/index', 'Student\StudentLessonController@index')->name('lesson-index');
+                Route::get('/index', 'Student\StudentLessonController@index')->name('student-lesson-index');
             });
             Route::get('index', 'student\StudentDashboardController@index')->name('student-dashboard-index');
 
@@ -73,6 +73,7 @@ Route::prefix('admin')->group(function () {
             Route::post('/update', 'Admin\AdminLessonDateController@update');
             Route::get('/delete/{id}', 'Admin\AdminLessonDateController@delete')->name('admin-lessonDate-delete');
             Route::post('/handle', 'Admin\AdminLessonDateController@handleWarnings')->name('admin-lessonDate-handleWarnings');
+            Route::get('/handleWarning/{warningId}/{type}', 'Admin\AdminLessonDateController@handleWarning')->name('admin-lessonDate-handleWarning');
             Route::post('/multipleDelete', 'Admin\AdminLessonDateController@multipleDelete')->name('admin-lessonDate-multipleDelete');
             Route::get('/registerStudent/{lessonDate_id}/{student_id}', 'Admin\AdminLessonDateController@registerStudent')->name('admin-lessonDate-registerStudent');
             Route::get('/cancelStudent/{lessonDate_id}/{LessonDateRegistration_id}', 'Admin\AdminLessonDateController@cancelStudent')->name('admin-lessonDate-cancelStudent');
@@ -99,15 +100,6 @@ Route::prefix('admin')->group(function () {
             Route::get('/edit/{id}', 'Admin\AdminTeacherController@edit')->name('admin-teacher-edit');
             Route::post('/update/{id}', 'Admin\AdminTeacherController@update')->name('admin-teacher-update');
             Route::get('/delete/{id}', 'Admin\AdminTeacherController@delete')->name('admin-teacher-delete');
-            Route::prefix('availability')->group(function () {
-                Route::get('/index', 'Admin\AdminTeacherAvailabilityController@index')->name('admin-teacherAvailability-index');
-                Route::get('/create', 'Admin\AdminTeacherAvailabilityController@create')->name('admin-teacherAvailability-create');
-                Route::post('/store', 'Admin\AdminTeacherAvailabilityController@store')->name('admin-teacherAvailability-store');
-                Route::get('/show', 'Admin\AdminTeacherAvailabilityController@show')->name('admin-teacherAvailability-show');
-                Route::get('/edit', 'Admin\AdminTeacherAvailabilityController@edit')->name('admin-teacherAvailability-edit');
-                Route::get('/update', 'Admin\AdminTeacherAvailabilityController@update')->name('admin-teacherAvailability-update');
-                Route::get('/destroy', 'Admin\AdminTeacherAvailabilityController@destroy')->name('admin-teacherAvailability-delete');
-            });
         });
 
         Route::prefix('studio')->group(function () {
@@ -135,7 +127,7 @@ Route::prefix('teacher')->group(function () {
 
         Route::prefix('lesson')->group(function () {
             Route::get('/index', 'Teacher\TeacherLessonController@index')->name('teacher-lesson-index');
-            Route::get('/show/{id}', 'Teacher\TeacherLessonController@show')->name('teacher-lesson-show');
+            Route::get('/show/{id}/{calendarView}', 'Teacher\TeacherLessonController@show')->name('teacher-lesson-show');
             Route::get('/presenece/{id}', 'Teacher\TeacherLessonController@presence')->name('teacher-lesson-presence');
         });
 

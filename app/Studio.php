@@ -26,4 +26,16 @@ class Studio extends Model
     {
         return $this->belongsTo(Filepath::class);
     }
+
+    public function warnings(){
+        $html = "";
+        if($this->teacher()){
+            $html .= '<p class="warning">Deze studio heeft een relatie met '. $this->teacher->name.'</p>';
+        }
+        if($this->teacher->lesson_dates()){
+            $html .= '<p class="warning">Deze studio heeft een leraar die nog  '. $this->teacher->lesson_dates()->count().' lessen open heeft staan</p>';
+        }
+
+        return $html;
+    }
 }

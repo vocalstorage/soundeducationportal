@@ -36,34 +36,53 @@ class LessonDateRegistration extends Model
         return $this->belongsTo(Student::class);
     }
 
+
     public function mayCancel(){
-        $errors = [];
-        $errorHtml = '';
-        $deadline = $this->lessonDate->lesson->deadline;
-        $now = Carbon::now();
-        if($deadline->diffInDays($now) <= 5){
-            $error = ['message' => '5 dagen voor de deadline is het niet meer mogelijk om in te schrijven.'];
-            array_push($errors, $error);
+        if(empty($this->errors())){
+            return true;
         }
+        return false;
+    }
+
+    public function warnings(){
+        $html = "";
+
         $cancelled = \Auth::user()->lessonDateRegistrations()->onlyTrashed()
             ->where('lesson_id', '=', $this->lesson->id)
             ->where('student_id', '=', \Auth::user()->id)->get()->count();
 
-        if($cancelled == 4){
-            $error = ['message' => 'Maximum aantal uitschrijvingen voor les bereikt.'];
-            array_push($errors, $error);
-        }
-        if(!empty($errors)){
-            $errorHtml = "<div class='tooltip_error'>";
-            foreach ($errors as $error){
-                $errorHtml .= '<p>'. $error['message'] . '</p>';
-            }
-            $errorHtml .= "</div>";
-
-            return $errorHtml;
+        if($cancelled == 3){
+            $html .= '<p class="warning">Dit is de laatste keer dat je jezelf mag uitschrijven</p>';
         }else{
-            return $cancelled;
+            $attempts = 4 - $cancelled;
+            $html .= '<p class="warning">Je mag je nog '. $attempts .' keer uitschrijven voor deze les</p>';
         }
 
+
+
+
+
+
+        return $html;
+    }
+
+
+    public function errors(){
+        $html = "";
+
+        if($this->lessonDate->lesson->deadline->diffInDays(Carbon::now()) <= 5){
+            $html .= '<p class="warning">5 dagen voor de deadline is het niet meer mogelijk om in te schrijven.</p>';
+        }
+
+        $cancelled = \Auth::user()->lessonDateRegistrations()->onlyTrashed()
+            ->where('lesson_id', '=', $this->lesson->id)
+            ->where('student_id', '=', \Auth::user()->id)->get()->count();
+
+        if($cancelled >= 4){
+            $html .= '<p class="warning">Maximum aantal uitschrijvingen voor les bereikt.</p>';
+        }
+
+
+        return $html;
     }
 }

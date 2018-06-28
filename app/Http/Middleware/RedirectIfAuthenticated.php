@@ -25,12 +25,12 @@ class RedirectIfAuthenticated
                 break;
             case 'teacher':
                 if (Auth::guard($guard)->check()) {
-                    return redirect()->route('admin-lesson-index');
+                    return redirect()->route('teacher-lesson-index');
                 }
                 break;
             default:
                 if (Auth::guard($guard)->check()) {
-                    return redirect('student-lesson-index');
+                    return redirect()->route('student-lesson-index');
                 }
                 break;
         }

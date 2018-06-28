@@ -1,6 +1,6 @@
 @extends('teacher.layouts.master')
 @section('content')
-    <div class="login-wrapper ">
+    <div class="login-wrapper">
         <div class="logo">
             <img src="//static1.squarespace.com/static/555f4c1ce4b0c32dcc3c12e4/t/5582b255e4b00d5e96225f5a/1527848374125/?format=200w"
                  alt="">

@@ -16,7 +16,7 @@ class StudentLessonDateController extends Controller
 {
     public function show($teacher_id,$lesson_id){
         $lesson = Lesson::find($lesson_id);
-        if($lesson->diffDeadline() > 5) {
+        if($lesson->maySchedule()) {
             foreach (\Auth::user()->lessonDateRegistrations as $lessonDateRegistration) {
                 $id = $lessonDateRegistration->lessonDate->lesson->id;
                 if ($id == $lesson_id) {
@@ -34,19 +34,22 @@ class StudentLessonDateController extends Controller
             foreach ($lessonDates as $lessonDate) {
 
                 $event = [
-                    'start' => date('Y-m-d', strtotime($lessonDate->date)) . 'T' . $lessonDate->time,
+                    'start' => $lessonDate->date->format('Y-m-d'). 'T' . $lessonDate->time,
                     'lessonDate_id' => $lessonDate->id,
-
+                    'title' => '('.$lessonDate->registrations.')',
                 ];
 
-                if ($lessonDate->registrations >= $max) {
-                    array_push($event, $event['backgroundColor'] = 'grey');
-                    array_push($event, $event['borderColor'] = 'grey');
-                    array_push($event, $event['status'] = 'full');
+
+                if ($lessonDate->registrations >= $max || $lessonDate->date->isPast()) {
+                    $event['backgroundColor'] = 'grey';
+                    $event['borderColor'] = 'grey';
+                    $event['status'] = 'full';
+                    $event['className'] = 'full';
+
                 }else{
-                    array_push($event, $event['status'] = 'open');
-                    array_push($event, $event['backgroundColor'] = '66BB6A');
-                    array_push($event, $event['borderColor'] = '66BB6A');
+                     $event['status'] = 'open';
+                     $event['backgroundColor'] = '66BB6A';
+                     $event['borderColor'] = '66BB6A';
                 }
                 array_push($events, $event);
             }

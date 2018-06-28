@@ -3,21 +3,21 @@
 namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
+use App\LessonDateRegistration;
+use Illuminate\Support\Facades\Auth;
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use App\Licensekey;
-
-class validkey implements Rule
+class MayComment implements Rule
 {
+
+    private $lessonDateRegistration;
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($id)
     {
-        //
+        $this->id = $id;
     }
 
     /**
@@ -29,8 +29,11 @@ class validkey implements Rule
      */
     public function passes($attribute, $value)
     {
-        if($license = Licensekey::where('licensekey', '=', '1234')->get()->first()){
-            $license->update(['activated', '=', '1']);
+        $lessonDateRegistration =  LessonDateRegistration::where('id',$this->id)
+            ->where('student_id',Auth::user()->id)
+            ->where('presence', false)->get();
+
+        if(!$lessonDateRegistration->isEmpty()){
             return true;
         }else{
             return false;
@@ -44,6 +47,6 @@ class validkey implements Rule
      */
     public function message()
     {
-        return 'License key is not valid.';
+        return 'Er is iets fout gegaan.';
     }
 }

@@ -8,6 +8,9 @@ $mobileDevices : min-width(600px);
 // Fonts
 @import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
 
+@import "fonts";
+
+
 @import "libs/materialize.scss";
 
 @import "libs/palette-color-picker.css";
@@ -22,27 +25,56 @@ $mobileDevices : min-width(600px);
 
 @import "admin/stylesheet.scss";
 
-h1, h2, h3, h4, h5, p {
+@import "teacher/stylesheet.scss";
+
+@import "mail";
+
+h1, h2, h3, h4, h5, .icon-text {
   color: $primary-color;
-  font-family: 'Agency FB';
+  font-family: 'Ubuntu';
+}
+
+p, a{
+  color: $primary-color;
+  font-family: 'Archivo';
 }
 
 
 .menu-icon{
   color: white;
 }
-@media only screen and (max-width: 600px) {
-  h4{
-    font-size: 2rem;
-  }
-  .container{
-    width: 100% !important;
-  }
 
+.nav-link, .collection-item{
+  width: 100%;
+}
+.material-icons, .icon-text {
+  vertical-align: middle;
+}
+
+
+.helper-comment{
+  width: 100%;
+}
+
+.w-100{
+  width: 100%;
+}
+@media only screen and (max-width: 600px) {
   .card-image{
     img{
       height:230px;
     }
   }
+
+  .material-icons-big {
+    font-size: 32em;
+  }
+  .collapsible-body{
+    padding: 1rem;
+  }
+
+  //.studio-item{
+  //  margin: 0px !important;
+  //}
 }
 

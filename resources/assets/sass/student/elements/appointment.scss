@@ -15,6 +15,7 @@
   left: 50%; /* position the left edge of the element at the middle of the parent */
   transform: translate(-50%, -50%);
   text-align: center;
+  width: 100%;
 }
 
 .material-icons-big{
@@ -22,9 +23,7 @@
   margin-right: 0px !important;
 }
 
-.comment{
-  width: 500px;
-}
+
 
 .display-none{
   display: none;

@@ -3,37 +3,37 @@
 @section('content')
     <div class="row">
         <div class="col s12">
-            <div style="float:left;"><h1 class="h2">Create Teacher</h1></div>
+            <div style="float:left;"><h1>{{trans('modules/teacher.function.create')}}</h1></div>
         </div>
     </div>
     <div class="row">
         <div class="col s12">
-            <form action="/admin/teacher/store" onsubmit="return validateForm('Creating teacher')" method="post">
+            <form action="{{route('admin-teacher-store')}}" method="post">
                 {{csrf_field()}}
                 <div class="input-field">
-                    <input id="name" type="text" class="validate{{ $errors->has('name') ? ' invalid' : '' }}" placeholder="Enter name" name="name" value="{{old('name') ? old('name') : ''}}">
-                    <label for="name">Name:</label>
+                    <input id="name" type="text" class="validate{{ $errors->has('name') ? ' invalid' : '' }}" name="name" value="{{old('name') ? old('name') : ''}}">
+                    <label for="name">{{trans('form.label.name')}}</label>
                     @if ($errors->has('name'))
                         <span class="helper-text" data-error="{{ $errors->first('email') }}"></span>
                     @endif
                 </div>
 
                 <div class="input-field">
-                    <input id="email" type="email"  class="validate {{ $errors->has('email') ? ' invalid' : '' }}" placeholder="Enter email" name="email" value="{{old('email') ? old('email') : ''}}">
-                    <label for="email">email:</label>
+                    <input id="email" type="email"  class="validate {{ $errors->has('email') ? ' invalid' : '' }}" name="email" value="{{old('email') ? old('email') : ''}}">
+                    <label for="email">{{trans('form.label.email')}}</label>
                     @if ($errors->has('email'))
                         <span class="helper-text" data-error="{{ $errors->first('email') }}"></span>
                     @endif
                 </div>
                 <div class="input-field">
-                    <input name='color' id="color" type="text" class="colorpicker validate {{ $errors->has('color') ? ' invalid' : '' }}" value="{{old('color') ? old('color') : ''}}" disabled required/>
-                    {{--<input type="text" id="color" class="validate {{ $errors->has('color') ? ' invalid' : '' }}"  style="display: none"/>--}}
-                    @if ($errors->has('color'))
+                    <input name='color' id="color" type="text" class="colorpicker validate {{ $errors->has('color') ? ' invalid' : '' }}" value="{{old('color') ? old('color') : ''}}" />
+                    <label for="color">{{trans('form.label.color')}}</label>
+                @if ($errors->has('color'))
                         <span class="helper-text" data-error="{{ $errors->first('color') }}"></span>
                     @endif
                 </div>
                 <div class="input-field">
-                    <button type="submit" class="btn  waves-effect">Submit</button>
+                    <button type="submit" class="btn  waves-effect show-swal-loading" data-message="Creating teacher">{{trans('form.button.save')}}</button>
                 </div>
             </form>
         </div>

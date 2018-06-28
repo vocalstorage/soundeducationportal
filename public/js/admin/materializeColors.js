@@ -268,6 +268,6 @@ source.forEach(function (item) {
         if (!palettes[palette]) palettes[palette] = {};
         palettes[palette][variant] = hex;
         colors.push(hex);
-    }
 
+    }
 });

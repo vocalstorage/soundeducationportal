@@ -1,7 +1,6 @@
 @extends('student.layouts.master')
 
 @section('content')
-    <div class="login-wrapper">
         <div class="container">
             <div class="row">
                 <div class="col s12">
@@ -52,7 +51,6 @@
                 </div>
             </div>
         </div>
-    </div>
 @endsection
 
 

@@ -22,7 +22,8 @@
             Afwezig
             <input type="checkbox" class="presence" data-id="0">
             <span class="lever"></span>
-            Aanwezig
+           Aanwezig
+
         </label>
     </div>
 

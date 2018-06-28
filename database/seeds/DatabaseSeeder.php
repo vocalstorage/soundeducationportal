@@ -36,5 +36,6 @@ class DatabaseSeeder extends Seeder
             'schoolgroup_id' => 1,
             'password' => Hash::make('Wonderwall2018'),
         ]);
+
     }
 }

@@ -1,23 +1,27 @@
 <div class="modal-content">
-    <h4>{{$lessonDate->lesson->title}} - {{date_format(new DateTime($lessonDate->date),'l\, jS F \a\t '. $lessonDate->time)}}</h4>
+    <h4>{{$lessonDate->lesson->title}} - {{$lessonDate->date->formatLocalized('%A %d %B')}} om {{$lessonDate->time}}</h4>
     <div class="divider"></div>
 </div>
 
 <div class="container">
     <div class="registrated-students left-align">
         <ul class="studentRegistrations">
-            <label>Students:</label>
+            <label>{{trans('modules/student.title')}}</label>
+            <div class="divider"></div>
             <li>
                 @if(count($lessonDate->lessonDateRegistrations ) > 0)
                     @foreach($lessonDate->lessonDateRegistrations as $lessonDateRegistration)
                         <div class="chip">
                             {{$lessonDateRegistration->student->name}}
                             ({{$lessonDateRegistration->skill}})
-                            <a href="{{route('admin-lessonDate-cancelStudent',array($lessonDate->id, $lessonDateRegistration->id))}}'" class="lessondate_cancelStudent"><i class="material-icons ">clear</i></a>
+                            <a href="{{route('admin-lessonDate-cancelStudent',array($lessonDate->id, $lessonDateRegistration->id))}}'"
+                               class="swal-show-warning" data-message="Wil je student {{$lessonDateRegistration->student->name}} uitschrijven?"
+                               data-loading-message="Student aan het uitschrijven"><i class="material-icons ">clear</i></a>
+
                         </div>
                     @endforeach
                 @else
-                    No students found
+                    Er zijn nog geen registraties.
                 @endif
             </li>
         </ul>
@@ -35,7 +39,7 @@
                 @foreach($students as $student)
                     <tr>
                         <td>{{$student->name}}</td>
-                        <td><a href="{{route('admin-lessonDate-registerStudent',array($lessonDate->id, $student->id))}}"><i class="material-icons ">add</i></a></td>
+                        <td><a href="{{route('admin-lessonDate-registerStudent',array($lessonDate->id, $student->id))}}" class="show-swal-loading" data-message="Student aan het inschrijven"><i class="material-icons ">add</i></a></td>
                     </tr>
                 @endforeach
                 </tbody>
@@ -44,6 +48,8 @@
     </div>
     <hr>
     <div class="modal-footer">
-        <a href="{{route('admin-lessonDate-delete', $lessonDate->id)}}" class="modal-action btn  waves-effect  lessondate_delete">Verwijder</a>
+        <a href="{{route('admin-lessonDate-delete',$lessonDate->id)}}" class="btn swal-show-warning" data-message="{{$lessonDate->warnings()}}" data-loading-message="Deleting lesson">
+            {{trans('form.button.delete')}}
+        </a>
     </div>
 </div>

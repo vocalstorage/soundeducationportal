@@ -23,21 +23,25 @@ class StudentController extends Controller
     public function update(Request $request){
         $rules = [
             'name' => 'required|min:5',
-            'email'  =>  'required|email|unique:teachers,email,'.Auth::id()
+            'email'  =>  'required|email|unique:teachers,email,'.Auth::id(),
         ];
 
         if(!empty($request->request->get('password'))){
+            $rules = [
+                'name' => 'required|min:5',
+                'email'  =>  'required|email|unique:teachers,email,'.Auth::id(),
+            ];
             $rules['password'] = 'required|confirmed|min:6';
-        }else{
-            $request->request->remove('password');
         }
 
         $request->validate($rules);
 
-        $request['password'] = Hash::make($request->request->get('password'));
-
-
-        \Auth::user()->update($request->all());
+        if(!empty($request->request->get('password'))) {
+            $request['password'] = Hash::make($request->request->get('password'));
+            \Auth::user()->update($request->all());
+        }else{
+            \Auth::user()->update($request->except('password'));
+        }
 
         $succes_msg = "gegevens zijn aangepast";
         $data = [

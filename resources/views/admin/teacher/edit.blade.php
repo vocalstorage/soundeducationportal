@@ -3,26 +3,34 @@
 @section('content')
     <div class="row">
         <div class="col s12">
-            <div style="float:left;"><h1 class="h2">Edit teacher</h1></div>
+            <div style="float:left;"><h1>{{trans('modules/teacher.function.edit')}}</h1></div>
         </div>
     </div>
     <div class="row">
         <div class="col s12">
-            <form action="{{route('admin-teacher-update', $teacher->id)}}" onsubmit="return validateForm('Editing teacher')" method="post">
+            <form action="{{route('admin-teacher-update', $teacher->id)}}"  method="post">
 
                 {{csrf_field()}}
 
-                @include('admin.layouts.errors')
-
                 <div class="input-field">
-                    <label>Name:</label>
-                    <input value="{{$teacher->name}}" type="text" class="form-control" placeholder="Enter firstname" name="name">
+                    <label>{{trans('form.label.name')}}</label>
+                    <input value="{{old('name') ? old('name') : $teacher->name}}" type="text" class="validate {{ $errors->has('name') ? ' invalid' : '' }}"  name="name">
+                    @if ($errors->has('name'))
+                        <span class="helper-text" data-error="{{ $errors->first('name') }}"></span>
+                    @endif
+                </div>
+                <div class="input-field">
+                    <input id="email" type="email"  class="validate {{ $errors->has('email') ? ' invalid' : '' }}" name="email" value="{{old('email') ? old('email') : $teacher->email}}">
+                    <label for="email">{{trans('form.label.email')}}</label>
+                    @if ($errors->has('email'))
+                        <span class="helper-text" data-error="{{ $errors->first('email') }}"></span>
+                    @endif
                 </div>
                 <div class="row">
                     <div class="col s6">
                          <div class="input-field">
-                            <input name='color' id="color" type="text" class="colorpicker validate {{ $errors->has('color') ? ' invalid' : $teacher->color }}" value="{{old('color') ? old('color') : $teacher->color}}" required/>
-                            {{--<input type="text" id="color" class="validate {{ $errors->has('color') ? ' invalid' : '' }}"  style="display: none"/>--}}
+                            <input name='color' id="color" type="text" class="colorpicker validate {{ $errors->has('color') ? ' invalid' : $teacher->color }}" value="{{old('color') ? old('color') : $teacher->color}}" />
+                             <label for="name">{{trans('form.label.color')}}</label>
                             @if ($errors->has('color'))
                                 <span class="helper-text" data-error="{{ $errors->first('color') }}"></span>
                             @endif
@@ -40,7 +48,7 @@
                     </div>
                 </div>
                 <div class="input-field">
-                    <button type="submit" class="btn  waves-effect">Save</button>
+                    <button type="submit" class="btn  waves-effect show-swal-loading" data-message="Editing teacher">{{trans('form.button.save')}}</button>
                 </div>
             </form>
         </div>

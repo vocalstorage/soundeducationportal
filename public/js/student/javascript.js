@@ -9,7 +9,7 @@ $(document).ready(function () {
     $('.sidenav').sidenav();
     $('.tooltipped').tooltip();
     $('.tooltipped2').tooltip();
-
+    $('.dropdown-trigger').dropdown();
     $('select[required]').css({
         display: 'inline',
         position: 'absolute',
@@ -22,6 +22,9 @@ $(document).ready(function () {
         top: '2em',
         left: '3em'
     });
+
+    $('.card-studio-description').matchHeight({'byRow' : true});
+    $('.card-studio-title').matchHeight({'byRow' : true});
 
 
     $('.tooltipped-error').tooltip({delay: 50}).each(function () {
@@ -37,9 +40,9 @@ $(document).ready(function () {
         }
     });
 
-    if($('#calendar_lessondate').length > 0){
+    if ($('#calendar_lessondate').length > 0) {
         var view = "month";
-        if(window.innerWidth < 600){
+        if (window.innerWidth < 600) {
             view = "listWeek";
         }
         $('#calendar_lessondate').fullCalendar({
@@ -50,74 +53,54 @@ $(document).ready(function () {
             },
             defaultView: view,
             events: events,
-            timeFormat: 'h:mm',
-            eventClick:  function(event, jsEvent, view) {
-                if(event.status == 'open'){
+            timeFormat: 'H:mm',
+            eventClick: function (event, jsEvent, view) {
+                if (event.status == 'open') {
                     $('#eventModal').modal('open');
-                    $.get( '/student/registration/show/'+event.lessonDate_id, function( data ) {
-                        console.log(data);
-                        $('#eventModal').html('');
-                        $('#eventModal').append(data);
-                        $('select').formSelect();
+                    $('#eventModalLoader').show();
+                    $('.event-modal-content').html('');
+                    $.get('/student/registration/show/' + event.lessonDate_id, function (data) {
+                        $('.event-modal-content').fadeOut(200, function () {
+                            $('.event-modal-content').append(data);
+                            $('#eventModalLoader').hide();
+                            $('.event-modal-content').fadeIn(200, function () {
+                                $('#eventTabs').tabs();
+                            })
+                            $('select').formSelect();
+                        });
                     });
                 }
             },
         });
     }
 
-    $('body').on('click', '.lessonDateCancelBtn' , function (e){
-        e.preventDefault();
-        if($(this).attr('data-cancelled') == '3'){
-            swal({
-                title: 'Weet je zeker dat je wilt uitschijven?',
-                text: "Dit is de laatste keer dat je kunt uitschrijven!",
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ja, schrijf mij uit!',
-                cancelButtonText: 'Nee',
-
-            }).then((result) => {
-                $.get( $(this).attr('href'), function( data ) {
-                    location.reload();
-                });
-            });
-
-        }
-        $.get( $(this).attr('href'), function( data ) {
-            location.reload();
-        });
-
-    });
-
 
     $('body').on('click', '.collapsibleSchedule', function () {
         var target = $(this).find('li.active .collapsible-body');
 
-        $('html, body').animate({
+        $('html, body').stop().animate({
             scrollTop: target.offset().top
-        }, 1000);
+        }, 500);
     });
 
     $('body').on('click', '.btnScheduleLessonsBack', function () {
         var target = $('.collapsibleSchedule').find('li.active');
-        $('.collapsible').collapsible('close',target.index());
+        $('.collapsible').collapsible('close', target.index());
     });
 
 
-    $('body').on('click','.lessonDateRegisterBtn', function () {
-        if($('#skill-field :selected').val() !== '0'){
-            swal({
-                title: 'Aan het inschrijven'
-            });
-            swal.showLoading();
-            $.ajax({
-                url: '/student/registration/store',
-                type: 'POST',
-                dataType: 'JSON',
-                data: {'lesson_date_id' : $(this).attr('data-id'), 'skill' : $('#skill-field :selected').text()},
-                success: function (data) {
+    $('body').on('click', '.lessonDateRegisterBtn', function () {
+        swal({
+        title: 'Aan het inschrijven'
+        });
+        swal.showLoading();
+        $.ajax({
+            url: '/student/registration/store',
+            type: 'POST',
+            dataType: 'JSON',
+            data: {'lesson_date_id': $(this).attr('data-id'), 'skill': $('#skill-field :selected').val()},
+            success: function (data) {
+                if (data) {
                     swal({
                         title: 'Succesvol ingeschreven',
                         text: "Email confirmatie is verzonden",
@@ -127,9 +110,9 @@ $(document).ready(function () {
                         cancelButtonColor: '#d33',
                         confirmButtonText: 'Ok!'
                     }).then((result) => {
-                        if(result){
+                        if (result) {
                             window.location.replace("/student/account/appointments");
-                        }else{
+                        } else {
                             swal({
                                 type: 'error',
                                 title: 'Oops...',
@@ -138,30 +121,108 @@ $(document).ready(function () {
                         }
                     })
                 }
-            });
-        }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                var errors = JSON.parse(XMLHttpRequest.responseText).errors;
+                var html = '';
+                console.log(JSON.parse(XMLHttpRequest.responseText));
+
+                $.each(errors, function (key,message) {
+                    html += '<p class=error>' + message + '</p>';
+                });
+
+                if (!html) {
+                    html = 'Er is iets fout gegaan!';
+                }
+
+                swal({
+                    type: 'error',
+                    title: 'Oeps...',
+                    html: html,
+                })
+            }
+        });
+
     });
 
-    if($('.succes-msg').length > 0){
-
+    if ($('.succes-msg').length > 0) {
         swal({
             type: 'success',
-            title:  $('.succes-msg').attr('data-message'),
-            showConfirmButton: true,
+            title: $('.succes-msg').attr('data-message'),
+            confirmButtonClass: 'btn waves-effect blue ligthen-1 swal-custom-btn',
         });
+        $('.swal2-styled').removeClass('swal2-styled');
     }
 
-    $('.overlay').fadeTo('slow' , 0.9 );
+    $('.overlay').fadeTo('slow', 0.9);
 
 
-    $('body').on('click','.btn-comment', function () {
-        $('.message, .comment').toggle(500);
-
+    $('body').on('click', '.btn-comment', function () {
+        $('#comment-' + $(this).attr('data-id')).toggle();
+        $('#message-' + $(this).attr('data-id')).toggle();
     });
 
-    $('.fc-button').addClass('btn waves-effect green lighten-1').removeClass('fc-state-default');
+    $('.fc-button').addClass('btn waves-effect').removeClass('fc-state-default');
+
+    $("body").on("click", ".swal-show-warning-confirm", function (e) {
+        e.preventDefault();
+
+        var elem = $(this);
 
 
+        confirmDelete($(this).attr('data-title'), $(this).attr('data-message'), $(this).attr('data-confirm'), $(this).attr('data-loading-message'), elem);
+    });
+
+    $('body').on('click', '.show-swal-loading', function () {
+        var message = "aan het laden";
+
+        if ($(this).attr('data-message')) {
+            message = $(this).attr('data-message');
+        }
+        swal({
+            title: message
+        });
+        swal.showLoading();
+    });
+
+    $("body").on("click", ".swal-show-warning", function (e) {
+        e.preventDefault();
+
+        swal({
+            title: $(this).attr('data-title'),
+            html: $(this).attr('data-message'),
+            confirmButtonClass: 'btn waves-effect blue ligthen-1 swal-custom-btn',
+            confirmButtonText: 'oke',
+            type: 'warning',
+        });
+        $('.swal2-styled').removeClass('swal2-styled');
+    });
 });
+
+
+function confirmDelete(title, html, confirmtext, loadMessage, elem) {
+    swal({
+        title: title,
+        html: html,
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonClass: 'btn waves-effect blue ligthen-1 swal-custom-btn',
+        cancelButtonClass: 'btn waves-effect red ligthen-1 swal-custom-btn',
+        confirmButtonText: confirmtext
+    }).then((result) => {
+        if (result.value) {
+            swal({
+                title: loadMessage
+            });
+            swal.showLoading();
+            $.get(elem.attr('href'), function (data) {
+                if (data) {
+                    location.reload();
+                }
+            });
+        }
+    })
+    $('.swal2-styled').removeClass('swal2-styled');
+}
 
 

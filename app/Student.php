@@ -39,6 +39,17 @@ class Student extends Authenticatable
     public function cancels(){
         return $this->lessonDateRegistrations()->onlyTrashed()->get()->count();
     }
+
+    public function warnings(){
+        $html = "";
+
+        if ($this->lessonDateRegistrations()) {
+            $html .= '<p class="warning">Deze student heeft nog ' . $this->lessonDateRegistrations()->count() . ' registratie(s)</p>';
+        }
+
+        return $html;
+    }
+
 }
 
 

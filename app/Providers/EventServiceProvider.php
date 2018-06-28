@@ -19,18 +19,9 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\Event' => [
-            'App\Listeners\EventListener',
+        'App\Events\LessonDateDeleted' => [
+            'App\Listeners\HasDeletedLessonDate',
         ],
-//        ImageIsDeleting::class => [
-//            DeleteImageListener::class
-//        ],
-//        ImageIsRenaming::class => [
-//            RenameImageListener::class
-//        ],
-//        ImageIsUploading::class => [
-//            IsUploadingImageListener::class
-//        ],
         ImageWasUploaded::class => [
             HasUploadedImageListener::class
         ]

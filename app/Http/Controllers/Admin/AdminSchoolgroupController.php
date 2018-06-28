@@ -34,6 +34,12 @@ class AdminSchoolgroupController extends Controller
     }
 
     public function store(Request $request){
+
+        $request->validate([
+            'schoolgroup' => 'required',
+            'filepath' => 'required',
+        ]);
+
         $path = substr($request->request->get('filepath'), 1);
 
         $schoolgroup =  Schoolgroup::where('title', '=' , $request->request->get('schoolgroup'))->get()->first();
@@ -101,10 +107,12 @@ class AdminSchoolgroupController extends Controller
         return redirect(route('admin-schoolgroup-index'));
     }
 
-    public function delete($id){
-       $schoolgroup = Schoolgroup::find($id);
-       $schoolgroup->students()->delete();
-       $schoolgroup->delete();
+    public function delete(Request $request, $id){
+        if($request->ajax()) {
+            $schoolgroup = Schoolgroup::find($id);
+            $schoolgroup->students()->delete();
+            $schoolgroup->delete();
+        }
 
         return redirect(route('admin-schoolgroup-index'));
 

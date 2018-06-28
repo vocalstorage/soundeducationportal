@@ -14,8 +14,7 @@ class AdminLessonController extends Controller
 {
     public function index()
     {
-        $lessons = Lesson::whereHas('lessonDates')
-            ->where('deadline', '>', Carbon::today())
+        $lessons = Lesson::where('deadline', '>', Carbon::today())
             ->orderBy('deadline', 'asc')->paginate(10);
 
         $teacherStudioRelations = Teacher::whereHas('studio')->get()->count();
@@ -31,6 +30,8 @@ class AdminLessonController extends Controller
     public function show($id)
     {
         $lesson = Lesson::find($id);
+
+        $lesson->checkEmptyDates();
 
         $max = $lesson->max;
         $events = [];
@@ -49,6 +50,11 @@ class AdminLessonController extends Controller
                 'borderColor' => $lessonDate->teacher->color,
                 'teacher_id' => $lessonDate->teacher->id,
             ];
+
+            if($lessonDate->warning === 1 && $lessonDate->registrations <= 2){
+                $event['className'] = ['pulse','yellow-text'];
+            }
+
 
             if ($lessonDate->registrations >= $max) {
                 array_push($event, $event['status'] = 'full');
@@ -165,11 +171,12 @@ class AdminLessonController extends Controller
     {
         $request->validate([
             'title' => 'required',
-            'description' => 'required',
+            'description' => 'required|min:20',
             'max_registration' => 'required|integer',
             'deadline' => 'required|date_format:d/m/Y|after:today',
             'filepath' => 'required',
-            'schoolgroup_id' => 'required',
+            'schoolgroup_id' => 'required|integer',
+            'teachers' => 'required',
         ]);
 
         $path = $request->request->get('filepath');
@@ -205,14 +212,14 @@ class AdminLessonController extends Controller
 
     public function update(Request $request, $id)
     {
-
         $request->validate([
             'title' => 'required',
-            'description' => 'required',
+            'description' => 'required|min:20',
             'max_registration' => 'required|integer',
             'deadline' => 'required|date_format:d/m/Y|after:today',
             'filepath' => 'required',
-            'schoolgroup_id' => 'required',
+            'schoolgroup_id' => 'required|integer',
+            'teachers' => 'required',
         ]);
 
         $lesson = Lesson::find($id);
@@ -239,11 +246,13 @@ class AdminLessonController extends Controller
         return redirect(route('admin-lesson-index'));
     }
 
-    public function delete($id)
+    public function delete(Request $request, $id)
     {
-        $lesson = Lesson::find($id);
-        $lesson->lessonDates()->delete();
-        $lesson->delete();
+        if($request->ajax()) {
+            $lesson = Lesson::find($id);
+            $lesson->lessonDates()->delete();
+            $lesson->delete();
+        }
 
         return redirect(route('admin-lesson-index'));
     }

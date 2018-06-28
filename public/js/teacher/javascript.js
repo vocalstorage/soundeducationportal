@@ -25,7 +25,21 @@ $(document).ready(function () {
         }
     });
 
-    console.log(deadline);
+    ClassicEditor
+        .create(document.querySelector('#editor'), {
+            toolbar: ['heading', '|', 'bold', 'italic', 'bulletedList', 'numberedList', 'blockQuote'],
+        })
+        .catch(error => {
+            console.log(error);
+        });
+
+    $("body").on("click", ".swal-show-warning", function (e) {
+        e.preventDefault();
+        elem = $(this);
+
+        confirmDelete('Are you sure?', $(this).attr('data-message'), 'Yes, delete it!', $(this).attr('data-loading-message'));
+    });
+
 
     if ($('#calendar_lessondate').length > 0) {
         $('#calendar_lessondate').fullCalendar({
@@ -35,6 +49,8 @@ $(document).ready(function () {
                     text: 'Aanwezigheid',
                     click: function() {
                         $('#calendar_lessondate,#calendar_presence').fadeToggle(200);
+                        $('#calendar_presence').fullCalendar('rerenderEvents');
+
                     }
                 }
             },
@@ -43,6 +59,7 @@ $(document).ready(function () {
                 center: 'title',
                 right: 'today, prev,next'
             },
+            nowIndicator: true,
             eventLimit: 6, // If you set a number it will hide the itens
             eventLimitText: "lessen",
             eventOrder: 'teacher_id',
@@ -75,6 +92,7 @@ $(document).ready(function () {
                     $('.event-modal-content').fadeOut(200,function () {
                         $('.event-modal-content').html('');
                         $('.event-modal-content').append(data);
+                        $('#eventModalLoader').hide();
                         $('.event-modal-content').fadeIn(200);
                     });
                     current_date = date.format();
@@ -85,19 +103,25 @@ $(document).ready(function () {
 
     if ($('#calendar_presence').length > 0) {
         $('#calendar_presence').fullCalendar({
-            defaultView: 'listWeek',
+            defaultView: 'listDay',
             customButtons: {
                 myCustomButton: {
                     text: 'Kalendar',
                     click: function() {
                         $('#calendar_lessondate,#calendar_presence').fadeToggle(200);
+                        $('#calendar_lessondate').fullCalendar('rerenderEvents');
                     }
                 }
+            },
+            views: {
+                listDay: { buttonText: 'dag' },
+                listWeek: { buttonText: 'week' },
+                listMonth: { buttonText: 'maand' }
             },
             header: {
                 left: 'myCustomButton',
                 center: 'title',
-                right: 'today, prev,next'
+                right: 'listDay, listWeek, listMonth, prev,next'
             },
             eventLimit: 6, // If you set a number it will hide the itens
             eventLimitText: "lessen",
@@ -136,6 +160,12 @@ $(document).ready(function () {
 
                     if(registration.presence) {
                         input.prop('checked', true);
+                    }
+
+                    var confirm = $("<a href='/test'>");
+                    if(registration.comment){
+                        var studentComment = '<div class="comment" data-message="'+registration.comment+'"><i class="material-icons comment-icon">email</i></div>';
+                        comment.html(studentComment);
                     }
                     target.append(row);
                 });
@@ -191,7 +221,8 @@ $(document).ready(function () {
         $('.commentModal').modal('open');
     });
 
-    $('.fc-button').addClass('btn');
+    $('.fc-button').addClass('btn waves-effect green lighten-1').removeClass('fc-state-default');
+    $('.fc-day-grid-event').addClass('waves-effect');
 
     var editor_config = {
         path_absolute : "/",
@@ -266,5 +297,30 @@ $.fn.extend({
     }
 });
 
+function confirmDelete(title, html, confirmtext, loadMessage) {
+    swal({
+
+        title: title,
+        html: html,
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonClass: 'btn waves-effect blue ligthen-1 swal-custom-btn',
+        cancelButtonClass: 'btn waves-effect red ligthen-1 swal-custom-btn',
+        confirmButtonText: confirmtext
+    }).then((result) => {
+        if (result.value) {
+            swal({
+                title: loadMessage
+            });
+            swal.showLoading();
+            $.get(elem.attr('href'), function (data) {
+                if (data) {
+                    location.reload();
+                }
+            });
+        }
+    })
+    $('.swal2-styled').removeClass('swal2-styled');
+}
 
 

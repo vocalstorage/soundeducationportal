@@ -3,34 +3,37 @@
 @section('content')
     <div class="row">
         <div class="col s12">
-            <div style="float:left;"><h1 class="h2">Voeg klass toe</h1></div>
+            <div style="float:left;"><h1 class="h2">{{trans('modules/schoolgroup.function.create')}}</h1></div>
         </div>
     </div>
     <div class="row">
         <div class="col s12">
-            <form action="{{route('admin-schoolgroup-store')}}" onsubmit="return validateForm('Fetching excel data')" method="post">
+            <form action="{{route('admin-schoolgroup-store')}}"  method="post">
                 {{csrf_field()}}
-                <label>Excel file:</label>
-                <div class="file-field input-field col s10">
+                <div class="file-field input-field col s12">
                     <a id="excelFilemanager" data-input="thumbnail" data-preview="holder">
                         <div class="btn  waves-effect">
-                            <i class="material-icons">file_upload</i>
+                            <i class="material-icons white-text">file_upload</i>
                         </div>
                     </a>
                     <div class="file-path-wrapper">
-                        <input id="thumbnail" class="form-control" type="text" name="filepath">
+                        <input id="thumbnail" class="validate {{ $errors->has('filepath') ? ' invalid' : '' }}" type="text" name="filepath" value="{{old('filepath') ? old('filepath') : ''}}">
+                        <label for="thumbnail">Excel file</label>
+                    @if ($errors->has('filepath'))
+                            <span class="helper-text" data-error="{{ $errors->first('filepath') }}"></span>
+                        @endif
                     </div>
                 </div>
                 <div class="input-field col s12">
-                    <input id="schoolgroup" value="@if(old('schoolgroup')){{old('schoolgroup')}}@endif" type="text"
+                    <input id="schoolgroup" value="{{old('schoolgroup') ? old('schoolgroup') : ''}}" type="text"
                            class="validate {{ $errors->has('schoolgroup') ? ' invalid' : '' }}" name="schoolgroup">
-                    <label for="title">Klas naam</label>
-                    @if ($errors->has('class'))
+                    <label for="schoolgroup">Klas naam</label>
+                    @if ($errors->has('schoolgroup'))
                         <span class="helper-text" data-error="{{ $errors->first('schoolgroup') }}"></span>
                     @endif
                 </div>
                 <div class="input-field col s12">
-                    <button id="createSchoolgroup" type="submit" class="btn  waves-effect">Submit</button>
+                    <button id="createSchoolgroup" type="submit" class="btn  waves-effect">{{trans('form.button.save')}}</button>
                 </div>
             </form>
         </div>
@@ -42,17 +45,17 @@
         <div class="row">
             <div class="col s12">
                 <ul class="tabs excel-tabs">
-                    <li class="tab col s6"><a href="#test1">Succes ({{count($students)}})</a></li>
-                    <li class="tab col s6"><a class="active" href="#test2">Errors ({{count($failures)}})</a></li>
+                    <li class="tab col s6"><a href="#">Succes ({{count($students)}})</a></li>
+                    <li class="tab col s6"><a class="active red-text" href="#" >Errors ({{count($failures)}})</a></li>
                 </ul>
             </div>
             <div id="test1" class="col s12">
                 <table class="table-excel-log">
                     <thead>
                     <tr>
-                        <th>Rij</th>
-                        <th>Name</th>
-                        <th>Email</th>
+                        <th>{{trans('form.label.row')}}</th>
+                        <th>{{trans('form.label.name')}}</th>
+                        <th>{{trans('form.label.email')}}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -70,19 +73,19 @@
                 <table class="table-excel-log">
                     <thead>
                     <tr>
-                        <th>Rij</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Bericht</th>
+                        <th>{{trans('form.label.row')}}</th>
+                        <th>{{trans('form.label.name')}}</th>
+                        <th>{{trans('form.label.email')}}</th>
+                        <th>{{trans('form.label.message')}}</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($failures as $failure)
                         <tr>
                             <td>{{$loop->index}}</td>
-                            <td @if(!$failure->naam) class="error" @endif>@if($failure->naam){{$failure->naam}}@else naam is leeg @endif</td>
-                            <td @if(!$failure->email)class="error" @endif>@if($failure->email) {{$failure->email}}@else email is leeg @endif</td>
-                            <td @if($failure->email)class="error" @endif><span class="error-color">{{$failure->err_message}}</span></td>
+                            <td @if(!$failure->naam) class="red-text" @endif>@if($failure->naam){{$failure->naam}}@else naam is leeg @endif</td>
+                            <td @if(!$failure->email)class="red-text" @endif>@if($failure->email) {{$failure->email}}@else email is leeg @endif</td>
+                            <td @if($failure->email)class="red-text" @endif><span class="error-color">{{$failure->err_message}}</span></td>
                         </tr>
                     @endforeach
                     </tbody>

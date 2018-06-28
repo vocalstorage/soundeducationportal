@@ -9,6 +9,9 @@ use App\Lesson;
 use App\Student;
 use App\LessonDateRegistration;
 use App\Http\Controllers\Controller;
+use App\Events\LessonDateDeleted;
+use App\Mail\TeacherSendLessonDateDeleted;
+use Illuminate\Support\Facades\Mail;
 
 class AdminLessonDateController extends Controller
 {
@@ -64,38 +67,46 @@ class AdminLessonDateController extends Controller
 
     public function store(Request $request)
     {
-        $lesson = Lesson::find($request->request->get('lesson_id'));
-        $teachers = collect($request->request->get('teachers'));
-        foreach ($teachers as $teacherJson) {
-            if (!empty($teacherJson['times'])) {
-                $times = $teacherJson['times'];
-                foreach ($times as $time) {
-                    $lessonDateId = $lesson->lessonDates()->updateOrCreate([
-                        'date' => $request->request->get('date'),
-                        'time' => $time,
-                        'teacher_id' => $teacherJson['id'],
-                        'registrations' => '0',
-                    ])->id;
+        if($request->ajax()){
+            $request->validate([
+                'date' => 'required',
+                'teacher_id' => 'required}integer',
+                'teachers' => 'required',
+            ]);
 
-                    $lessonDate = LessonDate::find($lessonDateId);
-                    Teacher::find($teacherJson['id'])->lesson_dates()->save($lessonDate);
+            $lesson = Lesson::find($request->request->get('lesson_id'));
+            $teachers = collect($request->request->get('teachers'));
+            foreach ($teachers as $teacherJson) {
+                if (!empty($teacherJson['times'])) {
+                    $times = $teacherJson['times'];
+                    foreach ($times as $time) {
+                        $lessonDateId = $lesson->lessonDates()->updateOrCreate([
+                            'date' => $request->request->get('date'),
+                            'time' => $time,
+                            'teacher_id' => $teacherJson['id'],
+                            'registrations' => '0',
+                        ])->id;
+
+                        $lessonDate = LessonDate::find($lessonDateId);
+                        Teacher::find($teacherJson['id'])->lesson_dates()->save($lessonDate);
+                    }
                 }
-            }
 
-            if (!empty($teacherJson['removedTimes'])) {
-                $times = $teacherJson['removedTimes'];
+                if (!empty($teacherJson['removedTimes'])) {
+                    $times = $teacherJson['removedTimes'];
 
-                foreach ($times as $time) {
-                    LessonDate::where('time', '=', $time)
-                        ->where('lesson_id', '=', $lesson->id)
-                        ->where('teacher_id','=', $teacherJson['id'])
-                        ->delete();
+                    foreach ($times as $time) {
+                        LessonDate::where('time', '=', $time)
+                            ->where('lesson_id', '=', $lesson->id)
+                            ->where('teacher_id','=', $teacherJson['id'])
+                            ->delete();
+                    }
                 }
             }
         }
 
-        return response()->json(array(['succes', 'succes']),
-            200);
+
+        return response()->json(array(['succes', 'succes']), 200);
 
     }
 
@@ -151,61 +162,13 @@ class AdminLessonDateController extends Controller
     }
 
 
-    public function update(Request $request)
-    {
-        $times_edit_added = "";
-        $times_edit_removed = "";
-        $lesson_date = LessonDate::findOrFail($request->request->get('lesson_date_id'));
-        $lesson = Lesson::findOrFail($lesson_date->lesson_id);
-        $teacher_id = $request->request->get('teacher_id');
-        $teacher = Teacher::findOrFail($teacher_id);
-
-        $times_edit_added = $request->request->get('times_edit_added');
-        if ($times_edit_added) {
-            foreach ($times_edit_added as $time) {
-                $lessonDateId = $lesson->lessonDates()->create([
-                    'date' => $lesson_date->date,
-                    'deadline' => $lesson_date->deadline,
-                    'time' => $time,
-                    'teacher_id' => $lesson_date->teacher_id,
-                    'registrations' => '0',
-                ])->id;
-
-                $lessonDate = LessonDate::find($lessonDateId);
-                $teacher->lessons()->save($lessonDate);
-            }
-        }
-
-
-        $times_edit_removed = $request->request->get('times_edit_removed');
-        if ($times_edit_removed) {
-            foreach ($times_edit_removed as $time) {
-                LessonDate::where('lesson_id', $lesson_date->lesson_id)
-                    ->where('date', $lesson_date->date)
-                    ->where('teacher_id', $teacher_id)
-                    ->where('time', $time)
-                    ->delete();
-            }
-        }
-
-
-        return response()->json(array(['succes', $request]),
-            200);
-    }
-
-    public function delete($id)
+    public function delete( $id)
     {
         $lessonDate = LessonDate::find($id);
         $lessonDate->delete();
-    }
+        Mail::to($lessonDate->teacher)->send(new TeacherSendLessonDateDeleted($lessonDate->teacher, $lessonDate));
 
-    public function multipleDelete(Request $request){
-
-        foreach ($request->request->get('delete') as $id){
-            $this->delete($id);
-        }
-
-        return redirect(route('admin-lesson-index'));
+        return back();
     }
 
     public function handleWarnings(Request $request){
@@ -244,9 +207,14 @@ class AdminLessonDateController extends Controller
         return back();
     }
 
-    public function cancelStudent($id, $registration_id){
-        LessonDate::find($id)->decrement('registrations');
-        LessonDateRegistration::find($registration_id)->delete();
+    public function cancelStudent(Request $request, $id, $registration_id){
+        if($request->ajax()){
+            LessonDate::find($id)->decrement('registrations');
+            LessonDateRegistration::find($registration_id)->delete();
+
+            return response()->json(array(['succes', 'succes']), 200);
+        }
+
     }
 
     public function showRegistrationForm($id)

@@ -1,8 +1,12 @@
 /* Base */
 
 body, body *:not(html):not(style):not(br):not(tr):not(code) {
-    font-family: Avenir, Helvetica, sans-serif;
+    font-family: "Arial";
     box-sizing: border-box;
+}
+
+code{
+    font-family: "Arial";
 }
 
 body {
@@ -19,6 +23,7 @@ body {
     -webkit-text-size-adjust: none;
     word-break: break-all;
     word-break: break-word;
+    font-family: "Arial";
 }
 
 p,
@@ -27,6 +32,7 @@ ol,
 blockquote {
     line-height: 1.4;
     text-align: left;
+    font-family: "Arial";
 }
 
 a {
@@ -105,7 +111,7 @@ img {
 .header {
     padding: 25px 0;
     text-align: center;
-    background-color: #4CAF50;
+    background-color: white;
 }
 
 .header a {
@@ -157,19 +163,23 @@ img {
     margin: 0 auto;
     padding: 0;
     text-align: center;
-    width: 100%;
+    width: 570px;
     -premailer-cellpadding: 0;
     -premailer-cellspacing: 0;
-    -premailer-width: 100%;
-    background-color: #4CAF50;
+    -premailer-width: 570px;
+    background-color: white;
 }
 
 .footer p {
+    color: black;
+    font-weight: bold;
     font-size: 12px;
     text-align: center;
-    color:white;
 }
 
+.footer_wrapper{
+    background-color: white;
+}
 /* Tables */
 
 .table table {

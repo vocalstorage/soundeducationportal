@@ -3,7 +3,7 @@
 @section('content')
     <div class="row">
         <div class="col s12">
-            <div style="float:left;"><h2 class="h2">Scheduler</h2></div>
+            <div style="float:left;"><h1>Planner - {{$lesson->title}}</h1></div>
         </div>
     </div>
     <hr>
@@ -11,8 +11,8 @@
         <div class="col s12">
             <div class="container">
                 <div class="row">
-                    <div id="calendar_lessondate" class="animate fadeIn"></div>
-                    <div id="calendar_presence" class="animate fadeIn" style="display: none" ></div>
+                    <div id="calendar_lessondate" class="animate fadeIn" style="{{$calendarView === 'lessonDate' ? '' : 'display:none'}}" ></div>
+                    <div id="calendar_presence" class="animate fadeIn" style="{{$calendarView === 'presence' ? '' : 'display:none'}}" ></div>
                 </div>
             </div>
         </div>
@@ -58,13 +58,12 @@
     </div>
 @endsection
 
+<div style="display:block;" id="data" data-events="{{json_encode($events)}}" data-event_regs="{{json_encode($event_regs)}}" data-currentLessonId="{{$lesson->id}}" data-deadline="{{$lesson->deadline}}"></div>
+
 <script>
-    var events = {!! json_encode($events) !!};
-
-    var event_regs = {!! json_encode($event_regs) !!};
-
-    var current_lesson_id = {!! $lesson_id !!};
-
-    var deadline = {!! json_encode($deadline) !!};
-
+    var data = document.getElementById('data');
+    var events = JSON.parse(data.dataset.events);
+    var event_regs = JSON.parse(data.dataset.event_regs);
+    var current_lesson_id = data.dataset.currentlessonid;
+    var deadline = data.dataset.deadline;
 </script>

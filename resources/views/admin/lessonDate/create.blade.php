@@ -27,7 +27,7 @@
 
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn waves-effect waves-light " id="lesson_date_save">Opslaan</button>
+        <button type="button" class="btn waves-effect show-swal-loading" data-message="Tijden aan het toevoegen/verwijderen" id="lesson_date_save">Opslaan</button>
     </div>
 </div>
 

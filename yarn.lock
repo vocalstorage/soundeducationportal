@@ -2,6 +2,10 @@
 # yarn lockfile v1
 
 
+"@ckeditor/ckeditor5-build-classic@^10.1.0":
+  version "10.1.0"
+  resolved "https://registry.yarnpkg.com/@ckeditor/ckeditor5-build-classic/-/ckeditor5-build-classic-10.1.0.tgz#8ef45976115f2d1b747865b8d892c419df8291f4"
+
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
@@ -3967,6 +3971,10 @@ isurl@^1.0.0-alpha5:
   dependencies:
     has-to-string-tag-x "^1.2.0"
     is-object "^1.0.1"
+
+jquery-match-height@^0.7.2:
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/jquery-match-height/-/jquery-match-height-0.7.2.tgz#f8d9f3ba5314daab109cf07408674be204be5f0e"
 
 "jquery@2 - 3", jquery@>=1.10, jquery@^3.3.1:
   version "3.3.1"

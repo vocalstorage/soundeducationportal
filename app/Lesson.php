@@ -46,29 +46,21 @@ class Lesson extends Model
         return $this->belongsTo(Schoolgroup::class);
     }
 
-//    TODO CHECK
     public function diffDeadline()
     {
-        $diffInDays = $this->deadline->diffInDays(Carbon::now());
+        $diffInDays = $this->deadline->diffInDays(Carbon::now()) - 5;
 
         return $diffInDays;
     }
 
-    public function removeLessonDates()
-    {
-        $i = 0;
-//        if ($this->lessonDates->count() > 0) {
-//            foreach ($this->lessonDates as $lessonDate) {
-//                $date = Carbon::parse($lessonDate->date);
-//                if ($date->isPast()) {
-//                    $lessonDate->lessonDateRegistrations()->delete();
-//                    $lessonDate->delete();
-//                    $i++;
-//                }
-//            }
-//        }
-        return $i;
+    public function maySchedule(){
+
+        if($this->diffDeadline() > 0 && !$this->deadline->isPast()){
+            return true;
+        }
+        return false;
     }
+
 
     public function checkEmptyDates()
     {
@@ -76,10 +68,10 @@ class Lesson extends Model
         if ($this->lessonDates->count() > 0) {
             foreach ($this->lessonDates()
                          ->where('warning', '!=', '2')
-                         ->where('registrations', '<=', '1')
-                         ->get() as $lessonDate) {
-                $difference = $this->deadline->diffInDays($lessonDate->date);
-
+                         ->where('registrations', '<', '2')
+                         ->get() as $lessonDate)
+            {
+                $difference = $lessonDate->lesson->diffDeadline();
                 if($difference <= 10){
                     $lessonDate->warning = true;
                     $lessonDate->save();
@@ -90,10 +82,17 @@ class Lesson extends Model
         return collect($lessonDates);
     }
 
-//    public function isPast(){
-//        $date = $this->deadline->addDays(10);
-//        return $date->isPast();
-//    }
+    public function warnings(){
+        $html = "";
+
+        if($this->lessonDateRegistrations()){
+            $html .= '<p class="warning">De les heeft '. $this->lessonDateRegistrations->count().' registratie(s)</p>';
+        }
+
+        return $html;
+    }
+
+
 
 
 }

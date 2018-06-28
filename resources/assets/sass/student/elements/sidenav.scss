@@ -1,4 +1,7 @@
-side-nav li > a {
+.collapsible-header i, .collection-item i {
+  font-size: 2.2rem !important;
+}
+.side-nav{
   li{
     a{
       padding: 0 16px;
@@ -16,10 +19,6 @@ side-nav li > a {
     background-size: cover;
     margin-bottom: 0px;
     padding: 15px 0 0 15px;
-
-    row {
-      margin-bottom: 0;
-    }
   }
 
   .sidenav-footer {
@@ -38,6 +37,10 @@ side-nav li > a {
         }
       }
     }
+  }
+
+  .menu-clear{
+    position: absolute;
   }
 }
 

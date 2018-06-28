@@ -21,7 +21,7 @@
 
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn waves-effect waves-light " id="lesson_date_save">Opslaan</button>
+        <button type="button" class="btn waves-effect waves-light " id="lesson_date_save">{{trans('form.button.save')}}</button>
     </div>
 </div>
 

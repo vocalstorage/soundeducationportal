@@ -1,10 +1,10 @@
 <div class="modal-content">
-    <h4>{{$lessonDate->lesson->title}} - {{date_format(new DateTime($lessonDate->date),'l\, jS F \a\t '. $lessonDate->time)}}</h4>
+    <h4>{{$lessonDate->lesson->title}} - {{$lessonDate->date->formatLocalized('%A %d %B')}} om {{$lessonDate->time}}</h4>
     <div class="divider"></div>
 </div>
 
 <div class="container">
-    <div class="registrated-studendts left-align">
+    <div class="registrated-studends left-align">
         <ul class="studentRegistrations">
             <label>Students:</label>
             <li>

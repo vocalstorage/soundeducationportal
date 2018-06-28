@@ -2,72 +2,92 @@
 @section('content')
     <div class="row">
         <div class="col s12">
-            <div style="float:left;"><h1 class="h2">Edit Lesson</h1></div>
+            <div style="float:left;"><h1 class="h2">{{trans('modules/lesson.function.edit')}}</h1></div>
         </div>
     </div>
     <div class="row">
         <div class="col s12">
-            <form action="{{route('admin-lesson-update', $lesson->id)}}" onsubmit="return validateForm('Updating lesson')" method="post">
+            <form action="{{route('admin-lesson-update', $lesson->id)}}"  method="post">
                 {{csrf_field()}}
                 <form>
                     <div class="input-field col s12">
-                        <input value="{{$lesson->title}}" type="text" class="validate" name="title" id="title">
-                        <label class="active" for="title">Lesson name:</label>
+                        <input value="{{old('title') ? old('title') : $lesson->title}}" type="text" class="validate {{ $errors->has('title') ? ' invalid' : '' }}" name="title" id="title">
+                        <label class="active" for="title">{{trans('form.label.title')}}</label>
+                        @if ($errors->has('title'))
+                            <span class="helper-text" data-error="{{ $errors->first('title') }}"></span>
+                        @endif
                     </div>
-                    <label class="active" for="description_value">description:</label>
-                    <div id="description"></div>
-                    <input value="{{$lesson->description}}" id="description_value" type="hidden">
+                    <div class="input-field col s12">
+                        <textarea name="description" id="editor"
+                                class="validate {{ $errors->has('description') ? ' invalid' : '' }}">
+                        {{old('description') ? old('description') : $lesson->description}}
+                        </textarea>
+                        @if ($errors->has('description'))
+                            <span class="helper-text red-text">{{ $errors->first('description') }}</span>
+                        @endif
+                    </div>
 
                     <div class="input-field col s12">
-                        <input value="{{$lesson->max_registration}}" type="number" min="1" name="max_registration"
-                               class="validate" id="max">
-                        <label class="active" for="max">max:</label>
+                        <input value="{{old('max_registration') ? old('max_registration') : $lesson->max_registration}}" type="number" min="1" name="max_registration"
+                               class="validate {{ $errors->has('max_registration') ? ' invalid' : '' }}" id="max">
+                        <label class="active" for="max">{{trans('form.label.max_registrations')}}</label>
+                        @if ($errors->has('max_registration'))
+                            <span class="helper-text" data-error="{{ $errors->first('max_registration') }}"></span>
+                        @endif
                     </div>
                     <div class="input-field col s12">
-                        <input id="deadline" value="@if(old('deadline')){{old('deadline')}}@else {{date("d/m/Y", strtotime($lesson->deadline))}}@endif" type="text"
+                        <input id="deadline" value="{{old('deadline') ? old('deadline') : $lesson->deadline->format('d/m/Y')}}" type="text"
                                class="validate {{ $errors->has('deadline') ? ' invalid' : '' }}" name="deadline">
-                        <label for="deadline">Deadline</label>
+                        <label for="deadline">{{trans('form.label.deadline')}}</label>
                         @if ($errors->has('deadline'))
                             <span class="helper-text" data-error="{{ $errors->first('deadline') }}"></span>
                         @endif
                     </div>
                     <div class="input-field col s12">
-                        <select multiple name="teachers[]">
-                            <option value="" disabled selected>Choose your option</option>
+                        <select multiple name="teachers[]" class="validate {{ $errors->has('teachers') ? ' invalid' : '' }}">
+                            <option value="" disabled selected>{{trans('form.select.select_option')}}</option>
                             @foreach($teachers as $teacher)
                                 @if($teacher->studio)
                                     <option @if($lesson->teachers->contains($teacher)) selected @endif value="{{$teacher->id}}"  data-icon="{{$teacher->studio->filepath->path}}">{{$teacher->name}} ({{$teacher->studio->name}})</option>
                                 @endif
                             @endforeach
-
                         </select>
-                        <label>Select teachers</label>
+                        <label>{{trans('form.label.teachers')}}</label>
+                        @if ($errors->has('teachers'))
+                            <span class="helper-text" data-error="{{ $errors->first('teachers') }}"></span>
+                        @endif
                     </div>
-                    <label>Image:</label>
                     <div class="file-field input-field col s10">
                         <a id="lfm" data-input="thumbnail" data-preview="holder">
                             <div class="btn  waves-effect">
-                                <i class="material-icons">file_upload</i>
+                                <i class="material-icons white-text">file_upload</i>
                             </div>
                         </a>
                         <div class="file-path-wrapper">
-                            <input id="thumbnail" class="form-control" type="text" name="filepath"  value="{{$lesson->filepath->path}}">
+                            <input id="thumbnail" class="validate {{ $errors->has('filepath') ? ' invalid' : '' }}" type="text" name="filepath"  value="{{old('filepath') ? old('filepath') : $lesson->filepath->path}}">
+                            <label for="thumbnail">{{trans('form.label.image')}}</label>
+                        @if ($errors->has('filepath'))
+                                <span class="helper-text" data-error="{{ $errors->first('filepath') }}"></span>
+                            @endif
                         </div>
                     </div>
                     <div class="col s2">
                         <img src="{{$lesson->filepath->path}}" id="holder" style="margin-top:15px;max-height:100px;">
                     </div>
                     <div class="input-field col s12">
-                        <select name="schoolgroup_id">
-                            <option value="" disabled>Choose your option</option>
+                        <select name="schoolgroup_id" class="validate {{ $errors->has('schoolgroup_id') ? ' invalid' : '' }}">
+                            <option value="" disabled>{{trans('form.select.select_option')}}</option>
                             @foreach($schoolgroups as $schoolgroup)
                                 <option @if($lesson->schoolgroup->id == $schoolgroup->id) selected @endif value="{{$schoolgroup->id}}">{{$schoolgroup->title}}</option>
                             @endforeach
                         </select>
-                        <label>Select an class</label>
+                        <label>{{trans('form.label.class')}}</label>
+                        @if ($errors->has('schoolgroup_id'))
+                            <span class="helper-text" data-error="{{ $errors->first('schoolgroup_id') }}"></span>
+                        @endif
                     </div>
                     <div class="input-field col s12">
-                        <button type="submit" class="btn  waves-effect">Save</button>
+                        <button type="submit" class="btn  waves-effect show-swal-loading" data-message="Editing lesson">{{trans('form.button.save')}}</button>
                     </div>
                 </form>
         </div>

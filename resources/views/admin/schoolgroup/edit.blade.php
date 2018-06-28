@@ -3,12 +3,12 @@
 @section('content')
     <div class="row">
         <div class="col s12">
-            <div style="float:left;"><h1 class="h2">Voeg klass toe</h1></div>
+            <div style="float:left;"><h1 class="h2">{{trans('modules/schoolgroup.function.edit')}}</h1></div>
         </div>
     </div>
     <div class="row">
         <div class="col s12">
-            <form action="{{route('admin-schoolgroup-update', $schoolgroup->id)}}" onsubmit="return validateForm('Editing class')" method="post">
+            <form action="{{route('admin-schoolgroup-update', $schoolgroup->id)}}" method="post">
                 {{csrf_field()}}
                 <div class="input-field col s12">
                     <input id="schoolgroup" value="@if(old('title')){{old('title')}}@else {{$schoolgroup->title}}@endif" type="text"
@@ -19,7 +19,7 @@
                     @endif
                 </div>
                 <div class="input-field col s12">
-                    <button id="createSchoolgroup" type="submit" class="btn  waves-effect">Submit</button>
+                    <button id="createSchoolgroup" type="submit" class="btn waves-effect show-swal-loading" data-message="Editing klass">Submit</button>
                 </div>
             </form>
         </div>

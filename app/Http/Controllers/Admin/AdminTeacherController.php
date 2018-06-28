@@ -61,6 +61,12 @@ class AdminTeacherController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:teachers,email,'.$id,
+            'color' => 'required|unique:teachers,color,'.$id,
+        ]);
+
         $teacher = Teacher::find($id);
 
         $teacher->update($request->request->all());
@@ -68,8 +74,10 @@ class AdminTeacherController extends Controller
         return redirect(route('admin-teacher-index'));
     }
 
-    public function delete($id){
-        Teacher::find($id)->delete();
+    public function delete(Request $request, $id){
+        if($request->ajax()) {
+            Teacher::find($id)->delete();
+        }
 
         return redirect(route('admin-teacher-index'));
     }
