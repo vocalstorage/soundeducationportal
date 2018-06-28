@@ -123,7 +123,7 @@ Route::prefix('teacher')->group(function () {
     Route::post('/login', 'Teacher\TeacherLoginController@login')->name('teacher-login-submit');
 
     Route::group(['middleware' => 'auth:teacher'], function () {
-        Route::get('/index', 'Teacher\TeacherController@index')->name('teacher-dashboard');
+//        Route::get('/index', 'Teacher\TeacherController@index')->name('teacher-dashboard');
 
         Route::prefix('lesson')->group(function () {
             Route::get('/index', 'Teacher\TeacherLessonController@index')->name('teacher-lesson-index');
@@ -145,14 +145,6 @@ Route::prefix('teacher')->group(function () {
             Route::post('/update', 'Teacher\TeacherStudioController@update')->name('teacher-studio-update');
         });
 
-
-//        Route::prefix('registration')->group(function(){
-//            Route::get('/show/{lessonDate_id}', 'Admin\AdminRegistrationController@show')->name('Admin-registration-show');
-//            Route::get('/store/{lessonDate_id}/{student_id}', 'Admin\AdminRegistrationController@store')->name('Admin-registration-store');
-//            Route::get('/delete/{lessonDate_id}/{LessonDateRegistration_id}', 'Admin\AdminRegistrationController@delete')->name('Admin-registration-delete');
-//            Route::post('/update', 'Admin\AdminRegistrationController@update')->name('Admin-registration-update');
-//            Route::post('/handlePresence', 'Admin\AdminRegistrationController@handlePresence')->name('Admin-registration-handlePresence');
-//        });
 
         Route::prefix('account')->group(function () {
             Route::get('edit', 'Teacher\TeacherController@edit')->name('teacher-edit');
