@@ -1,0 +1,18 @@
+.time{
+  padding: 10%;
+  color: black;
+  -webkit-transition: color 1s; /* Safari */
+  transition: color 1s;
+  -webkit-transition: background-color 1s; /* Safari */
+  transition: background-color 1s;
+}
+
+.time:hover{
+  color: white;
+  background-color: $primary-color;
+  cursor: pointer;
+}
+
+.selected_time{
+  background-color: $primary-color-dark;
+}
