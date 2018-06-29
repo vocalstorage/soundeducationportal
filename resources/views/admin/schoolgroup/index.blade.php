@@ -18,7 +18,7 @@
                         <a href="{{route('admin-schoolgroup-edit', $schoolgroup->id)}}"><i class="material-icons">edit</i></a>
                         <a href="{{route('admin-schoolgroup-delete',$schoolgroup->id)}}" class="swal-show-warning"
                            data-message="{{$schoolgroup->warnings()}}"
-                           data-loading-message="Deleting lesson">
+                           data-loading-message="Klas aan het verwijderen">
                             <i class="material-icons">delete</i>
                         </a>                    </div>
                 </div>
@@ -41,7 +41,7 @@
                                 <td>
                                     <a href="{{route('admin-student-delete',$student->id)}}" class="swal-show-warning"
                                        data-message="{{$student->warnings()}}"
-                                       data-loading-message="Deleting lesson">
+                                       data-loading-message="Student aan    het verwijderen">
                                         <i class="material-icons">delete</i>
                                     </a>                                </td>
                             </tr>

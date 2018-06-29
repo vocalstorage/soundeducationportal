@@ -48,7 +48,7 @@
                     </div>
                 </div>
                 <div class="input-field">
-                    <button type="submit" class="btn  waves-effect show-swal-loading" data-message="Editing teacher">{{trans('form.button.save')}}</button>
+                    <button type="submit" class="btn  waves-effect show-swal-loading" data-message="Leraar aan het aanpassen">{{trans('form.button.save')}}</button>
                 </div>
             </form>
         </div>

@@ -33,7 +33,7 @@
                     @endif
                 </div>
                 <div class="input-field">
-                    <button type="submit" class="btn  waves-effect show-swal-loading" data-message="Creating teacher">{{trans('form.button.save')}}</button>
+                    <button type="submit" class="btn  waves-effect show-swal-loading" data-message="Leraar aan het creëer">{{trans('form.button.save')}}</button>
                 </div>
             </form>
         </div>

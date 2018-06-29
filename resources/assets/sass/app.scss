@@ -66,6 +66,10 @@ p, a{
     }
   }
 
+  .card-action, .card-content{
+    padding: 15px  !important;
+  }
+
   .material-icons-big {
     font-size: 32em;
   }
@@ -73,8 +77,5 @@ p, a{
     padding: 1rem;
   }
 
-  //.studio-item{
-  //  margin: 0px !important;
-  //}
 }
 

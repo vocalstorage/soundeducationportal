@@ -13,10 +13,10 @@ class TeacherStudioController extends Controller
     {
         $request->validate([
             'studio-name' => 'required',
-            'description' => 'required',
-            'place' => 'required',
-            'street' => 'required',
-            'number' => 'required',
+            'description' => 'required|min:20',
+            'place' => 'required|string',
+            'street' => 'required|string',
+            'number' => 'required|int',
             'postal_code' => 'required',
         ]);
 
@@ -24,7 +24,7 @@ class TeacherStudioController extends Controller
 
         $studio = Auth::user()->studio;
 
-        $studio->update($request->request->all()->except('studio-name'));
+        $studio->update($request->request->all());
 
         return redirect(route('teacher-edit'));
     }

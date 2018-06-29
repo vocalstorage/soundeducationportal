@@ -29,14 +29,14 @@
 
 @font-face {
   font-family: 'Archivo';
-  src: url("/fonts//fonts/Archivo-Medium.woff2") format("woff2"), url("/fonts//fonts/Archivo-Medium.woff") format("woff"), url("/fonts//fonts/Archivo-Medium.ttf") format("truetype");
+  src: url("/fonts/Archivo-Medium.woff2") format("woff2"), url("/fonts/Archivo-Medium.woff") format("woff"), url("/fonts/Archivo-Medium.ttf") format("truetype");
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Ubuntu';
-  src: url("/fonts//fonts/Ubuntu-Bold.woff2") format("woff2"), url("/fonts//fonts/Ubuntu-Bold.woff") format("woff"), url("/fonts//fonts/Ubuntu-Bold.ttf") format("truetype");
+  src: url("/fonts/Ubuntu-Bold.woff2") format("woff2"), url("/fonts/Ubuntu-Bold.woff") format("woff"), url("/fonts/Ubuntu-Bold.ttf") format("truetype");
   font-weight: bold;
   font-style: normal;
 }
@@ -9632,14 +9632,20 @@ input[type=range]::-ms-thumb {
   /*Turn pointer events back on*/
 }
 
-.student .login-wrapper {
+.student .login-form-wrapper {
   background-color: white;
+  width: 60%;
+  margin: auto;
+}
+
+.student .login-wrapper {
   padding: 30px;
   margin: auto;
   margin-top: 180px;
+  width: 100%;
 }
 
-.student .logo-text {
+.student .title {
   text-align: center;
 }
 
@@ -9785,6 +9791,10 @@ input[type=range]::-ms-thumb {
   display: none;
 }
 
+.student .img-logo {
+  width: 300px;
+}
+
 .student .dim-screen {
   display: none;
   position: fixed;
@@ -9838,7 +9848,7 @@ input[type=range]::-ms-thumb {
 
 @media only screen and (max-width: 768px) {
   .student h1 {
-    font-size: 3.7rem;
+    font-size: 3.3rem;
   }
 
   .student .container {
@@ -9853,6 +9863,20 @@ input[type=range]::-ms-thumb {
     width: 95%;
     max-height: 83%;
   }
+
+  .student .login-form-wrapper {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .student h1,
+  .student h2,
+  .student h3,
+  .student h4,
+  .student h5 {
+    margin: 0px;
+  }
 }
 
 @media only screen and (max-width: 425px) {
@@ -9861,11 +9885,11 @@ input[type=range]::-ms-thumb {
   }
 
   .student h1 {
-    font-size: 3.0rem;
+    font-size: 2.2rem;
   }
 
   .student h3 {
-    font-size: 2.2rem;
+    font-size: 2.0rem;
   }
 }
 
@@ -9958,45 +9982,8 @@ input[type=range]::-ms-thumb {
   background-color: #419345;
 }
 
-.admin side-nav li > a li a {
-  padding: 0 16px;
-}
-
-.admin side-nav li > a .divider {
-  margin: 0;
-  height: 8px;
-  border-bottom: 1px solid #e0e0e0;
-  background-color: transparent;
-}
-
-.admin side-nav li > a .sidenav-header {
-  background-size: cover;
-  margin-bottom: 0px;
-  padding: 15px 0 0 15px;
-}
-
-.admin side-nav li > a .sidenav-header row {
-  margin-bottom: 0;
-}
-
-.admin side-nav li > a .sidenav-footer {
-  margin-bottom: 0px;
-  padding: 0;
-}
-
-.admin side-nav li > a .sidenav-footer .row {
-  margin-bottom: 0;
-}
-
-.admin side-nav li > a .sidenav-footer .row .social-icons a {
-  opacity: 0.5;
-  padding: 0;
-  text-align: center;
-}
-
-.admin side-nav li > a .sidenav-footer .row .social-icons a :hover {
-  background-color: inherit;
-  opacity: 1;
+.admin .sidenav .nav-link {
+  color: #66BB6A !important;
 }
 
 .admin .fc-day:hover,
@@ -10137,6 +10124,7 @@ input[type=range]::-ms-thumb {
   padding: 30px;
   margin: auto;
   margin-top: 180px;
+  width: 70%;
 }
 
 .logo-text {
@@ -10242,6 +10230,11 @@ a {
 @media only screen and (max-width: 600px) {
   .card-image img {
     height: 230px;
+  }
+
+  .card-action,
+  .card-content {
+    padding: 15px  !important;
   }
 
   .material-icons-big {

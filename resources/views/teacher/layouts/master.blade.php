@@ -5,12 +5,11 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Dashboard Template for Bootstrap</title>
+    <title>Soundeducation Planner</title>
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,300,600' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="/css/app.css">
-
 <body>
 @if(\Auth::check())
     @include('teacher.layouts.header')
@@ -21,10 +20,10 @@
         </div>
     </div>
 @else
-    <div class="row">
-        <div class="welcome_wrapper" style="margin-top: 5%">
-            <div class="col s12">
-                <div class="container">
+    <div class="login-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col s12">
                     @yield('content')
                 </div>
             </div>

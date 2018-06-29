@@ -99,7 +99,7 @@
                     <img src="{{$studio->filepath->path}}" id="holder" style="margin-top:15px;max-height:100px;">
                 </div>
                 <div class="input-field col s12">
-                    <button type="submit" class="btn  waves-effect show-swal-loading" data-message="Editing studio">
+                    <button type="submit" class="btn  waves-effect show-swal-loading" data-message="Studio aan het aanpassen">
                         {{trans('form.button.save')}}
                     </button>
                 </div>

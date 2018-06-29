@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
         DB::table('students')->insert([
             'name' => 'student',
             'email' => 'student@student.nl',
+            'tel' => '0612345678',
             'schoolgroup_id' => 1,
             'password' => Hash::make('Wonderwall2018'),
         ]);

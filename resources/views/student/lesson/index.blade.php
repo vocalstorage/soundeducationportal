@@ -31,7 +31,7 @@
                                         @if(in_array($lesson->id,$registeredLessons))
                                             <h5>Al ingeschreven.</h5>
                                         @elseif(!$lesson->maySchedule())
-                                            <h5>Inschrijven niet meer mogelijk, deadline is behaald.</h5>
+                                            <p>Inschrijven niet meer mogelijk, deadline is behaald.</p>
                                         @else
                                             <a class="btn waves-effect "><i class="material-icons right"
                                                                             style="color:white">create</i>Plannen</a>
@@ -96,7 +96,7 @@
                                                                     <a href="{{route('student-lessonDate-show',array($lesson_date->teacher->id, $lesson->id))}}"
                                                                        class="btn waves-effect  schedule-lessonDate w-100">plannen</a>
                                                                 @else
-                                                                    <hp>Al ingeschreven</hp>
+                                                                    <p>Al ingeschreven</p>
                                                                 @endif
                                                             </div>
                                                         </div>

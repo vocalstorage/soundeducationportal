@@ -19,7 +19,7 @@
                     @endif
                 </div>
                 <div class="input-field col s12">
-                    <button id="createSchoolgroup" type="submit" class="btn waves-effect show-swal-loading" data-message="Editing klass">Submit</button>
+                    <button id="createSchoolgroup" type="submit" class="btn waves-effect show-swal-loading" data-message="Klas aan het aanpassen">Submit</button>
                 </div>
             </form>
         </div>

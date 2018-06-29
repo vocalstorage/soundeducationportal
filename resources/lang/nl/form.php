@@ -26,7 +26,8 @@ return [
         'row' => 'Rij',
         'scheduler' => 'Planner',
         'password' => 'Wachtwoord',
-        'myAccount' => 'Mijn account'
+        'myAccount' => 'Mijn account',
+        'tel' => 'telefoon nummer',
 
     ],
     'select' => [

@@ -87,7 +87,7 @@
                         @endif
                     </div>
                     <div class="input-field col s12">
-                        <button type="submit" class="btn  waves-effect show-swal-loading" data-message="Editing lesson">{{trans('form.button.save')}}</button>
+                        <button type="submit" class="btn  waves-effect show-swal-loading" data-message="Les aan het aanpassen">{{trans('form.button.save')}}</button>
                     </div>
                 </form>
         </div>

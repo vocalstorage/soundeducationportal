@@ -45,17 +45,18 @@
         <div class="row">
             <div class="col s12">
                 <ul class="tabs excel-tabs">
-                    <li class="tab col s6"><a href="#">Succes ({{count($students)}})</a></li>
-                    <li class="tab col s6"><a class="active red-text" href="#" >Errors ({{count($failures)}})</a></li>
+                    <li class="tab col s6"><a href="#succes">Succes ({{count($students)}})</a></li>
+                    <li class="tab col s6"><a class="active red-text" href="#errors" >Errors ({{count($failures)}})</a></li>
                 </ul>
             </div>
-            <div id="test1" class="col s12">
+            <div id="succes" class="col s12">
                 <table class="table-excel-log">
                     <thead>
                     <tr>
                         <th>{{trans('form.label.row')}}</th>
                         <th>{{trans('form.label.name')}}</th>
                         <th>{{trans('form.label.email')}}</th>
+                        <th>{{trans('form.label.tel')}}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -64,18 +65,20 @@
                             <td>{{$loop->index}}</td>
                             <td>{{$student->naam}}</td>
                             <td>{{$student->email}}</td>
+                            <td>{{$student->tel}}</td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
             </div>
-            <div id="test2" class="col s12">
+            <div id="errors" class="col s12">
                 <table class="table-excel-log">
                     <thead>
                     <tr>
                         <th>{{trans('form.label.row')}}</th>
                         <th>{{trans('form.label.name')}}</th>
                         <th>{{trans('form.label.email')}}</th>
+                        <th>{{trans('form.label.tel')}}</th>
                         <th>{{trans('form.label.message')}}</th>
                     </tr>
                     </thead>
@@ -83,8 +86,9 @@
                     @foreach($failures as $failure)
                         <tr>
                             <td>{{$loop->index}}</td>
-                            <td @if(!$failure->naam) class="red-text" @endif>@if($failure->naam){{$failure->naam}}@else naam is leeg @endif</td>
+                            <td @if(!$failure->name) class="red-text" @endif>@if($failure->name){{$failure->name}}@else naam is leeg @endif</td>
                             <td @if(!$failure->email)class="red-text" @endif>@if($failure->email) {{$failure->email}}@else email is leeg @endif</td>
+                            <td @if(!$failure->tel)class="red-text" @endif>@if($failure->tel) {{$failure->tel}}@else telefoon nummer is leeg @endif</td>
                             <td @if($failure->email)class="red-text" @endif><span class="error-color">{{$failure->err_message}}</span></td>
                         </tr>
                     @endforeach

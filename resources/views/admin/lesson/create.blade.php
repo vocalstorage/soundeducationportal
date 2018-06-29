@@ -84,7 +84,7 @@
                     @endif
                 </div>
                 <div class="input-field col s12">
-                    <button type="submit" id="btn_save" class="btn waves-effect show-swal-loading" data-message="Creeren van klas">{{trans('form.button.save')}}</button>
+                    <button type="submit" id="btn_save" class="btn waves-effect show-swal-loading" data-message="Les aan het creëer">{{trans('form.button.save')}}</button>
                 </div>
             </form>
         </div>

@@ -15,9 +15,7 @@
                 </div>
                 <div class="col s12">
                     @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
+                        <div class="succes-msg" data-message="Wachtwoord reset verzonden naar E-mail"></div>
                     @endif
                     <br>
                     <form method="POST" action="{{ route('password.email') }}" class="col s12">

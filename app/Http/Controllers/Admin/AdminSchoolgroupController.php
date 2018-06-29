@@ -56,11 +56,12 @@ class AdminSchoolgroupController extends Controller
             $results = $reader->all();
             foreach ($results as $result){
                 $password = Uuid\Uuid::generate()->string;
-                if(!empty($result->naam && !empty($result->email))){
+                if(!empty($result->name && !empty($result->email))){
                     try{
                         $student = Student::create([
-                            'name' => $result->naam,
+                            'name' => $result->name,
                             'email' => $result->email,
+                            'tel' => $result->tel,
                             'schoolgroup_id' => $schoolgroup->id,
                             'password' =>  Hash::make($password),
                         ]);
