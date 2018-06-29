@@ -46,8 +46,10 @@ Route::group(['middleware' => 'auth:student'], function () {
 
 
 Route::prefix('admin')->group(function () {
-    Route::get('/login', 'Admin\AdminLoginController@showLoginForm')->name('admin-login');
-    Route::post('/login', 'Admin\AdminLoginController@login')->name('admin-login-submit');
+    Route::middleware( 'throttle:throttle:6,1')->group(function () {
+        Route::get('/login', 'Admin\AdminLoginController@showLoginForm')->name('admin-login');
+        Route::post('/login', 'Admin\AdminLoginController@login')->name('admin-login-submit');
+    });
 
     Route::group(['middleware' => 'auth:admin'], function () {
 
@@ -119,8 +121,10 @@ Route::prefix('admin')->group(function () {
 
 
 Route::prefix('teacher')->group(function () {
-    Route::get('/login', 'Teacher\TeacherLoginController@showLoginForm')->name('teacher-login');
-    Route::post('/login', 'Teacher\TeacherLoginController@login')->name('teacher-login-submit');
+    Route::middleware( 'throttle:throttle:6,1')->group(function () {
+        Route::get('/login', 'Teacher\TeacherLoginController@showLoginForm')->name('teacher-login');
+        Route::post('/login', 'Teacher\TeacherLoginController@login')->name('teacher-login-submit');
+    });
 
     Route::group(['middleware' => 'auth:teacher'], function () {
         Route::prefix('lesson')->group(function () {
