@@ -13,46 +13,39 @@
 Auth::routes();
 
 Route::group(['middleware' => 'auth:student'], function () {
-    Route::get('/', 'Student\StudentLessonController@index')->name('student-lesson-index');
-
     Route::prefix('student')->group(function () {
+        Route::get('/', 'StudentLessonController@index')->name('student-lesson-index');
         Route::get('/index', 'student\StudentRegistrationController@index');
+        Route::prefix('lesson')->group(function () {
+            Route::get('/index', 'Student\StudentLessonController@index')->name('student-lesson-index');
+        });
+        Route::get('index', 'student\StudentDashboardController@index')->name('student-dashboard-index');
 
-        Route::group(['middleware' => 'auth:student'], function () {
-            Route::prefix('lesson')->group(function () {
-                Route::get('/index', 'Student\StudentLessonController@index')->name('student-lesson-index');
-            });
-            Route::get('index', 'student\StudentDashboardController@index')->name('student-dashboard-index');
+        Route::prefix('account')->group(function () {
+            Route::get('edit', 'Student\StudentController@edit')->name('student-edit');
+            Route::post('update', 'Student\StudentController@update')->name('student-update');
+            Route::get('appointments', 'Student\StudentController@appointments')->name('student-appointments');
+        });
 
-            Route::prefix('account')->group(function () {
-                Route::get('edit', 'Student\StudentController@edit')->name('student-edit');
-                Route::post('update', 'Student\StudentController@update')->name('student-update');
-                Route::get('appointments', 'Student\StudentController@appointments')->name('student-appointments');
-            });
+        Route::prefix('lessonDate')->group(function () {
+            Route::get('/show/{teacher_id}/{lesson_id}', 'Student\StudentLessonDateController@show')->name('student-lessonDate-show');
+        });
 
-            Route::prefix('lessonDate')->group(function () {
-                Route::get('/show/{teacher_id}/{lesson_id}', 'Student\StudentLessonDateController@show')->name('student-lessonDate-show');
-            });
-
-            Route::prefix('registration')->group(function () {
-                Route::get('/show/{lessonDate_id}', 'Student\StudentRegistrationController@show')->name('student-registration-show');
-                Route::post('/store', 'Student\StudentRegistrationController@store')->name('student-registration-store');
-                Route::get('/delete/{id}', 'Student\StudentRegistrationController@delete')->name('student-registration-delete');
-                Route::post('/update/{id}', 'Student\StudentRegistrationController@update')->name('student-registration-update');
-            });
+        Route::prefix('registration')->group(function () {
+            Route::get('/show/{lessonDate_id}', 'Student\StudentRegistrationController@show')->name('student-registration-show');
+            Route::post('/store', 'Student\StudentRegistrationController@store')->name('student-registration-store');
+            Route::get('/delete/{id}', 'Student\StudentRegistrationController@delete')->name('student-registration-delete');
+            Route::post('/update/{id}', 'Student\StudentRegistrationController@update')->name('student-registration-update');
         });
     });
 });
 
 
 Route::prefix('admin')->group(function () {
-    Route::middleware( 'throttle:throttle:6,1')->group(function () {
-        Route::get('/login', 'Admin\AdminLoginController@showLoginForm')->name('admin-login');
-        Route::post('/login', 'Admin\AdminLoginController@login')->name('admin-login-submit');
-    });
+    Route::get('/login', 'Admin\AdminLoginController@showLoginForm')->name('admin-login');
+    Route::post('/login', 'Admin\AdminLoginController@login')->name('admin-login-submit');
 
     Route::group(['middleware' => 'auth:admin'], function () {
-
         Route::get('/index', 'Admin\AdminController@index')->name('admin-dashboard');
 
         Route::prefix('lesson')->group(function () {
@@ -121,14 +114,12 @@ Route::prefix('admin')->group(function () {
 
 
 Route::prefix('teacher')->group(function () {
-    Route::middleware( 'throttle:throttle:6,1')->group(function () {
-        Route::get('/login', 'Teacher\TeacherLoginController@showLoginForm')->name('teacher-login');
-        Route::post('/login', 'Teacher\TeacherLoginController@login')->name('teacher-login-submit');
-    });
+    Route::get('/login', 'Teacher\TeacherLoginController@showLoginForm')->name('teacher-login');
+    Route::post('/login', 'Teacher\TeacherLoginController@login')->name('teacher-login-submit');
 
     Route::group(['middleware' => 'auth:teacher'], function () {
+        Route::get('/index', 'Teacher\TeacherLessonController@index')->name('teacher-lesson-index');
         Route::prefix('lesson')->group(function () {
-            Route::get('/index', 'Teacher\TeacherLessonController@index')->name('teacher-lesson-index');
             Route::get('/show/{id}/{calendarView}', 'Teacher\TeacherLessonController@show')->name('teacher-lesson-show');
             Route::get('/presenece/{id}', 'Teacher\TeacherLessonController@presence')->name('teacher-lesson-presence');
         });
