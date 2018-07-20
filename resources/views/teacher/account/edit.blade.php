@@ -13,14 +13,14 @@
             <div class="row">
                 <h4>Teacher</h4>
                 <div class="input-field col s12">
-                    <input value="@if(old('name')){{old('name')}}@else{{\Auth::user()->name}} @endif"
+                    <input value="{{old('name') ? old('name') : Auth::user()->name}}"
                            placeholder="Placeholder" id="first_name" type="text" class="validate" name="name">
                     <label for="first_name">{{trans('form.label.name')}}</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s12">
-                    <input value="@if(old('email')){{old('email')}}@else{{\Auth::user()->email}} @endif" id="email"
+                    <input value="{{(old('email')) ? old('email') : Auth::user()->email}}" id="email"
                            type="email" class="validate" name="email">
                     <label for="email">{{trans('form.label.email')}}</label>
                 </div>
@@ -36,5 +36,7 @@
             </div>
         </form>
     </div>
-    @include('teacher.studio.edit')
+    @if(Auth::user()->studio->exists())
+        @include('teacher.studio.edit')
+    @endif
 @endsection
