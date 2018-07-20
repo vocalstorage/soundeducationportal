@@ -33,6 +33,8 @@ class TeacherSendPassword extends Mailable
      */
     public function build()
     {
-        return $this->markdown('teacher.mail.teacherSendPassword');
+        return $this->from('planning@soundeducation.nl')
+            ->subject('Inlog gegevens voor de planning van praktijklessen')
+            ->markdown('teacher.mail.teacherSendPassword');
     }
 }

@@ -32,8 +32,9 @@ class TeacherSendLessonDateDeleted extends Mailable
      */
     public function build()
     {
-        return $this->markdown('teacher.mail.teacherSendLessonDateDeleted')
-            ->subject('Les is komen te vervallen')
-            ->from('rowan@soundeducation.nl');
+        return $this->from('rowan@soundeducation.nl')
+            ->subject('Les vervallen voor docenten')
+            ->markdown('teacher.mail.teacherSendLessonDateDeleted');
+
     }
 }

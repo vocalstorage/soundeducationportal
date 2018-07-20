@@ -32,6 +32,8 @@ class LessondateScheduled extends Mailable
      */
     public function build()
     {
-        return $this->markdown('student.mail.lessonDateIsScheduled');
+        return $this->from('planning@soundeducation.nl')
+                ->subject('Les bevestigd')
+                ->markdown('student.mail.lessonDateIsScheduled');
     }
 }

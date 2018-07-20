@@ -1,15 +1,16 @@
 @component('mail::message')
-    # Inlog gegevens domeinnaam
+# Beste {{$teacher->name}},
 
-    Beste {{$teacher->name}},
+Bij deze de toegangsgegevens voor het inloggen op <a href="www.soundeducationplanner.nl">soundeducationplanner.nl</a>.
 
-    Bij deze de gevens voor het inloggen op domeinnaam
+<strong>Email:</strong> {{$teacher->email}} <br>
+<strong>Wachtwoord:</strong> {{$password}}
 
+Mocht je vragen hebben over de planning, dan kun je terecht bij
+<a href="mailto:planning@soundeducation.nl">planning@soundeducation.nl</a>
 
-    Email: {{$teacher->email}}
-    Wachtwoord: {{$password}}
+Hartelijke groet,
 
-    Hartelijke groet,
-
-    Team Sound Education
+Ignace Dhont <br>
+Sound Education
 @endcomponent

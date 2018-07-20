@@ -96,18 +96,16 @@ class AdminLessonDateController extends Controller
                     $times = $teacherJson['removedTimes'];
 
                     foreach ($times as $time) {
-                        LessonDate::where('time', '=', $time)
+                        $lessonDate = LessonDate::where('time', '=', $time)
                             ->where('lesson_id', '=', $lesson->id)
-                            ->where('teacher_id','=', $teacherJson['id'])
-                            ->delete();
+                            ->where('teacher_id','=', $teacherJson['id'])->get()->first();
+                        $lessonDate->delete();
+                        Mail::to($lessonDate->teacher)->send(new TeacherSendLessonDateDeleted($lessonDate->teacher, $lessonDate));
                     }
                 }
             }
         }
-
-
         return response()->json(array(['succes', 'succes']), 200);
-
     }
 
     public function edit(Request $request)
