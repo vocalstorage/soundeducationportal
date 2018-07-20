@@ -11,10 +11,10 @@
 |
 */
 Auth::routes();
+Route::get('/', 'StudentLessonController@index')->name('student-lesson-index');
 
 Route::group(['middleware' => 'auth:student'], function () {
     Route::prefix('student')->group(function () {
-        Route::get('/', 'StudentLessonController@index')->name('student-lesson-index');
         Route::get('/index', 'student\StudentRegistrationController@index');
         Route::prefix('lesson')->group(function () {
             Route::get('/index', 'Student\StudentLessonController@index')->name('student-lesson-index');
