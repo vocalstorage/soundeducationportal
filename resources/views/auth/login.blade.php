@@ -6,7 +6,7 @@
             <img src="/img/logo.png" alt="logo" class="responsive-img img-logo">
         </div>
         <div class="logo-text">
-            <h1>SOUND EDUCATION PLANNER</h1>
+            <h1>SOUND EDUCATION PLANNER (OLD)</h1>
         </div>
         <div class="login-form-wrapper">
             <div class="container">
